@@ -1,0 +1,88 @@
+.vertical-carousel .carousel-inner {
+  position: relative;
+  height: 950px;
+  overflow: hidden;
+  border-radius: 30px;
+}
+
+/* كل السلايدات فوق بعض */
+.vertical-carousel .carousel-item {
+  position: absolute;
+  inset: 0; /* top:0; left:0; bottom:0; right:0 */
+  opacity: 0;
+  transition: opacity 0.6s ease-in-out,
+    transform 1.4s cubic-bezier(0.22, 0.61, 0.36, 1);
+  will-change: transform, opacity;
+  margin: 0 !important;
+  padding: 0 !important;
+  z-index: 1;
+}
+
+/* الصور */
+.vertical-carousel .carousel-item img {
+  width: 100%;
+  height: fit-content;
+  object-fit: cover;
+  display: block;
+}
+
+/* السلايد الظاهر */
+.vertical-carousel .carousel-item.active {
+  opacity: 1;
+  transform: translateY(0);
+  z-index: 3; /* فوق القديم */
+}
+
+/* السلايد اللي طالع ↑ فوق (السابق) */
+.vertical-carousel .carousel-item-prev,
+.vertical-carousel .carousel-item-end {
+  transform: translateY(100%); /* يذهب لتحت */
+  opacity: 1;
+  z-index: 2;
+}
+
+/* السلايد اللي نازل ↓ من تحت (التالي) */
+.vertical-carousel .carousel-item-next,
+.vertical-carousel .carousel-item-start {
+  transform: translateY(-100%); /* يبدأ من فوق */
+  opacity: 1;
+  z-index: 4;
+}
+
+/* أنيميشن Caption */
+@keyframes caption {
+  from {
+    top: 700px;
+    position: absolute;
+    opacity: 0;
+    z-index: 3;
+  }
+  to {
+    top: 600px;
+    opacity: 1;
+    position: absolute;
+    z-index: 5;
+  }
+}
+@keyframes Title {
+  from {
+    top: 500px;
+    opacity: 0;
+  }
+  to {
+    top: 580px;
+    opacity: 1;
+  }
+}
+.title {
+  position: relative;
+  color: white;
+
+  animation: Title 2s ease-in-out 0s forwards;
+  z-index: 6; /* فوق كل شيء */
+}
+.text1 {
+  position: relative;
+  animation: caption 3s ease-in-out 0s forwards;
+  z-index: 6; /* فوق كل شيء */
+}

@@ -1,0 +1,95 @@
+import { Row } from "react-bootstrap";
+import "/src/Styles/ProjectsCard.css";
+import Col, { useCol } from "react-bootstrap/esm/Col";
+function Projects() {
+  return (
+    <div>
+      <div className="header2" style={{}}>
+        <h2>المشاريع </h2>
+        <ul className="filter-header" style={{}}>
+          <li>
+            <button className="filter-header-btn" style={{}}>
+              الكل
+            </button>
+          </li>
+        </ul>
+      </div>
+      <div className="continer2">
+        <div className="Card" style={{}}>
+          <Row className="caption2" style={{}}>
+            <Col>
+              <div className="caption-text2" style={{}}>
+                <h2>ttttt</h2>
+                <h3>ttttt</h3>
+              </div>
+            </Col>
+
+            <Col>
+              <button className="caption-btn2" style={{}}>
+                ok
+              </button>
+            </Col>
+          </Row>
+        </div>
+        <div className="Card" style={{}}>
+          <Row className="caption2" style={{}}>
+            <Col>
+              <div className="caption-text2" style={{}}>
+                <h2>ttttt</h2>
+                <h3>ttttt</h3>
+              </div>
+            </Col>
+
+            <Col>
+              <button className="caption-btn2" style={{}}>
+                ok
+              </button>
+            </Col>
+          </Row>
+        </div>
+        <div className="Card" style={{}}>
+          <Row className="caption2" style={{}}>
+            <Col>
+              <div className="caption-text2" style={{}}>
+                <h2>ttttt</h2>
+                <h3>ttttt</h3>
+              </div>
+            </Col>
+
+            <Col>
+              <button className="caption-btn2" style={{}}>
+                ok
+              </button>
+            </Col>
+          </Row>
+        </div>
+        <div className="Card" style={{}}>
+          <Row className="avalicon">
+            <Col>
+              <span className="icon">غير</span>
+            </Col>
+            <Col>
+              <span className="avelubl">متاح</span>
+            </Col>
+          </Row>
+
+          <Row className="caption2" style={{}}>
+            <Col>
+              <div className="caption-text2" style={{}}>
+                <h5>K-110</h5>
+                <h6>الرياض - النرجس</h6>
+              </div>
+            </Col>
+
+            <Col>
+              <button className="caption-btn2" style={{}}>
+                عدد الوحدات : 51
+              </button>
+            </Col>
+          </Row>
+        </div>
+      </div>
+    </div>
+  );
+}
+export default Projects;

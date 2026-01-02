@@ -1,0 +1,155 @@
+.header2 {
+  display: flex;
+  flex-flow: row;
+  gap: 1000px;
+  margin: 10px;
+  direction: rtl;
+}
+.filter-header {
+  list-style: none;
+}
+.filter-header-btn {
+  height: 50px;
+  font-size: 20px;
+}
+.continer2 {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 20px;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+}
+.avalicon {
+  gap: 280px;
+  position: relative;
+  top: -130px;
+}
+.icon {
+  background-color: black;
+  color: white;
+  position: relative;
+  z-index: 5;
+  cursor: pointer;
+  left: -100px;
+  padding: 5px;
+  border-radius: 5px;
+}
+.Card:hover .icon {
+  animation: icon 0.3s ease-in-out 1 forwards;
+}
+.icon:hover {
+  animation: iconbackground 0.5s ease-in-out 1 forwards;
+}
+@keyframes iconbackground {
+  to {
+    background-color: red;
+  }
+}
+@keyframes icon {
+  from {
+    left: -100px;
+  }
+  to {
+    left: 10px;
+  }
+}
+
+.avelubl {
+  background-color: lightgreen;
+  padding: 5px;
+  border-radius: 5px;
+}
+.Card {
+  display: flex;
+  flex-flow: column;
+  width: 380px;
+  background-color: red;
+  position: relative;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 400px;
+  background-image: url(https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; /* الأهم */
+  align-items: center;
+
+  border-radius: 10px;
+  justify-content: center;
+}
+
+.Card:hover {
+  animation: softZoomMove 2s ease-in-out infinite alternate;
+}
+
+@keyframes softZoomMove {
+  0% {
+    background-size: 100% auto; /* زووم بسيط جداً */
+    background-position: 0% 0; /* البداية */
+  }
+  100% {
+    background-size: 106% auto; /* زيادة زووم بسيطة */
+    background-position-x: left;
+  }
+}
+
+.card-img {
+  object-fit: cover;
+  position: relative;
+
+  border-radius: 10px;
+  width: 300px;
+}
+
+.caption2 {
+  display: flex;
+  flex-flow: row-reverse;
+  align-items: center;
+  box-shadow: 5px 5px 150px 10px black;
+  border-radius: 10px;
+  z-index: 5;
+  position: relative;
+  padding: 20px;
+  transform: translateY(100px); /* تطلع لفوق */
+  opacity: 1;
+  width: 350px;
+  background-color: white;
+}
+
+.caption-text2 {
+  display: flex;
+  flex-flow: column;
+}
+h5,
+h6 {
+  display: flex;
+  flex-wrap: nowrap;
+  flex-flow: row;
+  width: 130px;
+  direction: rtl;
+}
+.Card:hover .caption-btn2 {
+  animation: btn 0.5s ease-in-out 1 forwards;
+}
+@keyframes btn {
+  from {
+    background-color: white;
+    color: black;
+  }
+  to {
+    background-color: black;
+    color: white;
+  }
+}
+.caption-btn2 {
+  width: 150px;
+  box-sizing: border-box;
+  padding: 8px;
+  position: relative;
+  border: 2px solid black;
+  background-color: white;
+  margin: 0px;
+}

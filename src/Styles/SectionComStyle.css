@@ -1,0 +1,24 @@
+.continer {
+  background-color: rgba(202, 188, 149, 0.12);
+  height: 500px;
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-content: center;
+
+  gap: 20px;
+}
+.header {
+  font-size: 40px;
+}
+.discription {
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+}
+.img {
+  position: absolute;
+  z-index: 5;
+  top: 1200px;
+  width: 600px;
+}

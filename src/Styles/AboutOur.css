@@ -1,0 +1,45 @@
+.continerOur {
+  background-color: rgba(202, 188, 149, 0.12);
+  height: 800px;
+  display: flex;
+  flex-flow: column;
+  justify-content: start;
+  align-content: center;
+  margin-top: 20px;
+  padding-top: 40px;
+  gap: 30px;
+}
+.continerourinner {
+  flex-flow: row, wrap;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-content: center;
+}
+.headerOur {
+  font-size: 40px;
+}
+.discriptionOur {
+  display: flex;
+  flex-flow: column;
+  gap: 20px;
+}
+.imgOur {
+  position: absolute;
+
+  z-index: 0;
+  top: 2850px;
+}
+.simalCard {
+  height: 430px;
+  width: 300px;
+  display: flex;
+  z-index: 5;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  background-color: white;
+}
+.simalCard-icon {
+}
