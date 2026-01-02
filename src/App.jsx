@@ -4,6 +4,9 @@ import AOS from "aos";
 import "aos/dist/aos.css";
 import "./App.css";
 import loaderLogo from "./assets/KAAL.svg";
+import AboutUs from "./Veiwes/AboutUs";
+import Footer from "./components/FooterCom";
+import Products from "./Veiwes/Products";
 
 // Lazy Loading
 const NavBar = lazy(() => import("/src/components/NavBar"));
@@ -21,6 +24,7 @@ function App() {
   return (
     <>
       {/* Navbar Lazy Loaded */}
+
       <Suspense>
         <NavBar />
       </Suspense>
@@ -39,7 +43,12 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/cart" element={<Cart />} />
+          <Route path="/aboutus" element={<AboutUs />} />
+          <Route path="/projects" element={<Products />} />
         </Routes>
+      </Suspense>
+      <Suspense>
+        <Footer />
       </Suspense>
     </>
   );

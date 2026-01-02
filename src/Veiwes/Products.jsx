@@ -1,29 +1,88 @@
-import { addCart } from "/src/Redux/Slices/CartSlice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
-function Products({ products }) {
-  const usedis = useDispatch();
-  if (!products || products.length === 0) {
-    return <h3>Loading...</h3>;
-  }
-
+import { Row } from "react-bootstrap";
+import "/src/Styles/ProjectsCard.css";
+import Col, { useCol } from "react-bootstrap/esm/Col";
+function Products() {
   return (
-    <div>
-      {products.map((pro) => {
-        return (
-          <div key={pro.id}>
-            <img width="100px" src={pro?.image} />
-            <h1>{pro?.title}</h1>
-            <button
-              onClick={() => {
-                usedis(addCart(pro));
-              }}
-            >
-              add
-            </button>
-          </div>
-        );
-      })}
+    <div style={{ marginTop: "100px" }}>
+      <div className="header2" style={{}}>
+        <h2>المشاريع </h2>
+        <ul className="filter-header" style={{}}></ul>
+      </div>
+      <div className="continer2">
+        <div className="Card" style={{}}>
+          <Row className="caption2" style={{}}>
+            <Col>
+              <div className="caption-text2" style={{}}>
+                <h2>ttttt</h2>
+                <h3>ttttt</h3>
+              </div>
+            </Col>
+
+            <Col>
+              <button className="caption-btn2" style={{}}>
+                ok
+              </button>
+            </Col>
+          </Row>
+        </div>
+        <div className="Card" style={{}}>
+          <Row className="caption2" style={{}}>
+            <Col>
+              <div className="caption-text2" style={{}}>
+                <h2>ttttt</h2>
+                <h3>ttttt</h3>
+              </div>
+            </Col>
+
+            <Col>
+              <button className="caption-btn2" style={{}}>
+                ok
+              </button>
+            </Col>
+          </Row>
+        </div>
+        <div className="Card" style={{}}>
+          <Row className="caption2" style={{}}>
+            <Col>
+              <div className="caption-text2" style={{}}>
+                <h2>ttttt</h2>
+                <h3>ttttt</h3>
+              </div>
+            </Col>
+
+            <Col>
+              <button className="caption-btn2" style={{}}>
+                ok
+              </button>
+            </Col>
+          </Row>
+        </div>
+        <div className="Card" style={{}}>
+          <Row className="avalicon">
+            <Col>
+              <span className="icon">غير</span>
+            </Col>
+            <Col>
+              <span className="avelubl">متاح</span>
+            </Col>
+          </Row>
+
+          <Row className="caption2" style={{}}>
+            <Col>
+              <div className="caption-text2" style={{}}>
+                <h5>K-110</h5>
+                <h6>الرياض - النرجس</h6>
+              </div>
+            </Col>
+
+            <Col>
+              <button className="caption-btn2" style={{}}>
+                عدد الوحدات : 51
+              </button>
+            </Col>
+          </Row>
+        </div>
+      </div>
     </div>
   );
 }

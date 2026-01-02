@@ -13,8 +13,8 @@ function NavBar() {
   const useSt = useSelector((state) => state.Cart);
   const links = [
     { title: "الرئيسية", url: "/" },
-    { title: " من نحن", url: "/" },
-    { title: "المشاريع", url: "/" },
+    { title: " من نحن", url: "/aboutus" },
+    { title: "المشاريع", url: "/projects" },
     { title: "ماذا نقدم ؟", url: "/" },
     { title: "طلبات الصيانة", url: "/" },
     { title: "سجل اهتمامك", url: "/" },

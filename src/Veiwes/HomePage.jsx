@@ -43,10 +43,6 @@ function Home() {
       <Suspense fallback={<div className="loader">looding...</div>}>
         <SectionCare />
       </Suspense>
-      <Suspense fallback={<div className="loader">looding...</div>}>
-        {" "}
-        <Footer />
-      </Suspense>
     </div>
   );
 }

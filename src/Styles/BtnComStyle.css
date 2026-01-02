@@ -1,5 +1,6 @@
 .btnanimet {
   position: relative;
+
   overflow: hidden; /* مهم عشان اللون ميفلتش برا */
   padding: 15px 40px;
   font-size: 18px;
