@@ -1,18 +1,18 @@
-.header2 {
+.header2home {
   display: flex;
   flex-flow: row;
   gap: 1000px;
   margin: 10px;
   direction: rtl;
 }
-.filter-header {
+.filter-headerhome {
   list-style: none;
 }
-.filter-header-btn {
+.filter-header-btnhome {
   height: 50px;
   font-size: 20px;
 }
-.continer2 {
+.continer2home {
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
@@ -22,13 +22,12 @@
   width: 100%;
   position: relative;
 }
-.avalicon {
-  gap: 210px;
-  position: absolute;
-  z-index: 20;
-  top: 0px;
+.avaliconhome {
+  gap: 286px;
+  position: relative;
+  top: -130px;
 }
-.icon {
+.iconhome {
   background-color: black;
   color: white;
   position: relative;
@@ -38,10 +37,10 @@
   padding: 5px;
   border-radius: 5px;
 }
-.Card:hover .icon {
+.Cardhome:hover .iconhome {
   animation: icon 0.3s ease-in-out 1 forwards;
 }
-.icon:hover {
+.iconhome:hover {
   animation: iconbackground 0.5s ease-in-out 1 forwards;
 }
 @keyframes iconbackground {
@@ -54,54 +53,58 @@
     left: -100px;
   }
   to {
-    left: 0px;
+    left: 10px;
   }
 }
 
-.avelubl {
+.avelublhome {
   background-color: lightgreen;
   padding: 5px;
   border-radius: 5px;
 }
-.avelubl2 {
-  background-color: lightcoral;
-  padding: 5px;
-  border-radius: 5px;
-}
-.avelubl3 {
-  background-color: rgb(0, 131, 0);
-  padding: 5px;
-  border-radius: 5px;
-}
-.Card {
+.Cardhome {
   display: flex;
   flex-flow: column;
-  height: 450px;
-  overflow: hidden;
+  width: 380px;
+  background-color: red;
+  position: relative;
+  overflow-y: hidden;
+  overflow-x: hidden;
+  height: 400px;
+  background-image: url(https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg);
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-size: cover; /* الأهم */
+  align-items: center;
+
+  border-radius: 10px;
+  justify-content: center;
+}
+
+.Cardhome:hover {
+  animation: softZoomMove 2s ease-in-out infinite alternate;
+}
+
+@keyframes softZoomMove {
+  0% {
+    background-size: 100% auto; /* زووم بسيط جداً */
+    background-position: 0% 0; /* البداية */
+  }
+  100% {
+    background-size: 106% auto; /* زيادة زووم بسيطة */
+    background-position-x: left;
+  }
+}
+
+.card-imghome {
+  object-fit: cover;
+  position: relative;
+
+  border-radius: 10px;
   width: 300px;
 }
-.linkpro {
-  color: black;
-}
-.linkpro:hover {
-  color: #d8c389;
-}
-.zoom-img {
-  width: 300px;
-  height: auto;
-  overflow: hidden;
-}
 
-.zoom-img img {
-  width: 100%;
-  transition: all 0.3s ease-in-out;
-}
-
-.Card:hover .zoom-img img {
-  transform: scale(1.2);
-}
-
-.caption2 {
+.caption2home {
   display: flex;
   flex-flow: row-reverse;
   align-items: center;
@@ -116,7 +119,7 @@
   background-color: white;
 }
 
-.caption-text2 {
+.caption-text2home {
   display: flex;
   flex-flow: column;
 }
@@ -128,7 +131,7 @@ h6 {
   width: 130px;
   direction: rtl;
 }
-.Card:hover .caption-btn2 {
+.Cardhome:hover .caption-btn2home {
   animation: btn 0.5s ease-in-out 1 forwards;
 }
 @keyframes btn {
@@ -141,7 +144,7 @@ h6 {
     color: white;
   }
 }
-.caption-btn2 {
+.caption-btn2home {
   width: 150px;
   box-sizing: border-box;
   padding: 8px;
