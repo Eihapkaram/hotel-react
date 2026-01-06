@@ -24,6 +24,7 @@ function Btn(props) {
           backgroundColor: props.backcolor,
           color: props.color,
           display: "flex",
+          border: props.bord,
         }}
         className="btnanimet"
       >

@@ -38,22 +38,18 @@
   border-radius: 5px;
 }
 .Cardhome:hover .iconhome {
-  animation: icon 0.3s ease-in-out 1 forwards;
+  animation: iconhomean 0.3s ease-in-out 1 forwards;
 }
 .iconhome:hover {
   animation: iconbackground 0.5s ease-in-out 1 forwards;
 }
-@keyframes iconbackground {
-  to {
-    background-color: red;
-  }
-}
-@keyframes icon {
+
+@keyframes iconhomean {
   from {
     left: -100px;
   }
   to {
-    left: 10px;
+    left: 0px;
   }
 }
 

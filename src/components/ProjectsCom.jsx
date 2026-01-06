@@ -10,7 +10,7 @@ function Projects() {
         <ul className="filter-headerhome" style={{}}>
           <li>
             <button className="filter-header-btnhome" style={{}}>
-              <Link path="/projects"> الكل</Link>
+              <Link to="/projects">الكل</Link>
             </button>
           </li>
         </ul>

@@ -36,7 +36,77 @@ function Products() {
       </div>
       <div className="continer2">
         <Card className="Card">
-          <Row className="avalicon">
+          <Row className="avaliconP">
+            <Col>
+              <span className="icon">
+                <FaExternalLinkAlt
+                  color="#fffcfcff"
+                  size={15}
+                ></FaExternalLinkAlt>
+              </span>
+            </Col>
+            <Col>{avelob()}</Col>
+          </Row>
+          <div className="zoom-img">
+            <img src="https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg" />
+          </div>
+
+          <CardBody
+            style={{
+              direction: "rtl",
+              display: "flex",
+              flexFlow: "column",
+              alignItems: "start",
+              backgroundColor: "white",
+              justifyContent: "end",
+            }}
+          >
+            <CardTitle>
+              <Link
+                to="/unite/1"
+                style={{ textDecoration: "underline", color: "black" }}
+              >
+                K-110
+              </Link>
+            </CardTitle>
+            <CardSubtitle>الرياض - النرجس</CardSubtitle>
+
+            <ul
+              style={{
+                display: "flex",
+                gap: "20px",
+                listStyle: "none",
+                flexWrap: "nowrap",
+                margin: "0px",
+                marginTop: "10px",
+                padding: "0px",
+              }}
+            >
+              <li>
+                <Link className="linkpro">
+                  4 <IoBedOutline size={15}></IoBedOutline> غرف
+                </Link>
+              </li>
+              <li>
+                <Link className="linkpro">
+                  3 <FaShower size={15}></FaShower> حمام
+                </Link>
+              </li>
+              <li>
+                <Link className="linkpro">
+                  1 <MdEmojiFoodBeverage size={15}></MdEmojiFoodBeverage> مطبخ
+                </Link>
+              </li>
+              <li>
+                <Link className="linkpro">
+                  200 <GiResize size={15}></GiResize> المساحة
+                </Link>
+              </li>
+            </ul>
+          </CardBody>
+        </Card>
+        <Card className="Card">
+          <Row className="avaliconP">
             <Col>
               <span className="icon">
                 <FaExternalLinkAlt
@@ -103,7 +173,7 @@ function Products() {
           </CardBody>
         </Card>
         <Card className="Card">
-          <Row className="avalicon">
+          <Row className="avaliconP">
             <Col>
               <span className="icon">
                 <FaExternalLinkAlt
@@ -170,7 +240,7 @@ function Products() {
           </CardBody>
         </Card>
         <Card className="Card">
-          <Row className="avalicon">
+          <Row className="avaliconP">
             <Col>
               <span className="icon">
                 <FaExternalLinkAlt
@@ -237,74 +307,7 @@ function Products() {
           </CardBody>
         </Card>
         <Card className="Card">
-          <Row className="avalicon">
-            <Col>
-              <span className="icon">
-                <FaExternalLinkAlt
-                  color="#fffcfcff"
-                  size={15}
-                ></FaExternalLinkAlt>
-              </span>
-            </Col>
-            <Col>{avelob()}</Col>
-          </Row>
-          <div className="zoom-img">
-            <img src="https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg" />
-          </div>
-
-          <CardBody
-            style={{
-              direction: "rtl",
-              display: "flex",
-              flexFlow: "column",
-              alignItems: "start",
-              backgroundColor: "white",
-              justifyContent: "end",
-            }}
-          >
-            <CardTitle>
-              <Link style={{ textDecoration: "underline", color: "black" }}>
-                K-110
-              </Link>
-            </CardTitle>
-            <CardSubtitle>الرياض - النرجس</CardSubtitle>
-
-            <ul
-              style={{
-                display: "flex",
-                gap: "20px",
-                listStyle: "none",
-                flexWrap: "nowrap",
-                margin: "0px",
-                marginTop: "10px",
-                padding: "0px",
-              }}
-            >
-              <li>
-                <Link className="linkpro">
-                  4 <IoBedOutline size={15}></IoBedOutline> غرف
-                </Link>
-              </li>
-              <li>
-                <Link className="linkpro">
-                  3 <FaShower size={15}></FaShower> حمام
-                </Link>
-              </li>
-              <li>
-                <Link className="linkpro">
-                  1 <MdEmojiFoodBeverage size={15}></MdEmojiFoodBeverage> مطبخ
-                </Link>
-              </li>
-              <li>
-                <Link className="linkpro">
-                  200 <GiResize size={15}></GiResize> المساحة
-                </Link>
-              </li>
-            </ul>
-          </CardBody>
-        </Card>
-        <Card className="Card">
-          <Row className="avalicon">
+          <Row className="avaliconP">
             <Col>
               <span className="icon">
                 <FaExternalLinkAlt

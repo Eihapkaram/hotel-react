@@ -47,8 +47,9 @@ function SectionThere() {
             <BtnCom
               s="el1"
               text="تواصل معنا  "
-              backcolor="white"
-              color="black"
+              backcolor=""
+              color="transform"
+              bord="1px solid black"
             />
           </Col>
         </Row>

@@ -13,6 +13,8 @@ function SectionCare() {
       }}
     >
       <Col
+        data-aos="fade"
+        data-aos-delay="500"
         style={{
           display: "flex",
           flexFlow: "column",
@@ -24,7 +26,7 @@ function SectionCare() {
         <h4>نعمل ببراعة لنبني من الخيال سكن</h4>
         <BtnCom text="عرض التفاصيل" backcolor="black" color="white" />
       </Col>
-      <Col>
+      <Col data-aos="fade" data-aos-delay="800">
         <img
           style={{
             position: "relative",

@@ -5,6 +5,19 @@ function SctionOne() {
   return (
     <div>
       <Container fluid style={{ marginBlock: "20px" }}>
+        <h3
+          style={{
+            position: "relative",
+            direction: "ltr",
+            fontSize: "30px",
+            marginTop: "20px",
+          }}
+        >
+          عن الشركة{" "}
+        </h3>
+        <br />
+        <br />
+        <br />
         <Row style={{ display: "flex", flexDirection: "row-reverse" }}>
           <Col data-aos="fade-up" data-aos-delay="300">
             <h2>نعمل ببراعة لنبني من الخيال سكن.</h2>

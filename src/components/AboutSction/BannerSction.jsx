@@ -21,16 +21,6 @@ function banner() {
         >
           <img style={{ position: "relative" }} src="/src/assets/KAAL.svg" />
         </banner>
-        <h3
-          style={{
-            position: "relative",
-            direction: "ltr",
-            fontSize: "30px",
-            marginTop: "20px",
-          }}
-        >
-          عن الشركة{" "}
-        </h3>
       </Container>
     </div>
   );

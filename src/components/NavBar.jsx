@@ -15,10 +15,9 @@ function NavBar() {
     { title: "الرئيسية", url: "/" },
     { title: " من نحن", url: "/aboutus" },
     { title: "المشاريع", url: "/projects" },
-    { title: "ماذا نقدم ؟", url: "/" },
-    { title: "طلبات الصيانة", url: "/" },
-    { title: "سجل اهتمامك", url: "/" },
-    { title: "تواصل معنا", url: "/" },
+
+    { title: "طلبات الصيانة", url: "/orders" },
+    { title: "سجل اهتمامك", url: "/intersted" },
   ];
   const [count, setCount] = useState(0);
   function cow() {

@@ -7,6 +7,9 @@ import loaderLogo from "./assets/KAAL.svg";
 import AboutUs from "./Veiwes/AboutUs";
 import Footer from "./components/FooterCom";
 import Products from "./Veiwes/Products";
+import Orders from "./Veiwes/FixeingOrders";
+import Intersted from "./Veiwes/IntrestedPage";
+import SinglePro from "./Veiwes/SingelPro";
 
 // Lazy Loading
 const NavBar = lazy(() => import("/src/components/NavBar"));
@@ -45,6 +48,9 @@ function App() {
           <Route path="/cart" element={<Cart />} />
           <Route path="/aboutus" element={<AboutUs />} />
           <Route path="/projects" element={<Products />} />
+          <Route path="/orders" element={<Orders />} />
+          <Route path="/intersted" element={<Intersted />} />
+          <Route path="/unite/:id" element={<SinglePro />} />
         </Routes>
       </Suspense>
       <Suspense>

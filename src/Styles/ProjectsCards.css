@@ -22,12 +22,12 @@
   width: 100%;
   position: relative;
 }
-.avaliconP {
+.avalicon {
   gap: 210px;
   position: absolute;
   z-index: 20;
   display: flex;
-  flex-flow: row;
+  flex-flow: row-reverse;
   top: 0px;
 }
 .icon {
