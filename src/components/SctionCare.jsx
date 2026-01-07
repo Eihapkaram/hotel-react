@@ -1,45 +1,36 @@
-import { Col, Row } from "react-bootstrap";
-import "/src/Styles/SectionComStyle.css";
+import { Col } from "react-bootstrap";
 import BtnCom from "/src/components/BtnCom";
+import "/src/Styles/SectionCare.css";
+
 function SectionCare() {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexFlow: "row-reverse",
-        backgroundColor: " rgba(202, 188, 149, 0.12)",
-        marginTop: "50px",
-        height: "330px",
-      }}
-    >
+    <div className="section-care">
       <Col
+        className="section-care-content"
         data-aos="fade"
         data-aos-delay="500"
-        style={{
-          display: "flex",
-          flexFlow: "column",
-          gap: "30px",
-          justifyContent: "center",
-        }}
       >
-        <h2>سجل اهتمامك</h2>
-        <h4>نعمل ببراعة لنبني من الخيال سكن</h4>
+        <h2 className="section-care-title">سجل اهتمامك</h2>
+        <h4 className="section-care-subtitle">
+          نعمل ببراعة لنبني من الخيال سكن
+        </h4>
         <BtnCom text="عرض التفاصيل" backcolor="black" color="white" />
       </Col>
-      <Col data-aos="fade" data-aos-delay="800">
+
+      <Col
+        className="section-care-image-wrapper"
+        data-aos="fade"
+        data-aos-delay="800"
+      >
         <img
-          style={{
-            position: "relative",
-            left: "-120px",
-            top: "-30px",
-            height: "356px",
-          }}
-          width={"430px"}
-          loading="lazy"
+          className="section-care-image"
           src="/src/assets/hous.png"
+          loading="lazy"
+          alt="house"
         />
       </Col>
     </div>
   );
 }
+
 export default SectionCare;

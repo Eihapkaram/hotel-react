@@ -1,69 +1,48 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
-import "/src/AppNav.css";
-import Container from "react-bootstrap/Container";
-import Badge from "react-bootstrap/Badge";
-import Nav from "react-bootstrap/Nav";
-import "bootstrap/dist/css/bootstrap.min.css";
-import Navbar from "react-bootstrap/Navbar";
-import { useSelector } from "react-redux";
-import NavDropdown from "react-bootstrap/NavDropdown";
+import { useDispatch, useSelector } from "react-redux";
+import { toggleAside, closeAside } from "/src/Redux/Slices/asideSlice";
+import "/src/Styles/Aside.css";
 
-function NavBar() {
-  const useSt = useSelector((state) => state.Cart);
+function Aside() {
+  const dispatch = useDispatch();
+  const open = useSelector((state) => state.aside.open);
+
   const links = [
     { title: "الرئيسية", url: "/" },
-    { title: " من نحن", url: "/aboutus" },
+    { title: "من نحن", url: "/aboutus" },
     { title: "المشاريع", url: "/projects" },
-
     { title: "طلبات الصيانة", url: "/orders" },
     { title: "سجل اهتمامك", url: "/intersted" },
   ];
-  const [count, setCount] = useState(0);
-  function cow() {
-    setCount((count) => count + 1);
-  }
+
   return (
-    <Navbar
-      style={{
-        direction: "rtl",
-        backgroundColor: "white",
-        height: "100px",
-        display: "flex",
-        flexFlow: "row",
-        justifyContent: "center",
-        alignContent: "center",
-      }}
-      fixed="top"
-      expand="lg"
-      className=""
-    >
-      <Container
-        style={{
-          direction: "rtl",
-          backgroundColor: "white",
-          height: "100px",
-          display: "flex",
-          flexFlow: "row",
-          justifyContent: "center",
-          alignContent: "center",
-        }}
-      >
-        <Navbar.Brand href="/">
-          <img width={"200px"} src="/src/assets/KAAL.svg" />
-        </Navbar.Brand>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" />
-        <Navbar.Collapse id="basic-navbar-nav">
-          <Nav className="me-auto">
-            {links.map((el) => (
-              <Link className="navbar-brand" to={el.url}>
-                {el.title}
-              </Link>
-            ))}
-          </Nav>
-        </Navbar.Collapse>
-      </Container>
-    </Navbar>
+    <>
+      {/* زرار فتح/غلق Aside */}
+      <button className="aside-toggle" onClick={() => dispatch(toggleAside())}>
+        {open ? "✖" : "☰"}
+      </button>
+
+      {/* Aside */}
+      <aside className={`aside ${open ? "open" : ""}`}>
+        <div className="aside-logo">
+          <img src="/src/assets/KAAL.svg" alt="logo" />
+        </div>
+
+        <nav className="aside-nav">
+          {links.map((el) => (
+            <Link
+              key={el.title}
+              to={el.url}
+              className="aside-link"
+              onClick={() => dispatch(closeAside())}
+            >
+              {el.title}
+            </Link>
+          ))}
+        </nav>
+      </aside>
+    </>
   );
 }
-export default NavBar;
+
+export default Aside;

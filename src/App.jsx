@@ -27,7 +27,6 @@ function App() {
   return (
     <>
       {/* Navbar Lazy Loaded */}
-
       <Suspense>
         <NavBar />
       </Suspense>

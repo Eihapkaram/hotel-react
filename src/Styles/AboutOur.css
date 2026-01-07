@@ -1,45 +1,158 @@
+/* ===============================
+   Main Container
+================================ */
 .continerOur {
+  position: relative;
   background-color: rgba(202, 188, 149, 0.12);
-  height: 800px;
+  min-height: 100vh;
   display: flex;
-  flex-flow: column;
-  justify-content: start;
-  align-content: center;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
   margin-top: 20px;
-  padding-top: 40px;
+  padding: 40px 20px 100px;
   gap: 30px;
+  overflow: hidden;
 }
-.continerourinner {
-  flex-flow: row, wrap;
-  display: flex;
-  gap: 20px;
-  justify-content: center;
-  align-content: center;
-}
+
+/* ===============================
+   Header & Description
+================================ */
 .headerOur {
   font-size: 40px;
+  text-align: center;
 }
+
 .discriptionOur {
   display: flex;
-  flex-flow: column;
+  flex-direction: column;
   gap: 20px;
+  text-align: center;
+  max-width: 700px;
 }
-.imgOur {
-  position: absolute;
 
-  z-index: 0;
-  top: 2850px;
+/* ===============================
+   Cards Container
+================================ */
+.continerourinner {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  align-items: stretch;
+  width: 100%;
+  z-index: 5;
 }
+
+/* ===============================
+   Single Card
+================================ */
 .simalCard {
   height: 430px;
   width: 300px;
   display: flex;
-  z-index: 5;
-  flex-flow: column;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
+  gap: 15px;
+  padding: 20px;
   border-radius: 20px;
   background-color: white;
+  text-align: center;
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease-in-out;
 }
-.simalCard-icon {
+
+.simalCard:hover {
+  transform: translateY(-10px);
+}
+
+.simalCard h2 {
+  font-size: 22px;
+}
+
+.simalCard p {
+  font-size: 15px;
+  line-height: 1.8;
+  color: #444;
+}
+
+/* ===============================
+   Background Image
+================================ */
+.imgOur {
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 900px;
+  opacity: 0.25;
+  z-index: 0;
+  pointer-events: none;
+}
+
+/* ===============================
+   Responsive
+================================ */
+
+/* ===============================
+   Mobile ≤ 576px
+================================ */
+@media (max-width: 576px) {
+  .continerourinner {
+    flex-direction: column; /* كارت واحد تحت بعض */
+    align-items: center;
+  }
+
+  .simalCard {
+    width: 100%; /* ياخد عرض الشاشة */
+    max-width: 360px; /* شكل حلو على الفون */
+    height: auto;
+    padding: 25px 20px;
+  }
+
+  .headerOur {
+    font-size: 28px;
+  }
+
+  .discriptionOur {
+    font-size: 16px;
+  }
+
+  .imgOur {
+    width: 150%;
+    bottom: -90px;
+  }
+}
+
+/* Tablet ≤ 768px */
+@media (max-width: 768px) {
+  .headerOur {
+    font-size: 32px;
+  }
+
+  .simalCard {
+    width: 45%;
+    height: auto;
+  }
+}
+
+/* Small Laptop ≤ 992px */
+@media (max-width: 992px) {
+  .simalCard {
+    width: 45%;
+  }
+}
+
+/* Desktop ≥ 1200px */
+@media (min-width: 1200px) {
+  .simalCard {
+    width: 300px;
+    height: 430px;
+  }
+
+  .imgOur {
+    max-width: 1100px;
+  }
 }

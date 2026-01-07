@@ -1,45 +1,73 @@
+/* ===============================
+   Header
+================================ */
 .header2home {
   display: flex;
   flex-flow: row;
-  gap: 1000px;
+  gap: 1000px; /* حركة واسعة */
   margin: 10px;
   direction: rtl;
 }
+
 .filter-headerhome {
   list-style: none;
 }
+
 .filter-header-btnhome {
   height: 50px;
   font-size: 20px;
+  padding: 0 15px;
+  cursor: pointer;
+  border: none;
+  border-radius: 5px;
+  background-color: #181a20;
+  color: white;
+  transition: 0.3s ease-in-out;
 }
+
+.filter-header-btnhome:hover {
+  background-color: #101118;
+}
+
+/* ===============================
+   Container for Cards
+================================ */
 .continer2home {
   display: flex;
-  flex-flow: row;
-  flex-wrap: wrap;
+  flex-flow: row wrap;
   align-items: center;
-  gap: 20px;
   justify-content: center;
+  gap: 20px;
   width: 100%;
   position: relative;
 }
+
+/* ===============================
+   Availability Icons
+================================ */
 .avaliconhome {
-  gap: 286px;
+  display: flex;
+  gap: 286px; /* نفس الحركة القديمة */
   position: relative;
   top: -130px;
 }
+
 .iconhome {
   background-color: black;
   color: white;
   position: relative;
   z-index: 5;
   cursor: pointer;
-  left: -100px;
+  left: -100px; /* الحركة عند Hover */
   padding: 5px;
   border-radius: 5px;
+  transition: 0.3s ease-in-out;
 }
+
 .Cardhome:hover .iconhome {
   animation: iconhomean 0.3s ease-in-out 1 forwards;
 }
+
 .iconhome:hover {
   animation: iconbackground 0.5s ease-in-out 1 forwards;
 }
@@ -58,78 +86,91 @@
   padding: 5px;
   border-radius: 5px;
 }
+
+/* ===============================
+   Project Card
+================================ */
 .Cardhome {
   display: flex;
   flex-flow: column;
   width: 380px;
-  background-color: red;
-  position: relative;
-  overflow-y: hidden;
-  overflow-x: hidden;
   height: 400px;
+  position: relative;
+  overflow: hidden;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
   background-image: url(https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg);
   background-repeat: no-repeat;
   background-position: center center;
-  background-size: cover; /* الأهم */
-  align-items: center;
-
-  border-radius: 10px;
-  justify-content: center;
+  background-size: cover;
+  transition: 0.3s ease-in-out;
 }
 
+/* Hover Animation for Card */
 .Cardhome:hover {
   animation: softZoomMove 2s ease-in-out infinite alternate;
 }
 
 @keyframes softZoomMove {
   0% {
-    background-size: 100% auto; /* زووم بسيط جداً */
-    background-position: 0% 0; /* البداية */
+    background-size: 100% auto;
+    background-position: 0% 0%;
   }
   100% {
-    background-size: 106% auto; /* زيادة زووم بسيطة */
+    background-size: 106% auto;
     background-position-x: left;
   }
 }
 
-.card-imghome {
-  object-fit: cover;
-  position: relative;
-
-  border-radius: 10px;
-  width: 300px;
-}
-
+/* ===============================
+   Caption (Text + Button)
+================================ */
 .caption2home {
   display: flex;
   flex-flow: row-reverse;
   align-items: center;
-  box-shadow: 5px 5px 150px 10px black;
-  border-radius: 10px;
-  z-index: 5;
-  position: relative;
-  padding: 20px;
-  transform: translateY(100px); /* تطلع لفوق */
-  opacity: 1;
+  justify-content: space-between;
   width: 350px;
+
+  padding: 30px;
+  border-radius: 10px;
+  position: relative;
+  z-index: 5;
   background-color: white;
+  box-shadow: 5px 5px 150px 10px black;
+  transform: translateY(100px);
+  opacity: 1;
+  transition: transform 0.3s ease-in-out;
 }
 
 .caption-text2home {
   display: flex;
   flex-flow: column;
 }
+
 h5,
 h6 {
   display: flex;
-  flex-wrap: nowrap;
-  flex-flow: row;
+  flex-flow: row nowrap;
   width: 130px;
+  margin: 0;
   direction: rtl;
 }
+
+.caption-btn2home {
+  width: 150px;
+  padding: 8px;
+  border: 2px solid black;
+  background-color: white;
+  cursor: pointer;
+  transition: 0.3s ease-in-out;
+}
+
 .Cardhome:hover .caption-btn2home {
   animation: btn 0.5s ease-in-out 1 forwards;
 }
+
 @keyframes btn {
   from {
     background-color: white;
@@ -140,12 +181,90 @@ h6 {
     color: white;
   }
 }
-.caption-btn2home {
-  width: 150px;
-  box-sizing: border-box;
-  padding: 8px;
-  position: relative;
-  border: 2px solid black;
-  background-color: white;
-  margin: 0px;
+
+/* ===============================
+   Responsive Styles
+================================ */
+
+/* Small Phones ≤ 480px */
+@media (max-width: 480px) {
+  .row {
+    /* --bs-gutter-x: 1.5rem; */
+    --bs-gutter-y: 0;
+    --bs-gutter-x: 0rem;
+    display: flex;
+    flex-wrap: wrap;
+  }
+  .Cardhome {
+    width: 60%;
+    height: 350px;
+  } /* أطول شويه */
+  .caption2home {
+    flex-direction: column;
+    display: flex;
+    gap: 10px;
+    width: 90%;
+    text-align: center;
+  }
+  .header2home h2 {
+    font-size: 1.5rem;
+  }
+  .filter-header-btnhome {
+    font-size: 16px;
+    height: 40px;
+  }
+  .avaliconhome {
+    gap: 100px;
+    top: -60px;
+  }
+  .iconhome {
+    left: -100px;
+  } /* يظهر كامل */
+}
+
+/* Tablets 768px - 991px */
+@media (min-width: 768px) and (max-width: 991px) {
+  .Cardhome {
+    width: 45%;
+    height: 400px;
+  }
+  .caption2home {
+    width: 90%;
+  }
+  .avaliconhome {
+    gap: 100px;
+    top: -80px;
+  }
+  .iconhome {
+    left: -80px;
+  }
+}
+
+/* Desktop ≥ 992px */
+@media (min-width: 992px) {
+  .Cardhome {
+    width: 380px;
+    height: 400px;
+  }
+  .caption2home {
+    width: 350px;
+  }
+  .avaliconhome {
+    gap: 286px;
+    top: -130px;
+  }
+  .iconhome {
+    left: -100px;
+  }
+}
+
+/* Large Screens ≥ 1200px */
+@media (min-width: 1200px) {
+  .Cardhome {
+    width: 400px;
+    height: 450px;
+  }
+  .caption2home {
+    width: 380px;
+  }
 }

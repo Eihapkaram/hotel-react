@@ -16,9 +16,12 @@ import { GiResize } from "react-icons/gi";
 import { MdEmojiFoodBeverage } from "react-icons/md";
 import Col, { useCol } from "react-bootstrap/esm/Col";
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 function Products() {
   const [avel, setavel] = useState("avelbel");
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
   function avelob() {
     if (avel == "avelbel") {
       return <span className="avelubl">متاح</span>;

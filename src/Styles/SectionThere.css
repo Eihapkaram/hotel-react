@@ -1,0 +1,100 @@
+/* ===============================
+   Section Wrapper
+================================ */
+.section-there {
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: space-between;
+  align-items: center;
+  background-color: rgba(202, 188, 149, 0.12);
+  margin-top: 50px;
+  border-radius: 20px;
+  height: 330px;
+  padding: 40px;
+  gap: 30px;
+}
+
+/* ===============================
+   Text
+================================ */
+.section-there-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 20px;
+  direction: rtl;
+}
+
+.section-there-title {
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.section-there-desc {
+  font-size: 16px;
+  line-height: 1.8;
+  max-width: 500px;
+}
+
+/* ===============================
+   Buttons
+================================ */
+.section-there-btns {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.section-there-btns-row {
+  display: flex;
+  gap: 20px;
+}
+
+.section-there-btn-col {
+  display: flex;
+  justify-content: center;
+}
+
+/* ===============================
+   Mobile ≤ 576px
+================================ */
+@media (max-width: 576px) {
+  .section-there {
+    flex-direction: column;
+    height: auto;
+    text-align: center;
+    padding: 30px 20px;
+  }
+
+  .section-there-text {
+    align-items: center;
+  }
+
+  .section-there-title {
+    font-size: 22px;
+  }
+
+  .section-there-desc {
+    font-size: 14px;
+    max-width: 100%;
+  }
+
+  .section-there-btns-row {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+/* ===============================
+   Tablet ≤ 992px
+================================ */
+@media (max-width: 992px) {
+  .section-there {
+    height: auto;
+    padding: 40px 30px;
+  }
+
+  .section-there-title {
+    font-size: 24px;
+  }
+}

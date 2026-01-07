@@ -1,39 +1,139 @@
-.crcilecon {
+/* ===============================
+   Section Wrapper
+================================ */
+.section-two {
+  margin-block: 80px;
+}
+
+/* ===============================
+   Row
+================================ */
+.section-two-row {
   display: flex;
-  flex-flow: column, wrap;
+  justify-content: center;
   align-items: center;
-  border-radius: 200px;
-  width: 150px;
-  height: 150px;
+  gap: 40px;
+  background-color: rgba(202, 188, 149, 0.12);
+  border-radius: 20px;
+  padding: 40px 30px;
+  min-height: 330px;
+}
+
+/* ===============================
+   Column
+================================ */
+.section-two-col {
+  display: flex;
   justify-content: center;
 }
+
+/* ===============================
+   Card Content
+================================ */
+.section-two-card {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: flex-end;
+  justify-content: flex-end;
+  gap: 15px;
+  direction: rtl;
+}
+
+.section-two-text {
+  max-width: 260px;
+  font-size: 14px;
+  line-height: 1.8;
+  color: #333;
+}
+
+.section-two-title {
+  font-size: 20px;
+  font-weight: bold;
+  margin: 10px 0;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* ===============================
+   Icon Circle
+================================ */
+.crcilecon {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+}
+
 .iconcr {
   width: 80px;
   height: 80px;
   background-color: rgba(202, 188, 149, 0.12);
-  border-radius: 200px;
-  position: relative;
+  border-radius: 50%;
+  transition: 0.5s;
 }
+
 .iconcr2 {
   width: 70px;
   height: 70px;
   background-color: #d8c389;
-  border-radius: 200px;
-  position: relative;
+  border-radius: 50%;
+  transition: 0.5s;
 }
-.iconcr:hover {
-  background-color: #d8c389;
-  transition: all, 0.5s;
-}
-.iconcr2:hover {
-  background-color: #afa07a;
-  transition: all, 0.5s;
-}
-.cardico:hover .iconcr2 {
-  background-color: #afa07a;
-  transition: all, 0.5s;
-}
+
+/* Hover */
 .cardico:hover .iconcr {
   background-color: #d8c389;
-  transition: all, 0.5s;
+}
+
+.cardico:hover .iconcr2 {
+  background-color: #afa07a;
+}
+
+/* ===============================
+   Mobile ≤ 576px
+================================ */
+@media (max-width: 576px) {
+  .section-two-row {
+    flex-direction: column;
+    gap: 40px;
+    padding: 40px 20px;
+  }
+
+  .section-two-card {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .section-two-title {
+    justify-content: center;
+    font-size: 18px;
+  }
+
+  .section-two-text {
+    max-width: 100%;
+    font-size: 14px;
+  }
+}
+
+/* ===============================
+   Tablet ≤ 992px
+================================ */
+@media (max-width: 992px) {
+  .section-two-row {
+    flex-wrap: wrap;
+    height: auto;
+  }
+
+  .section-two-card {
+    align-items: center;
+    text-align: center;
+  }
+
+  .section-two-title {
+    justify-content: center;
+  }
 }

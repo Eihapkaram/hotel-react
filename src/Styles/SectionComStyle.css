@@ -1,24 +1,148 @@
+/* ===============================
+   Container
+================================ */
 .continer {
+  position: relative;
   background-color: rgba(202, 188, 149, 0.12);
-  height: 500px;
+  min-height: 500px;
   display: flex;
-  flex-flow: column;
+  flex-direction: column;
   justify-content: center;
-  align-content: center;
-
+  align-items: center;
   gap: 20px;
+  padding: 20px;
+  overflow: hidden;
 }
+
+/* ===============================
+   Header
+================================ */
 .header {
-  font-size: 40px;
+  font-size: 2.5rem; /* responsive base */
+  text-align: center;
+  line-height: 1.2;
+  margin-bottom: 30px;
 }
+
+/* ===============================
+   Description
+================================ */
 .discription {
   display: flex;
-  flex-flow: column;
-  gap: 20px;
+  flex-direction: column;
+  gap: 60px;
+  text-align: center;
+  font-size: 1.1rem;
+  line-height: 1.5;
+
+  max-width: 600px;
 }
+
+/* ===============================
+   Image
+================================ */
 .img {
-  position: absolute;
+  position: relative;
   z-index: 5;
-  top: 1200px;
-  width: 600px;
+  width: 80%; /* responsive width */
+  max-width: 600px;
+  height: auto;
+  margin-top: 20px;
+}
+
+/* ===============================
+   Small Phones (≤ 375px)
+================================ */
+@media (max-width: 375px) {
+  .continer {
+    min-height: 400px;
+    padding: 15px;
+  }
+
+  .header {
+    font-size: 1.8rem;
+  }
+
+  .discription {
+    font-size: 0.9rem;
+    max-width: 100%;
+  }
+
+  .img {
+    width: 100%;
+    margin-top: 15px;
+  }
+}
+
+/* ===============================
+   Tablets (768px - 991px)
+================================ */
+@media (min-width: 768px) and (max-width: 991px) {
+  .continer {
+    min-height: 550px;
+    padding: 25px;
+  }
+
+  .header {
+    font-size: 2.2rem;
+  }
+
+  .discription {
+    font-size: 1rem;
+    max-width: 500px;
+  }
+
+  .img {
+    width: 70%;
+    max-width: 500px;
+    margin-top: 25px;
+  }
+}
+
+/* ===============================
+   Desktop (≥ 992px)
+================================ */
+@media (min-width: 992px) {
+  .continer {
+    min-height: 600px;
+    padding: 40px;
+  }
+
+  .header {
+    font-size: 3rem;
+  }
+
+  .discription {
+    font-size: 1.2rem;
+    max-width: 600px;
+  }
+
+  .img {
+    width: 600px;
+    margin-top: 30px;
+  }
+}
+
+/* ===============================
+   Large Screens (≥ 1200px)
+================================ */
+@media (min-width: 1200px) {
+  .continer {
+    min-height: 700px;
+    padding: 50px;
+  }
+
+  .header {
+    font-size: 3.5rem;
+  }
+
+  .discription {
+    font-size: 1.3rem;
+    max-width: 700px;
+  }
+
+  .img {
+    width: 700px;
+    margin-top: 40px;
+  }
 }

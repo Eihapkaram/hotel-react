@@ -1,52 +1,29 @@
 import { Col, Row } from "react-bootstrap";
-import "/src/Styles/SectionComStyle.css";
 import BtnCom from "/src/components/BtnCom";
+import "/src/Styles/SectionThere.css";
+
 function SectionThere() {
   return (
-    <div
-      style={{
-        display: "flex",
-        flexFlow: "row-reverse",
-        backgroundColor: " rgba(202, 188, 149, 0.12)",
-        marginTop: "50px",
-        borderRadius: "20px",
-        height: "330px",
-      }}
-    >
-      <Col
-        data-aos="fade"
-        data-aos-delay="300"
-        style={{
-          display: "flex",
-          flexFlow: "column",
-          gap: "30px",
-          justifyContent: "center",
-        }}
-      >
-        <h2> ما نقدمه في كال.</h2>
-        <p>
-          تطوير الأراضي السكنية أو التجارية السكنية أو التجارية إلى شقق ,فلل
-          ,مكاتب.
+    <div className="section-there">
+      {/* النص */}
+      <Col data-aos="fade" data-aos-delay="300" className="section-there-text">
+        <h2 className="section-there-title">ما نقدمه في كال.</h2>
+        <p className="section-there-desc">
+          تطوير الأراضي السكنية أو التجارية السكنية أو التجارية إلى شقق، فلل،
+          مكاتب.
         </p>
       </Col>
-      <Col
-        data-aos="fade"
-        data-aos-delay="500"
-        style={{
-          alignItems: "center",
-          justifyContent: "center",
-          display: "flex",
-          flexFlow: "column",
-        }}
-      >
-        <Row>
-          <Col>
+
+      {/* الأزرار */}
+      <Col data-aos="fade" data-aos-delay="500" className="section-there-btns">
+        <Row className="section-there-btns-row">
+          <Col className="section-there-btn-col">
             <BtnCom s="el2" text="6467674675" backcolor="black" color="white" />
           </Col>
-          <Col>
+          <Col className="section-there-btn-col">
             <BtnCom
               s="el1"
-              text="تواصل معنا  "
+              text="تواصل معنا"
               backcolor=""
               color="transform"
               bord="1px solid black"
@@ -57,4 +34,5 @@ function SectionThere() {
     </div>
   );
 }
+
 export default SectionThere;

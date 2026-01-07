@@ -1,0 +1,166 @@
+/* ========== Footer Scope ========== */
+.FootCon {
+  background-color: #181a20;
+  color: white;
+  margin-top: 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 200px;
+}
+
+/* ---------- First Row ---------- */
+.FootCon .FootRow {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 200px;
+  width: 100%;
+}
+
+/* ---------- Column 1 ---------- */
+.FootCon .FootCol1 {
+  display: flex;
+  flex-direction: column;
+  margin-top: 50px;
+  align-items: center;
+}
+
+.FootCon .FootHLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.FootCon .Footul {
+  list-style: none;
+  position: relative;
+  padding: 0;
+}
+
+.FootCon .Footul li {
+  margin-top: 20px;
+  opacity: 0.3;
+}
+
+.FootCon .Footul a {
+  color: white;
+  text-decoration: none;
+}
+
+/* ---------- Column 2 ---------- */
+.FootCon .FootCol2subtitle {
+  opacity: 0.3;
+  margin: 20px 0;
+}
+
+.FootCon .FootCol2 span {
+  display: flex;
+  flex-wrap: wrap;
+  width: 300px;
+  position: relative;
+  left: -150px;
+}
+
+.FootCon .FootCol2p {
+  display: flex;
+  flex-wrap: wrap;
+  width: 300px;
+  position: relative;
+  left: 50px;
+}
+
+/* ---------- Column 3 ---------- */
+.FootCon .FootCol3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.FootCon .FootCol3 img {
+  width: 100px;
+}
+
+/* ---------- Bottom Row ---------- */
+.FootCon .Row2end {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top: 0.5px solid white;
+  padding-top: 30px;
+  gap: 500px;
+  width: 100%;
+  position: relative;
+  top: -30px;
+}
+
+.FootCon .Row2endCol1 {
+  display: flex;
+  justify-content: center;
+  width: 300px;
+}
+
+.FootCon .Row2endCol1Row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.FootCon .Row2endCol1Rowcolicon {
+  cursor: pointer;
+  font-size: 18px;
+}
+
+.FootCon .Row2endCol1Rowcol2text {
+  display: flex;
+  justify-content: center;
+  width: 300px;
+}
+
+/* ================================================= */
+/* ================= RESPONSIVE ==================== */
+/* ================================================= */
+
+/* 📱 Mobile */
+@media (max-width: 576px) {
+  .FootCon {
+    gap: 80px;
+    text-align: center;
+  }
+
+  .FootCon .FootRow,
+  .FootCon .Row2end {
+    flex-direction: column;
+    gap: 30px;
+  }
+
+  .FootCon .FootCol2 span,
+  .FootCon .FootCol2p {
+    width: 100%;
+    left: 0;
+    text-align: center;
+  }
+}
+
+/* 📱 Tablet */
+@media (max-width: 768px) {
+  .FootCon .FootRow {
+    gap: 80px;
+  }
+
+  .FootCon .Row2end {
+    gap: 60px;
+  }
+}
+
+/* 💻 Laptop */
+@media (max-width: 1200px) {
+  .FootCon .FootRow {
+    gap: 120px;
+  }
+
+  .FootCon .Row2end {
+    gap: 200px;
+  }
+}

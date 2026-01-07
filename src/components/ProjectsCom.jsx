@@ -1,16 +1,26 @@
 import { Row } from "react-bootstrap";
 import "/src/Styles/ProjectsCard2.css";
 import Col, { useCol } from "react-bootstrap/esm/Col";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 function Projects() {
+  const navigate = useNavigate();
+
   return (
     <div>
       <div className="header2home" style={{}}>
         <h2>المشاريع </h2>
-        <ul className="filter-headerhome" style={{}}>
+
+        <ul
+          style={{ zIndex: "50", cursor: "pointer" }}
+          className="filter-headerhome"
+        >
           <li>
-            <button className="filter-header-btnhome" style={{}}>
-              <Link to="/projects">الكل</Link>
+            <button
+              onClick={() => navigate("/projects")}
+              className="filter-header-btnhome"
+              style={{ zIndex: "50", cursor: "pointer" }}
+            >
+              الكل
             </button>
           </li>
         </ul>
