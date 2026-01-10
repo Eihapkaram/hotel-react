@@ -1,8 +1,10 @@
 import { useState } from "react";
 import SctionSin2 from "/src/components/FixeingOrder/SctionSin2";
 import "/src/Styles/ProjectsCards.css";
+
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { IoBedOutline } from "react-icons/io5";
+
 import { FaShower } from "react-icons/fa";
 import { GiResize } from "react-icons/gi";
 import { MdEmojiFoodBeverage } from "react-icons/md";
@@ -443,8 +445,9 @@ export default function SingelPro() {
         <Row className="mt-5">
           <Col>
             <h4 className="fw-bold mb-3">وحدات مشابهة</h4>
+
             <div style={{ width: "100%", padding: "20px" }}>
-              {/* Buttons */}
+              {/* Navigation Buttons */}
               <div
                 style={{
                   display: "flex",
@@ -466,6 +469,17 @@ export default function SingelPro() {
                 modules={[Navigation]}
                 spaceBetween={20}
                 slidesPerView={4}
+                breakpoints={{
+                  0: {
+                    slidesPerView: 1, // 📱 موبايل
+                  },
+                  576: {
+                    slidesPerView: 2, // 📱 تابلت
+                  },
+                  992: {
+                    slidesPerView: 4, // 💻 ديسكتوب
+                  },
+                }}
                 onBeforeInit={(swiper) => {
                   swiper.params.navigation.prevEl = prevRef.current;
                   swiper.params.navigation.nextEl = nextRef.current;
@@ -475,406 +489,74 @@ export default function SingelPro() {
                   nextEl: nextRef.current,
                 }}
               >
-                <SwiperSlide className="">
-                  {" "}
-                  <Card className="Card">
-                    <Row className="avalicon">
-                      <Col>
-                        <span className="icon">
-                          <FaExternalLinkAlt
-                            color="#fffcfcff"
-                            size={15}
-                          ></FaExternalLinkAlt>
-                        </span>
-                      </Col>
-                      <Col>{avelob()}</Col>
-                    </Row>
-                    <div className="zoom-img">
-                      <img src="https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg" />
-                    </div>
+                {[1, 2, 3, 4, 5].map((item) => (
+                  <SwiperSlide key={item}>
+                    <Card className="Card">
+                      <Row className="avalicon">
+                        <Col>
+                          <span className="icon">
+                            <FaExternalLinkAlt color="#fff" size={15} />
+                          </span>
+                        </Col>
+                        <Col>{avelob()}</Col>
+                      </Row>
 
-                    <CardBody
-                      style={{
-                        direction: "rtl",
-                        display: "flex",
-                        flexFlow: "column",
-                        alignItems: "start",
-                        backgroundColor: "white",
-                        justifyContent: "end",
-                      }}
-                    >
-                      <CardTitle>
-                        <Link
-                          to="/unite/1"
-                          style={{
-                            textDecoration: "underline",
-                            color: "black",
-                          }}
-                        >
-                          K-110
-                        </Link>
-                      </CardTitle>
-                      <CardSubtitle>الرياض - النرجس</CardSubtitle>
+                      <div className="zoom-img">
+                        <img
+                          src="https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg"
+                          alt="unit"
+                        />
+                      </div>
 
-                      <ul
+                      <CardBody
                         style={{
+                          direction: "rtl",
                           display: "flex",
-                          gap: "20px",
-                          listStyle: "none",
-                          flexWrap: "nowrap",
-                          margin: "0px",
-                          marginTop: "10px",
-                          padding: "0px",
+                          flexFlow: "column",
+                          alignItems: "start",
+                          backgroundColor: "white",
                         }}
                       >
-                        <li>
-                          <Link className="linkpro">
-                            4 <IoBedOutline size={15}></IoBedOutline> غرف
+                        <CardTitle>
+                          <Link
+                            to="/unite/1"
+                            style={{
+                              textDecoration: "underline",
+                              color: "black",
+                            }}
+                          >
+                            K-110
                           </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            3 <FaShower size={15}></FaShower> حمام
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            1{" "}
-                            <MdEmojiFoodBeverage
-                              size={15}
-                            ></MdEmojiFoodBeverage>{" "}
-                            مطبخ
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            200 <GiResize size={15}></GiResize> المساحة
-                          </Link>
-                        </li>
-                      </ul>
-                    </CardBody>
-                  </Card>
-                </SwiperSlide>
-                <SwiperSlide className="">
-                  {" "}
-                  <Card className="Card">
-                    <Row className="avalicon">
-                      <Col>
-                        <span className="icon">
-                          <FaExternalLinkAlt
-                            color="#fffcfcff"
-                            size={15}
-                          ></FaExternalLinkAlt>
-                        </span>
-                      </Col>
-                      <Col>{avelob()}</Col>
-                    </Row>
-                    <div className="zoom-img">
-                      <img src="https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg" />
-                    </div>
+                        </CardTitle>
 
-                    <CardBody
-                      style={{
-                        direction: "rtl",
-                        display: "flex",
-                        flexFlow: "column",
-                        alignItems: "start",
-                        backgroundColor: "white",
-                        justifyContent: "end",
-                      }}
-                    >
-                      <CardTitle>
-                        <Link
-                          to="/unite/1"
+                        <CardSubtitle>الرياض - النرجس</CardSubtitle>
+
+                        <ul
                           style={{
-                            textDecoration: "underline",
-                            color: "black",
+                            display: "flex",
+                            gap: "15px",
+                            listStyle: "none",
+                            padding: 0,
+                            marginTop: "10px",
                           }}
                         >
-                          K-110
-                        </Link>
-                      </CardTitle>
-                      <CardSubtitle>الرياض - النرجس</CardSubtitle>
-
-                      <ul
-                        style={{
-                          display: "flex",
-                          gap: "20px",
-                          listStyle: "none",
-                          flexWrap: "nowrap",
-                          margin: "0px",
-                          marginTop: "10px",
-                          padding: "0px",
-                        }}
-                      >
-                        <li>
-                          <Link className="linkpro">
-                            4 <IoBedOutline size={15}></IoBedOutline> غرف
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            3 <FaShower size={15}></FaShower> حمام
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            1{" "}
-                            <MdEmojiFoodBeverage
-                              size={15}
-                            ></MdEmojiFoodBeverage>{" "}
-                            مطبخ
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            200 <GiResize size={15}></GiResize> المساحة
-                          </Link>
-                        </li>
-                      </ul>
-                    </CardBody>
-                  </Card>
-                </SwiperSlide>
-                <SwiperSlide className="">
-                  {" "}
-                  <Card className="Card">
-                    <Row className="avalicon">
-                      <Col>
-                        <span className="icon">
-                          <FaExternalLinkAlt
-                            color="#fffcfcff"
-                            size={15}
-                          ></FaExternalLinkAlt>
-                        </span>
-                      </Col>
-                      <Col>{avelob()}</Col>
-                    </Row>
-                    <div className="zoom-img">
-                      <img src="https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg" />
-                    </div>
-
-                    <CardBody
-                      style={{
-                        direction: "rtl",
-                        display: "flex",
-                        flexFlow: "column",
-                        alignItems: "start",
-                        backgroundColor: "white",
-                        justifyContent: "end",
-                      }}
-                    >
-                      <CardTitle>
-                        <Link
-                          to="/unite/1"
-                          style={{
-                            textDecoration: "underline",
-                            color: "black",
-                          }}
-                        >
-                          K-110
-                        </Link>
-                      </CardTitle>
-                      <CardSubtitle>الرياض - النرجس</CardSubtitle>
-
-                      <ul
-                        style={{
-                          display: "flex",
-                          gap: "20px",
-                          listStyle: "none",
-                          flexWrap: "nowrap",
-                          margin: "0px",
-                          marginTop: "10px",
-                          padding: "0px",
-                        }}
-                      >
-                        <li>
-                          <Link className="linkpro">
-                            4 <IoBedOutline size={15}></IoBedOutline> غرف
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            3 <FaShower size={15}></FaShower> حمام
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            1{" "}
-                            <MdEmojiFoodBeverage
-                              size={15}
-                            ></MdEmojiFoodBeverage>{" "}
-                            مطبخ
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            200 <GiResize size={15}></GiResize> المساحة
-                          </Link>
-                        </li>
-                      </ul>
-                    </CardBody>
-                  </Card>
-                </SwiperSlide>
-                <SwiperSlide className="">
-                  {" "}
-                  <Card className="Card">
-                    <Row className="avalicon">
-                      <Col>
-                        <span className="icon">
-                          <FaExternalLinkAlt
-                            color="#fffcfcff"
-                            size={15}
-                          ></FaExternalLinkAlt>
-                        </span>
-                      </Col>
-                      <Col>{avelob()}</Col>
-                    </Row>
-                    <div className="zoom-img">
-                      <img src="https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg" />
-                    </div>
-
-                    <CardBody
-                      style={{
-                        direction: "rtl",
-                        display: "flex",
-                        flexFlow: "column",
-                        alignItems: "start",
-                        backgroundColor: "white",
-                        justifyContent: "end",
-                      }}
-                    >
-                      <CardTitle>
-                        <Link
-                          to="/unite/1"
-                          style={{
-                            textDecoration: "underline",
-                            color: "black",
-                          }}
-                        >
-                          K-110
-                        </Link>
-                      </CardTitle>
-                      <CardSubtitle>الرياض - النرجس</CardSubtitle>
-
-                      <ul
-                        style={{
-                          display: "flex",
-                          gap: "20px",
-                          listStyle: "none",
-                          flexWrap: "nowrap",
-                          margin: "0px",
-                          marginTop: "10px",
-                          padding: "0px",
-                        }}
-                      >
-                        <li>
-                          <Link className="linkpro">
-                            4 <IoBedOutline size={15}></IoBedOutline> غرف
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            3 <FaShower size={15}></FaShower> حمام
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            1{" "}
-                            <MdEmojiFoodBeverage
-                              size={15}
-                            ></MdEmojiFoodBeverage>{" "}
-                            مطبخ
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            200 <GiResize size={15}></GiResize> المساحة
-                          </Link>
-                        </li>
-                      </ul>
-                    </CardBody>
-                  </Card>
-                </SwiperSlide>
-
-                <SwiperSlide className="">
-                  <Card className="Card">
-                    <Row className="avalicon">
-                      <Col>
-                        <span className="icon">
-                          <FaExternalLinkAlt
-                            color="#fffcfcff"
-                            size={15}
-                          ></FaExternalLinkAlt>
-                        </span>
-                      </Col>
-                      <Col>{avelob()}</Col>
-                    </Row>
-                    <div className="zoom-img">
-                      <img src="https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg" />
-                    </div>
-
-                    <CardBody
-                      style={{
-                        direction: "rtl",
-                        display: "flex",
-                        flexFlow: "column",
-                        alignItems: "start",
-                        backgroundColor: "white",
-                        justifyContent: "end",
-                      }}
-                    >
-                      <CardTitle>
-                        <Link
-                          to="/unite/1"
-                          style={{
-                            textDecoration: "underline",
-                            color: "black",
-                          }}
-                        >
-                          K-110
-                        </Link>
-                      </CardTitle>
-                      <CardSubtitle>الرياض - النرجس</CardSubtitle>
-
-                      <ul
-                        style={{
-                          display: "flex",
-                          gap: "20px",
-                          listStyle: "none",
-                          flexWrap: "nowrap",
-                          margin: "0px",
-                          marginTop: "10px",
-                          padding: "0px",
-                        }}
-                      >
-                        <li>
-                          <Link className="linkpro">
-                            4 <IoBedOutline size={15}></IoBedOutline> غرف
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            3 <FaShower size={15}></FaShower> حمام
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            1{" "}
-                            <MdEmojiFoodBeverage
-                              size={15}
-                            ></MdEmojiFoodBeverage>{" "}
-                            مطبخ
-                          </Link>
-                        </li>
-                        <li>
-                          <Link className="linkpro">
-                            200 <GiResize size={15}></GiResize> المساحة
-                          </Link>
-                        </li>
-                      </ul>
-                    </CardBody>
-                  </Card>
-                </SwiperSlide>
+                          <li className="linkpro">
+                            4 <IoBedOutline size={15} /> غرف
+                          </li>
+                          <li className="linkpro">
+                            3 <FaShower size={15} /> حمام
+                          </li>
+                          <li className="linkpro">
+                            1 <MdEmojiFoodBeverage size={15} /> مطبخ
+                          </li>
+                          <li className="linkpro">
+                            200 <GiResize size={15} /> المساحة
+                          </li>
+                        </ul>
+                      </CardBody>
+                    </Card>
+                  </SwiperSlide>
+                ))}
               </Swiper>
             </div>
           </Col>
