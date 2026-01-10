@@ -7,7 +7,7 @@
 .vertical-carousel .carousel-item.active .carousel-caption.animate .btndiv {
   opacity: 1 !important;
   transform: translateY(0) !important;
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition: opacity 0.6s ease, transform 3s ease;
 }
 
 /* ===============================
