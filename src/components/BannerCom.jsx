@@ -6,6 +6,17 @@ import Btn from "./BtnCom";
 import "/src/Styles/BannerStyle.css";
 
 function banner() {
+  function handleSlide() {
+    const activeCaption = document.querySelector(
+      ".carousel-item.active .carousel-caption"
+    );
+    if (activeCaption) {
+      activeCaption.classList.remove("animate");
+      void activeCaption.offsetWidth; // 🔥 force reflow لإعادة تشغيل الأنيميشن
+      activeCaption.classList.add("animate");
+    }
+  }
+
   return (
     <div>
       <Carousel
@@ -14,6 +25,8 @@ function banner() {
         indicators={false}
         className="vertical-carousel"
         interval={3000}
+        onSlide={handleSlide}
+        onSlid={handleSlide} // لضمان الأنيميشن بعد الانتقال
       >
         <Carousel.Item>
           <Carousel.Caption className="text1">

@@ -1,4 +1,16 @@
 /* ===============================
+   Force Animation on Netlify
+================================ */
+.vertical-carousel .carousel-item.active .carousel-caption.animate .title1,
+.vertical-carousel .carousel-item.active .carousel-caption.animate .title2,
+.vertical-carousel .carousel-item.active .carousel-caption.animate .title3,
+.vertical-carousel .carousel-item.active .carousel-caption.animate .btndiv {
+  opacity: 1 !important;
+  transform: translateY(0) !important;
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+/* ===============================
    Carousel Wrapper
 ================================ */
 .vertical-carousel {
@@ -102,11 +114,10 @@
    Animation Base
 ================================ */
 .title1,
-.title2 {
-  opacity: 0;
-}
-.title3 .btndiv {
-  opacity: 0;
+.title2,
+.title3,
+.btndiv {
+  transition: opacity 0.6s ease, transform 0.6s ease;
 }
 
 /* اتجاهات الحركة */
@@ -180,11 +191,10 @@
    Animation Base
 ================================ */
   .title1,
-  .title2 {
-    opacity: 0;
-  }
-  .title3 .btndiv {
-    opacity: 0;
+  .title2,
+  .title3,
+  .btndiv {
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
   /* اتجاهات الحركة */
@@ -280,11 +290,10 @@
    Animation Base
 ================================ */
   .title1,
-  .title2 {
-    opacity: 0;
-  }
-  .title3 .btndiv {
-    opacity: 0;
+  .title2,
+  .title3,
+  .btndiv {
+    transition: opacity 0.6s ease, transform 0.6s ease;
   }
 
   /* اتجاهات الحركة */
