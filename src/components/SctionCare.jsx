@@ -1,6 +1,7 @@
 import { Col } from "react-bootstrap";
 import BtnCom from "/src/components/BtnCom";
 import "/src/Styles/SectionCare.css";
+import myimg from "/src/assets/hous.png";
 
 function SectionCare() {
   return (
@@ -24,7 +25,7 @@ function SectionCare() {
       >
         <img
           className="section-care-image"
-          src="/src/assets/hous.png"
+          src={myimg}
           loading="lazy"
           alt="house"
         />

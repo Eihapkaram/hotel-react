@@ -10,6 +10,7 @@ import Products from "./Veiwes/Products";
 import Orders from "./Veiwes/FixeingOrders";
 import Intersted from "./Veiwes/IntrestedPage";
 import SinglePro from "./Veiwes/SingelPro";
+import Login from "./Veiwes/Login";
 
 // Lazy Loading
 const NavBar = lazy(() => import("/src/components/NavBar"));
@@ -17,6 +18,8 @@ const Cart = lazy(() => import("./Veiwes/Cart"));
 const Home = lazy(() => import("./Veiwes/HomePage"));
 
 function App() {
+
+
   useEffect(() => {
     AOS.init({
       duration: 1000,
@@ -49,6 +52,7 @@ function App() {
           <Route path="/projects" element={<Products />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/intersted" element={<Intersted />} />
+          <Route path="/login" element={<Login />} />
           <Route path="/unite/:id" element={<SinglePro />} />
         </Routes>
       </Suspense>

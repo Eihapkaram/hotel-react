@@ -1,5 +1,6 @@
 import { Row } from "react-bootstrap";
 import "/src/Styles/SectionComStyle.css";
+import myimg from "/src/assets/wall3.png";
 function Section() {
   return (
     <div>
@@ -16,7 +17,7 @@ function Section() {
             مستدامة تلبي رغبة عملائها
           </span>
         </h3>
-        <img className="img" src="/src/assets/wall3.png" />
+        <img className="img" src={myimg} />
       </div>
     </div>
   );

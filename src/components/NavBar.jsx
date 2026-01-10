@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toggleAside, closeAside } from "/src/Redux/Slices/asideSlice";
 import "/src/Styles/Aside.css";
-
+import Logo from "/src/assets/KAAL.svg";
 function Aside() {
   const dispatch = useDispatch();
   const open = useSelector((state) => state.aside.open);
@@ -25,7 +25,7 @@ function Aside() {
       {/* Aside */}
       <aside className={`aside ${open ? "open" : ""}`}>
         <div className="aside-logo">
-          <img src="/src/assets/KAAL.svg" alt="logo" />
+          <img src={Logo} alt="logo" />
         </div>
 
         <nav className="aside-nav">

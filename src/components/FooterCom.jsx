@@ -3,6 +3,7 @@ import { FaFacebookSquare, FaYoutube } from "react-icons/fa";
 import { FaSquareXTwitter } from "react-icons/fa6";
 import { Link } from "react-router-dom";
 import "/src/Styles/FooterStyle.css";
+import myimg from "/src/assets/logo-white.svg";
 
 function Footer() {
   const links = [
@@ -45,7 +46,7 @@ function Footer() {
         </Col>
 
         <Col className="FootCol3">
-          <img src="/src/assets/logo-white.svg" alt="logo" />
+          <img src={myimg} alt="logo" />
         </Col>
       </Row>
 

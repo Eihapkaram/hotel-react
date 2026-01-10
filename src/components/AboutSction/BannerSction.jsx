@@ -1,5 +1,5 @@
 import { Container } from "react-bootstrap";
-
+import myimg from "/src/assets/KAAL.svg";
 function banner() {
   return (
     <div>
@@ -19,7 +19,7 @@ function banner() {
             justifyContent: "center",
           }}
         >
-          <img style={{ position: "relative" }} src="/src/assets/KAAL.svg" />
+          <img style={{ position: "relative" }} src={myimg} />
         </banner>
       </Container>
     </div>
