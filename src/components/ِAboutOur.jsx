@@ -4,6 +4,7 @@ import { PiFlowerTulipLight } from "react-icons/pi";
 import { FaUmbrellaBeach } from "react-icons/fa";
 import { GiEcology } from "react-icons/gi";
 import "/src/Styles/AboutOur.css";
+import myimg from "/src/assets/wall.png";
 function AboutOur() {
   return (
     <div>
@@ -49,7 +50,7 @@ function AboutOur() {
             </p>
           </div>
         </div>
-        <img className="imgOur" src="/src/assets/wall.png" />
+        <img className="imgOur" src={myimg} />
       </div>
     </div>
   );

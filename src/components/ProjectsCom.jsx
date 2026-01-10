@@ -2,6 +2,7 @@ import { Row } from "react-bootstrap";
 import "/src/Styles/ProjectsCard2.css";
 import Col, { useCol } from "react-bootstrap/esm/Col";
 import { Link, useNavigate } from "react-router-dom";
+
 function Projects() {
   const navigate = useNavigate();
 
