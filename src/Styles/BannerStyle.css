@@ -1,0 +1,380 @@
+/* ===============================
+   Carousel Wrapper
+================================ */
+.vertical-carousel {
+  position: relative;
+  background: transparent;
+}
+
+/* ===============================
+   Carousel Inner
+================================ */
+.vertical-carousel .carousel-inner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9; /* 👈 عدلي النسبة حسب صورك */
+  overflow: hidden;
+  border-radius: 14px;
+}
+
+/* ===============================
+   Carousel Item
+================================ */
+.vertical-carousel .carousel-item {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.5s ease-in-out,
+    transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1);
+  z-index: 1;
+}
+
+/* ===============================
+   Image (controls height)
+================================ */
+.vertical-carousel .carousel-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain; /* الصورة كاملة */
+  display: block;
+  background: #000;
+}
+
+/* ===============================
+   Overlay
+================================ */
+.vertical-carousel .carousel-item::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(19, 7, 7, 0.35);
+  z-index: 2;
+}
+
+/* ===============================
+   Active / Movement
+================================ */
+.vertical-carousel .carousel-item.active {
+  opacity: 1;
+  transform: translateY(0);
+  z-index: 4;
+}
+
+.vertical-carousel .carousel-item-prev,
+.vertical-carousel .carousel-item-end {
+  transform: translateY(100%);
+}
+
+.vertical-carousel .carousel-item-next,
+.vertical-carousel .carousel-item-start {
+  transform: translateY(-100%);
+}
+
+/* ===============================
+   Caption
+================================ */
+.vertical-carousel .carousel-caption {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: end;
+  padding-bottom: 40px;
+}
+
+.title {
+  color: #ffffff;
+  font-size: 2rem;
+  font-weight: bold;
+  position: relative;
+  left: 400px;
+  top: 250px;
+}
+
+.text1 {
+  color: #fff;
+  font-size: 0.9rem;
+  max-width: 90%;
+}
+/* ===============================
+   Animation Base
+================================ */
+.title1,
+.title2 {
+  opacity: 0;
+}
+.title3 .btndiv {
+  opacity: 0;
+}
+
+/* اتجاهات الحركة */
+
+.title1 {
+  transform: translateY(-30px);
+  transition: all, 3s;
+  margin-bottom: 20px;
+  font-size: 20px;
+  position: relative;
+  left: 50px;
+  opacity: 0;
+}
+.title2 {
+  transform: translateY(-30px);
+  margin-bottom: 50px;
+  font-size: 50px;
+  right: 0px;
+  position: relative;
+  transition: all, 5s;
+  opacity: 0;
+}
+
+.btndiv {
+  transform: translateY(60px);
+
+  position: relative;
+  transition: all, 4s;
+  opacity: 0;
+}
+.title3 {
+  transform: translateY(20px);
+  margin-bottom: 50px;
+  position: relative;
+  transition: all, 3s;
+  opacity: 0;
+}
+/* ===============================
+   Active Slide Animation
+================================ */
+.vertical-carousel .carousel-item.active .title1,
+.vertical-carousel .carousel-item.active .title2 {
+  opacity: 1;
+  transform: translateY(0);
+}
+.vertical-carousel .carousel-item.active .title3,
+.vertical-carousel .carousel-item.active .btndiv {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ===============================
+   Tablets (768px - 991px)
+================================ */
+@media (min-width: 768px) and (max-width: 991px) {
+  /* ===============================
+   Caption
+================================ */
+  .vertical-carousel .carousel-caption {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    left: 250px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+    padding-bottom: 40px;
+  }
+  /* ===============================
+   Animation Base
+================================ */
+  .title1,
+  .title2 {
+    opacity: 0;
+  }
+  .title3 .btndiv {
+    opacity: 0;
+  }
+
+  /* اتجاهات الحركة */
+
+  .title1 {
+    transform: translateY(-30px);
+    transition: all, 3s;
+    margin-bottom: 20px;
+    font-size: 20px;
+    position: relative;
+    left: 50px;
+    opacity: 0;
+  }
+  .title2 {
+    transform: translateY(-30px);
+    margin-bottom: 50px;
+    font-size: 50px;
+    right: 0px;
+    position: relative;
+    transition: all, 5s;
+    opacity: 0;
+  }
+
+  .btndiv {
+    transform: translateY(60px);
+
+    position: relative;
+    transition: all, 4s;
+    opacity: 0;
+  }
+  .title3 {
+    transform: translateY(20px);
+    margin-bottom: 50px;
+    position: relative;
+    transition: all, 3s;
+    opacity: 0;
+  }
+  /* ===============================
+   Active Slide Animation
+================================ */
+  .vertical-carousel .carousel-item.active .title1,
+  .vertical-carousel .carousel-item.active .title2 {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .vertical-carousel .carousel-item.active .title3,
+  .vertical-carousel .carousel-item.active .btndiv {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .vertical-carousel .carousel-inner {
+    width: 90%; /* نحصر العرض شوية */
+    max-width: 750px; /* أقصى عرض للتابلت */
+    aspect-ratio: 16 / 9; /* نسبة الصور كما هي */
+    margin: 0 auto; /* توسيط الكاروسيل */
+    border-radius: 20px; /* زاوية أكبر شوية */
+  }
+
+  .vertical-carousel .carousel-caption {
+    padding-left: 5%;
+    padding-bottom: 30px;
+    align-items: center; /* توسيط النص */
+    text-align: center;
+  }
+
+  .title {
+    font-size: 1.8rem; /* أكبر من الموبايل */
+  }
+
+  .text1 {
+    font-size: 1rem;
+    max-width: 85%;
+  }
+}
+/* Mobile */
+@media (max-width: 576px) {
+  /* ===============================
+   Caption
+================================ */
+  .vertical-carousel .carousel-caption {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    left: -60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+    padding-bottom: 40px;
+  }
+
+  /* ===============================
+   Animation Base
+================================ */
+  .title1,
+  .title2 {
+    opacity: 0;
+  }
+  .title3 .btndiv {
+    opacity: 0;
+  }
+
+  /* اتجاهات الحركة */
+
+  .title1 {
+    transform: translateY(-30px);
+    transition: all, 3s;
+    margin-bottom: 10px;
+    font-size: 20px;
+    position: relative;
+    left: 20px;
+    opacity: 0;
+  }
+  .title2 {
+    transform: translateY(-30px);
+    margin-bottom: 10px;
+    font-size: 20px;
+    right: 0px;
+    position: relative;
+    transition: all, 5s;
+    opacity: 0;
+  }
+
+  .btndiv {
+    transform: translateY(60px);
+
+    position: relative;
+    transition: all, 4s;
+    opacity: 0;
+  }
+  .title3 {
+    transform: translateY(20px);
+    margin-bottom: 20px;
+    position: relative;
+    transition: all, 3s;
+    opacity: 0;
+  }
+  /* ===============================
+   Active Slide Animation
+================================ */
+  .vertical-carousel .carousel-item.active .title1,
+  .vertical-carousel .carousel-item.active .title2 {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .vertical-carousel .carousel-item.active .title3,
+  .vertical-carousel .carousel-item.active .btndiv {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+/* ===============================
+   Tablets & iPad (768px - 1199px)
+================================ */
+@media (min-width: 768px) and (max-width: 1199px) {
+  /* ===============================
+   Caption
+================================ */
+  .vertical-carousel .carousel-caption {
+    position: absolute;
+    inset: 0;
+    z-index: 5;
+    left: 450px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: end;
+    padding-bottom: 40px;
+  }
+  .vertical-carousel .carousel-inner {
+    width: 95%; /* أكبر عرض للتابلت */
+    max-width: 900px; /* أقصى عرض واضح */
+    aspect-ratio: 16 / 9; /* نسبة الصور كما هي */
+    margin: 0 auto; /* توسيط الكاروسيل */
+    border-radius: 24px; /* زاوية أكبر شوية */
+  }
+
+  .vertical-carousel .carousel-caption {
+    padding-left: 5%;
+    padding-bottom: 40px;
+    align-items: center; /* توسيط النص */
+    text-align: center;
+  }
+
+  .title {
+    font-size: 2rem; /* أكبر وأكثر وضوحًا */
+  }
+
+  .text1 {
+    font-size: 1.1rem; /* نص مقروء */
+    max-width: 80%;
+  }
+}

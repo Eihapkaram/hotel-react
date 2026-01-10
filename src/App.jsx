@@ -5,7 +5,6 @@ import "aos/dist/aos.css";
 import "./App.css";
 import loaderLogo from "./assets/KAAL.svg";
 import AboutUs from "./Veiwes/AboutUs";
-import Footer from "./components/FooterCom";
 import Products from "./Veiwes/Products";
 import Orders from "./Veiwes/FixeingOrders";
 import Intersted from "./Veiwes/IntrestedPage";
@@ -14,12 +13,11 @@ import Login from "./Veiwes/Login";
 
 // Lazy Loading
 const NavBar = lazy(() => import("/src/components/NavBar"));
+const Footer = lazy(() => import("/src/components/FooterCom"));
 const Cart = lazy(() => import("./Veiwes/Cart"));
 const Home = lazy(() => import("./Veiwes/HomePage"));
 
 function App() {
-
-
   useEffect(() => {
     AOS.init({
       duration: 1000,
