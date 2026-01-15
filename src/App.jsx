@@ -11,6 +11,7 @@ import Intersted from "./Veiwes/IntrestedPage";
 import SinglePro from "./Veiwes/SingelPro";
 import Login from "./Veiwes/Login";
 
+import Dashboard from "./Veiwes/Dashboard";
 // Lazy Loading
 const NavBar = lazy(() => import("/src/components/NavBar"));
 const Footer = lazy(() => import("/src/components/FooterCom"));
@@ -52,6 +53,7 @@ function App() {
           <Route path="/intersted" element={<Intersted />} />
           <Route path="/login" element={<Login />} />
           <Route path="/unite/:id" element={<SinglePro />} />
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </Suspense>
       <Suspense>

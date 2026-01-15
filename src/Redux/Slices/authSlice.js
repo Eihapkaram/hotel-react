@@ -1,23 +1,32 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const API_URL = "http://127.0.0.1:8000/api";
+const API_URL = "http://127.0.0.1:8000/api"; // بدون / آخر
 
 /* =========================
    Login
 ========================= */
-export const loginUser = createAsyncThunk(
-  "auth/loginUser",
-  async (formData, { rejectWithValue }) => {
-    try {
-      const res = await axios.post(`${API_URL}/login`, formData);
-      console.log("done");
-      return res.data;
-    } catch (err) {
-      return rejectWithValue(err.response.data);
-    }
+export const loginUser = createAsyncThunk("auth/loginUser", async (props) => {
+  try {
+    const res = await axios.post(
+      `${API_URL}/login`,
+      {
+        email: props.email,
+        password: props.password,
+      },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      }
+    );
+    console.log("done");
+    return res.data;
+  } catch (err) {
+    return console.log("filed");
   }
-);
+});
 
 /* =========================
    Get Auth User
@@ -30,11 +39,12 @@ export const getAuthUser = createAsyncThunk(
       const res = await axios.get(`${API_URL}/user`, {
         headers: {
           Authorization: `Bearer ${token}`,
+          Accept: "application/json",
         },
       });
       return res.data.user;
     } catch (err) {
-      return rejectWithValue(err.response.data);
+      return rejectWithValue(err.response?.data || { message: "حدث خطأ ما" });
     }
   }
 );
@@ -53,12 +63,13 @@ export const logoutUser = createAsyncThunk(
         {
           headers: {
             Authorization: `Bearer ${token}`,
+            Accept: "application/json",
           },
         }
       );
       return true;
     } catch (err) {
-      return rejectWithValue(err.response.data);
+      return rejectWithValue(err.response?.data || { message: "حدث خطأ ما" });
     }
   }
 );
