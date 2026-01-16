@@ -1,6 +1,6 @@
 import { useState } from "react";
-import ProjectsTab from "./tabs/ProjectsTab";
-import MaintenanceTab from "./tabs/MaintenanceTab";
+import ProjectsTab from "../components/Dashboard/ProjectsTab";
+import MaintenanceTab from "../components/Dashboard/MaintenanceTab";
 
 export default function Dashboard() {
   const [tab, setTab] = useState("projects");

@@ -1,7 +1,7 @@
 // src/features/projects/ProjectsPage.jsx
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProjects, deleteProject } from "./projectsSlice";
+import { fetchProjects } from "../Redux/Slices/projectsSlice";
 
 export default function ProjectsPage() {
   const dispatch = useDispatch();
@@ -30,12 +30,7 @@ export default function ProjectsPage() {
               <td>{p.title}</td>
               <td>{p.status}</td>
               <td>
-                <button
-                  className="btn btn-danger btn-sm"
-                  onClick={() => dispatch(deleteProject(p.id))}
-                >
-                  Delete
-                </button>
+                <button className="btn btn-danger btn-sm">Delete</button>
               </td>
             </tr>
           ))}
