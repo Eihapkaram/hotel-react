@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import axios from "axios";
 
 /* ================= AXIOS INSTANCE ================= */
-const axiosInstance = axios.create({
+export const axiosInstance = axios.create({
   baseURL: "http://127.0.0.1:8000/api",
 });
 
@@ -201,6 +201,7 @@ const projectsSlice = createSlice({
   name: "projects",
   initialState: {
     list: [],
+    baseURL: "http://127.0.0.1:8000/api",
     loading: false,
     error: null,
   },

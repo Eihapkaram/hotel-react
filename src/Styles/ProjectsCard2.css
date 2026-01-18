@@ -81,12 +81,6 @@
   }
 }
 
-.avelublhome {
-  background-color: lightgreen;
-  padding: 5px;
-  border-radius: 5px;
-}
-
 /* ===============================
    Project Card
 ================================ */
@@ -100,7 +94,6 @@
   align-items: center;
   justify-content: center;
   border-radius: 10px;
-  background-image: url(https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg);
   background-repeat: no-repeat;
   background-position: center center;
   background-size: cover;
