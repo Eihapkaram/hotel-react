@@ -7,6 +7,8 @@ import {
   deleteProject,
   addProjectImages,
   deleteProjectImage,
+  addProjectFeature,
+  deleteProjectFeature,
   saveProjectLocation,
   deleteProjectLocation,
   addProjectWarranty,
@@ -21,6 +23,7 @@ export default function ProjectsTab() {
   const closeImagesModal = useRef(null);
   const closeLocationModal = useRef(null);
   const closeWarrantyModal = useRef(null);
+  const closeFeatureModal = useRef(null);
 
   /* ================= EMPTY FORMS ================= */
   const emptyForm = {
@@ -37,11 +40,7 @@ export default function ProjectsTab() {
     date: "",
   };
 
-  const emptyImagesForm = {
-    project_id: null,
-    images: [],
-  };
-
+  const emptyImagesForm = { project_id: null, images: [] };
   const emptyLocationForm = {
     project_id: null,
     city: "",
@@ -49,43 +48,38 @@ export default function ProjectsTab() {
     address: "",
     map_link: "",
   };
-
   const emptyWarrantyForm = {
     project_id: null,
     warranty_name: "",
     duration: "",
   };
+  const emptyFeatureForm = { project_id: null, name: "" };
 
   const [form, setForm] = useState(emptyForm);
   const [imagesForm, setImagesForm] = useState(emptyImagesForm);
   const [locationForm, setLocationForm] = useState(emptyLocationForm);
   const [warrantyForm, setWarrantyForm] = useState(emptyWarrantyForm);
+  const [featureForm, setFeatureForm] = useState(emptyFeatureForm);
 
   useEffect(() => {
     dispatch(fetchProjects());
+    console.log(projects);
   }, [dispatch]);
 
-  /* ================= PROJECT SUBMIT ================= */
+  /* ================= PROJECT ================= */
   const submitProject = (e) => {
     e.preventDefault();
     const data = new FormData();
     Object.entries(form).forEach(([key, value]) => {
-      if (value !== null && key !== "id") {
-        data.append(key, value);
-      }
+      if (value !== null && key !== "id") data.append(key, value);
     });
-
-    if (form.id) {
-      dispatch(updateProject({ id: form.id, data }));
-    } else {
-      dispatch(addProject(data));
-    }
-
+    form.id
+      ? dispatch(updateProject({ id: form.id, data }))
+      : dispatch(addProject(data));
     setForm(emptyForm);
     closeProjectModal.current?.click();
   };
 
-  /* ================= EDIT PROJECT ================= */
   const editProject = (p) => {
     setForm({
       id: p.id,
@@ -103,15 +97,11 @@ export default function ProjectsTab() {
   };
 
   /* ================= IMAGES ================= */
-  const openImagesModal = (project) => {
+  const openImagesModal = (project) =>
     setImagesForm({ project_id: project.id, images: [] });
-  };
-
   const submitImages = (e) => {
     e.preventDefault();
-    if (imagesForm.images.length > 0) {
-      dispatch(addProjectImages(imagesForm));
-    }
+    if (imagesForm.images.length > 0) dispatch(addProjectImages(imagesForm));
     setImagesForm(emptyImagesForm);
     closeImagesModal.current?.click();
   };
@@ -126,7 +116,6 @@ export default function ProjectsTab() {
       map_link: project.locationDetail?.map_link ?? "",
     });
   };
-
   const submitLocation = (e) => {
     e.preventDefault();
     dispatch(saveProjectLocation(locationForm));
@@ -135,19 +124,26 @@ export default function ProjectsTab() {
   };
 
   /* ================= WARRANTY ================= */
-  const openWarrantyModal = (project) => {
+  const openWarrantyModal = (project) =>
     setWarrantyForm({
       project_id: project.id,
       warranty_name: "",
       duration: "",
     });
-  };
-
   const submitWarranty = (e) => {
     e.preventDefault();
     dispatch(addProjectWarranty(warrantyForm));
     setWarrantyForm(emptyWarrantyForm);
     closeWarrantyModal.current?.click();
+  };
+
+  /* ================= FEATURES ================= */
+  const openFeatureModal = (project) =>
+    setFeatureForm({ project_id: project.id, name: "" });
+  const submitFeature = (e) => {
+    e.preventDefault();
+    dispatch(addProjectFeature(featureForm));
+    setFeatureForm(emptyFeatureForm);
   };
 
   return (
@@ -173,7 +169,7 @@ export default function ProjectsTab() {
             <th>Location</th>
             <th>Status</th>
             <th>Area</th>
-            <th width="300">Actions</th>
+            <th width="350">Actions</th>
           </tr>
         </thead>
         <tbody>
@@ -220,6 +216,14 @@ export default function ProjectsTab() {
                     onClick={() => openWarrantyModal(p)}
                   >
                     Warranty
+                  </button>
+                  <button
+                    className="btn btn-dark btn-sm me-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#featureModal"
+                    onClick={() => openFeatureModal(p)}
+                  >
+                    Features
                   </button>
                   <button
                     className="btn btn-danger btn-sm"
@@ -483,6 +487,54 @@ export default function ProjectsTab() {
             </div>
             <div className="modal-footer">
               <button className="btn btn-primary">Add Warranty</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+      {/* ================= FEATURES MODAL ================= */}
+      <div className="modal fade" id="featureModal" tabIndex="-1">
+        <div className="modal-dialog">
+          <form className="modal-content" onSubmit={submitFeature}>
+            <div className="modal-header">
+              <h5 className="modal-title">Project Features</h5>
+              <button
+                ref={closeFeatureModal}
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+              ></button>
+            </div>
+            <div className="modal-body">
+              <input
+                className="form-control mb-3"
+                placeholder="Feature name"
+                value={featureForm.name}
+                onChange={(e) =>
+                  setFeatureForm({ ...featureForm, name: e.target.value })
+                }
+                required
+              />
+              {projects
+                .find((p) => p.id === featureForm.project_id)
+                ?.features?.map((f) => (
+                  <div
+                    key={f.id}
+                    className="d-flex justify-content-between border p-2 mb-1"
+                  >
+                    <span>{f.name}</span>
+                    <button
+                      type="button"
+                      className="btn btn-sm btn-danger"
+                      onClick={() => dispatch(deleteProjectFeature(f.id))}
+                    >
+                      ×
+                    </button>
+                  </div>
+                ))}
+            </div>
+            <div className="modal-footer">
+              <button className="btn btn-primary">Add Feature</button>
             </div>
           </form>
         </div>

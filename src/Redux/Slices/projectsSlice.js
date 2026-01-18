@@ -24,7 +24,7 @@ export const fetchProjects = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data);
     }
-  }
+  },
 );
 
 /* ADD */
@@ -39,7 +39,7 @@ export const addProject = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data);
     }
-  }
+  },
 );
 
 /* UPDATE */
@@ -50,13 +50,13 @@ export const updateProject = createAsyncThunk(
       const res = await axiosInstance.post(
         `/projects/${id}?_method=PUT`,
         data,
-        { headers: { "Content-Type": "multipart/form-data" } }
+        { headers: { "Content-Type": "multipart/form-data" } },
       );
       return res.data;
     } catch (err) {
       return rejectWithValue(err.response?.data);
     }
-  }
+  },
 );
 
 /* DELETE */
@@ -69,12 +69,11 @@ export const deleteProject = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data);
     }
-  }
+  },
 );
 
 /* ================= PROJECT IMAGES ================= */
 
-/* ADD MULTIPLE */
 export const addProjectImages = createAsyncThunk(
   "projects/addImages",
   async ({ project_id, images }, { rejectWithValue }) => {
@@ -91,10 +90,9 @@ export const addProjectImages = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data);
     }
-  }
+  },
 );
 
-/* DELETE IMAGE */
 export const deleteProjectImage = createAsyncThunk(
   "projects/deleteImage",
   async (id, { rejectWithValue }) => {
@@ -104,7 +102,7 @@ export const deleteProjectImage = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data);
     }
-  }
+  },
 );
 
 /* ================= PROJECT LOCATION ================= */
@@ -118,7 +116,7 @@ export const saveProjectLocation = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data);
     }
-  }
+  },
 );
 
 export const deleteProjectLocation = createAsyncThunk(
@@ -130,7 +128,7 @@ export const deleteProjectLocation = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data);
     }
-  }
+  },
 );
 
 /* ================= PROJECT WARRANTY ================= */
@@ -144,7 +142,7 @@ export const addProjectWarranty = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data);
     }
-  }
+  },
 );
 
 export const deleteProjectWarranty = createAsyncThunk(
@@ -156,7 +154,45 @@ export const deleteProjectWarranty = createAsyncThunk(
     } catch (err) {
       return rejectWithValue(err.response?.data);
     }
-  }
+  },
+);
+
+/* ================= PROJECT FEATURES ================= */
+
+export const addProjectFeature = createAsyncThunk(
+  "projects/addFeature",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.post("/project-features", data);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+export const updateProjectFeature = createAsyncThunk(
+  "projects/updateFeature",
+  async ({ id, data }, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.put(`/project-features/${id}`, data);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+export const deleteProjectFeature = createAsyncThunk(
+  "projects/deleteFeature",
+  async (id, { rejectWithValue }) => {
+    try {
+      await axiosInstance.delete(`/project-features/${id}`);
+      return id;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
 );
 
 /* ================= SLICE ================= */
@@ -172,38 +208,32 @@ const projectsSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      /* ===== FETCH ===== */
+      /* FETCH */
       .addCase(fetchProjects.pending, (s) => {
         s.loading = true;
       })
       .addCase(fetchProjects.fulfilled, (s, a) => {
         s.loading = false;
-        s.list = Array.isArray(a.payload)
-          ? a.payload
-          : a.payload?.data ?? [];
+        s.list = Array.isArray(a.payload) ? a.payload : (a.payload?.data ?? []);
       })
       .addCase(fetchProjects.rejected, (s, a) => {
         s.loading = false;
         s.error = a.payload;
       })
 
-      /* ===== ADD ===== */
+      /* PROJECT */
       .addCase(addProject.fulfilled, (s, a) => {
         s.list.unshift(a.payload);
       })
-
-      /* ===== UPDATE ===== */
       .addCase(updateProject.fulfilled, (s, a) => {
         const i = s.list.findIndex((p) => p.id === a.payload.id);
         if (i !== -1) s.list[i] = a.payload;
       })
-
-      /* ===== DELETE ===== */
       .addCase(deleteProject.fulfilled, (s, a) => {
         s.list = s.list.filter((p) => p.id !== a.payload);
       })
 
-      /* ===== IMAGES ===== */
+      /* IMAGES */
       .addCase(addProjectImages.fulfilled, (s, a) => {
         const project = s.list.find((p) => p.id === a.payload.project_id);
         if (project) {
@@ -218,7 +248,7 @@ const projectsSlice = createSlice({
         });
       })
 
-      /* ===== LOCATION ===== */
+      /* LOCATION */
       .addCase(saveProjectLocation.fulfilled, (s, a) => {
         const project = s.list.find((p) => p.id === a.payload.project_id);
         if (project) project.locationDetail = a.payload;
@@ -231,7 +261,7 @@ const projectsSlice = createSlice({
         });
       })
 
-      /* ===== WARRANTY ===== */
+      /* WARRANTY */
       .addCase(addProjectWarranty.fulfilled, (s, a) => {
         const project = s.list.find((p) => p.id === a.payload.project_id);
         if (project) {
@@ -241,9 +271,30 @@ const projectsSlice = createSlice({
       .addCase(deleteProjectWarranty.fulfilled, (s, a) => {
         s.list.forEach((p) => {
           if (p.warranties) {
-            p.warranties = p.warranties.filter(
-              (w) => w.id !== a.payload
-            );
+            p.warranties = p.warranties.filter((w) => w.id !== a.payload);
+          }
+        });
+      })
+
+      /* FEATURES */
+      .addCase(addProjectFeature.fulfilled, (s, a) => {
+        const project = s.list.find((p) => p.id === a.payload.project_id);
+        if (project) {
+          project.features = [...(project.features || []), a.payload];
+        }
+      })
+      .addCase(updateProjectFeature.fulfilled, (s, a) => {
+        s.list.forEach((p) => {
+          if (p.features) {
+            const i = p.features.findIndex((f) => f.id === a.payload.id);
+            if (i !== -1) p.features[i] = a.payload;
+          }
+        });
+      })
+      .addCase(deleteProjectFeature.fulfilled, (s, a) => {
+        s.list.forEach((p) => {
+          if (p.features) {
+            p.features = p.features.filter((f) => f.id !== a.payload);
           }
         });
       });

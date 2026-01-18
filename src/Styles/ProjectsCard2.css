@@ -220,6 +220,18 @@ h6 {
   .iconhome {
     left: -100px;
   } /* يظهر كامل */
+  /* Hover Animation for Card */
+  .Cardhome:hover {
+    animation: softZoomMove2 2s ease-in-out infinite alternate;
+  }
+
+  @keyframes softZoomMove2 {
+    0% {
+    }
+    100% {
+      background-position-x: left;
+    }
+  }
 }
 
 /* Tablets 768px - 991px */

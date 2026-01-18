@@ -2,9 +2,32 @@ import { Row } from "react-bootstrap";
 import "/src/Styles/ProjectsCard2.css";
 import Col, { useCol } from "react-bootstrap/esm/Col";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState, useRef } from "react";
+import { fetchProjects } from "/src/Redux/Slices/projectsSlice";
 
 function Projects() {
+  const [avel, setavel] = useState();
+  function avelob() {
+    if (avel == "available") {
+      return <span className="avelubl">متاح</span>;
+    } else if (avel == "under_construction") {
+      return <span className="avelubl3">ينفذ </span>;
+    } else if (avel == "sale") {
+      return <span className="avelubl2">مباع </span>;
+    }
+  }
   const navigate = useNavigate();
+  const dis = useDispatch();
+
+  const { list: projects, loading } = useSelector((s) => s.projects);
+  useEffect(() => {
+    dis(fetchProjects());
+    console.log(projects);
+    projects.map((el) => {
+      setavel(el.status);
+    });
+  }, [projects]);
 
   return (
     <div>
@@ -26,132 +49,38 @@ function Projects() {
           </li>
         </ul>
       </div>
+
       <div className="continer2home">
-        <div className="Cardhome" style={{}}>
-          <Row className="avaliconhome">
-            <Col>
-              <span className="iconhome">غير</span>
-            </Col>
-            <Col>
-              <span className="avelublhome">متاح</span>
-            </Col>
-          </Row>
+        {projects.map((el) => {
+          return (
+            <div key={el.id} className="Cardhome" style={{}}>
+              <Row className="avaliconhome">
+                <Col>
+                  <span className="iconhome">غير</span>
+                </Col>
+                <Col>
+                  <span className="avelublhome">{avelob()}</span>
+                </Col>
+              </Row>
 
-          <Row className="caption2home" style={{}}>
-            <Col>
-              <div className="caption-text2home" style={{}}>
-                <h5>K-110</h5>
-                <h6>الرياض - النرجس</h6>
-              </div>
-            </Col>
+              <Row className="caption2home" style={{}}>
+                <Col>
+                  <div className="caption-text2home" style={{}}>
+                    <h5>{el.title}</h5>
+                    <h6> {el.location} </h6>
+                  </div>
+                  ;
+                </Col>
 
-            <Col>
-              <button className="caption-btn2home" style={{}}>
-                عدد الوحدات : 51
-              </button>
-            </Col>
-          </Row>
-        </div>
-        <div className="Cardhome" style={{}}>
-          <Row className="avaliconhome">
-            <Col>
-              <span className="iconhome">غير</span>
-            </Col>
-            <Col>
-              <span className="avelublhome">متاح</span>
-            </Col>
-          </Row>
-
-          <Row className="caption2home" style={{}}>
-            <Col>
-              <div className="caption-text2home" style={{}}>
-                <h5>K-110</h5>
-                <h6>الرياض - النرجس</h6>
-              </div>
-            </Col>
-
-            <Col>
-              <button className="caption-btn2home" style={{}}>
-                عدد الوحدات : 51
-              </button>
-            </Col>
-          </Row>
-        </div>
-        <div className="Cardhome" style={{}}>
-          <Row className="avaliconhome">
-            <Col>
-              <span className="iconhome">غير</span>
-            </Col>
-            <Col>
-              <span className="avelublhome">متاح</span>
-            </Col>
-          </Row>
-
-          <Row className="caption2home" style={{}}>
-            <Col>
-              <div className="caption-text2home" style={{}}>
-                <h5>K-110</h5>
-                <h6>الرياض - النرجس</h6>
-              </div>
-            </Col>
-
-            <Col>
-              <button className="caption-btn2home" style={{}}>
-                عدد الوحدات : 51
-              </button>
-            </Col>
-          </Row>
-        </div>
-        <div className="Cardhome" style={{}}>
-          <Row className="avaliconhome">
-            <Col>
-              <span className="iconhome">غير</span>
-            </Col>
-            <Col>
-              <span className="avelublhome">متاح</span>
-            </Col>
-          </Row>
-
-          <Row className="caption2home" style={{}}>
-            <Col>
-              <div className="caption-text2home" style={{}}>
-                <h5>K-110</h5>
-                <h6>الرياض - النرجس</h6>
-              </div>
-            </Col>
-
-            <Col>
-              <button className="caption-btn2home" style={{}}>
-                عدد الوحدات : 51
-              </button>
-            </Col>
-          </Row>
-        </div>
-        <div className="Cardhome" style={{}}>
-          <Row className="avaliconhome">
-            <Col>
-              <span className="iconhome">غير</span>
-            </Col>
-            <Col>
-              <span className="avelublhome">متاح</span>
-            </Col>
-          </Row>
-
-          <Row className="caption2home" style={{}}>
-            <Col>
-              <div className="caption-text2home" style={{}}>
-                <h5>K-110</h5>
-                <h6>الرياض - النرجس</h6>
-              </div>
-            </Col>
-
-            <Col>
-              <button className="caption-btn2home" style={{}}>
-                عدد الوحدات : 51
-              </button>
-            </Col>
-          </Row>
-        </div>
+                <Col>
+                  <button className="caption-btn2home" style={{}}>
+                    عدد الوحدات : 51
+                  </button>
+                </Col>
+              </Row>
+            </div>
+          );
+        })}
       </div>
     </div>
   );
