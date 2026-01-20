@@ -107,11 +107,9 @@
 
 @keyframes softZoomMove {
   0% {
-    background-size: 100% auto;
     background-position: 0% 0%;
   }
   100% {
-    background-size: 106% auto;
     background-position-x: left;
   }
 }

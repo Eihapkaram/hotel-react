@@ -26,6 +26,17 @@ export const fetchProjects = createAsyncThunk(
     }
   },
 );
+export const fetchProject = createAsyncThunk(
+  "projects/{project}",
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.get(`/project/${id}`);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
 
 /* ADD */
 export const addProject = createAsyncThunk(
@@ -161,13 +172,18 @@ export const deleteProjectWarranty = createAsyncThunk(
 
 export const addProjectFeature = createAsyncThunk(
   "projects/addFeature",
-  async (data, { rejectWithValue }) => {
-    try {
-      const res = await axiosInstance.post("/project-features", data);
-      return res.data;
-    } catch (err) {
-      return rejectWithValue(err.response?.data);
-    }
+  async ({ project_id, feature, image }, { rejectWithValue }) => {
+    const formData = new FormData();
+    formData.append("project_id", project_id);
+    formData.append("feature", feature);
+
+    if (image) formData.append("image", image);
+
+    const res = await axiosInstance.post("/project-features", formData, {
+      headers: { "Content-Type": "multipart/form-data" },
+    });
+
+    return res.data;
   },
 );
 
@@ -194,6 +210,57 @@ export const deleteProjectFeature = createAsyncThunk(
     }
   },
 );
+/* ================= UNIT TYPES ================= */
+
+export const addUnitType = createAsyncThunk(
+  "projects/addUnitType",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.post("/unit-types", data);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+export const deleteUnitType = createAsyncThunk(
+  "projects/deleteUnitType",
+  async (id, { rejectWithValue }) => {
+    try {
+      await axiosInstance.delete(`/unit-types/${id}`);
+      return id;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+/* ================= UNITS ================= */
+
+export const addUnit = createAsyncThunk(
+  "projects/addUnit",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.post("/units", data);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+export const deleteUnit = createAsyncThunk(
+  "projects/deleteUnit",
+  async (id, { rejectWithValue }) => {
+    try {
+      await axiosInstance.delete(`/units/${id}`);
+      return id;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
 
 /* ================= SLICE ================= */
 
@@ -202,6 +269,7 @@ const projectsSlice = createSlice({
   initialState: {
     list: [],
     baseURL: "http://127.0.0.1:8000/api",
+    pro: "",
     loading: false,
     error: null,
   },
@@ -210,6 +278,9 @@ const projectsSlice = createSlice({
     builder
 
       /* FETCH */
+      .addCase(fetchProject.fulfilled, (s, a) => {
+        s.pro = a.payload;
+      })
       .addCase(fetchProjects.pending, (s) => {
         s.loading = true;
       })
@@ -297,6 +368,58 @@ const projectsSlice = createSlice({
           if (p.features) {
             p.features = p.features.filter((f) => f.id !== a.payload);
           }
+        });
+      })
+      /* ================= UNIT TYPES ================= */
+
+      .addCase(addUnitType.fulfilled, (s, a) => {
+        const project = s.list.find((p) => p.id === a.payload.project_id);
+        if (project) {
+          project.unit_types = [
+            ...(project.unit_types || []),
+            {
+              ...a.payload,
+              units: [],
+            },
+          ];
+        }
+      })
+
+      .addCase(deleteUnitType.fulfilled, (s, a) => {
+        s.list.forEach((p) => {
+          if (p.unit_types) {
+            p.unit_types = p.unit_types.filter((t) => t.id !== a.payload);
+          }
+        });
+      })
+
+      /* ================= UNITS ================= */
+
+      .addCase(addUnit.fulfilled, (s, a) => {
+        s.list.forEach((project) => {
+          project.unit_types?.forEach((type) => {
+            if (type.id === a.payload.unit_type_id) {
+              type.units = [...(type.units || []), a.payload];
+              project.units_count = (project.units_count || 0) + 1;
+            }
+          });
+        });
+      })
+
+      .addCase(deleteUnit.fulfilled, (s, a) => {
+        s.list.forEach((project) => {
+          project.unit_types?.forEach((type) => {
+            if (type.units) {
+              const before = type.units.length;
+              type.units = type.units.filter((u) => u.id !== a.payload);
+              if (before !== type.units.length) {
+                project.units_count = Math.max(
+                  (project.units_count || 1) - 1,
+                  0,
+                );
+              }
+            }
+          });
         });
       });
   },

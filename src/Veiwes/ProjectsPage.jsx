@@ -1,16 +1,34 @@
 // src/features/projects/ProjectsPage.jsx
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchProjects } from "../Redux/Slices/projectsSlice";
-
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
+import { fetchProjects } from "/src/Redux/Slices/projectsSlice";
+import { useNavigate } from "react-router-dom";
 export default function ProjectsPage() {
-  const dispatch = useDispatch();
-  const projects = useSelector((s) => s.projects.list);
+  function renderStatus(status) {
+    switch (status) {
+      case "available":
+        return <span className="avelubl">متاح</span>;
+      case "sale":
+        return <span className="avelubl4">مباع</span>;
+      case "under_construction":
+        return <span className="avelubl3">ينفذ</span>;
+      default:
+        return null;
+    }
+  }
+
+  const navigate = useNavigate();
+
+  const dis = useDispatch();
+
+  const { list: projects, loading, baseURL } = useSelector((s) => s.projects);
 
   useEffect(() => {
-    dispatch(fetchProjects());
-  }, []);
-
+    dis(fetchProjects());
+    console.log(projects);
+  }, [dis]);
   return (
     <div>
       <h4>Projects</h4>

@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
 import {
   Container,
   Row,
@@ -26,7 +27,7 @@ L.Icon.Default.mergeOptions({
     "https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/images/marker-shadow.png",
 });
 
-export default function SingelPro() {
+export default function SingelPro(props) {
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -69,13 +70,22 @@ export default function SingelPro() {
     setErrors({});
   };
 
-  const images = [
-    "https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg",
-    "https://images.pexels.com/photos/221451/pexels-photo-221451.jpeg",
-    "https://images.pexels.com/photos/261102/pexels-photo-261102.jpeg",
-  ];
+  const [images, setImages] = useState([]);
+  const [loadingImages, setLoadingImages] = useState(true);
+  const [propertyLocation, setpropertyLocation] = useState();
 
-  const propertyLocation = [24.774265, 46.738586]; // Riyadh example
+  useEffect(() => {
+    if (props?.pro?.images) {
+      setImages(props.pro.images);
+
+      setpropertyLocation([
+        props.pro.location_detail.city,
+        props.pro.location_detail.district,
+      ]);
+
+      setLoadingImages(false);
+    }
+  }, [props.pro]);
 
   return (
     <Container fluid style={{ marginBlock: "40px" }}>
@@ -132,18 +142,49 @@ export default function SingelPro() {
 
             {/* Display Content */}
             {displayMode === "carousel" && (
-              <Carousel>
-                {images.map((img, i) => (
-                  <Carousel.Item key={i}>
-                    <img
-                      className="d-block w-100"
-                      src={img}
-                      alt={`Property ${i + 1}`}
-                      style={{ height: "600px", objectFit: "cover" }}
-                    />
-                  </Carousel.Item>
-                ))}
-              </Carousel>
+              <>
+                {loadingImages ? (
+                  <div
+                    style={{
+                      height: "600px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "20px",
+                    }}
+                  >
+                    ⏳ جاري تحميل الصور...
+                  </div>
+                ) : (
+                  <Carousel>
+                    {console.log(images)}
+                    {images.map((img, i) => (
+                      <Carousel.Item key={i}>
+                        <img
+                          className="d-block w-100"
+                          src={img.url}
+                          alt={`Property ${i + 1}`}
+                          style={{ height: "600px", objectFit: "cover" }}
+                        />
+                      </Carousel.Item>
+                    ))}
+                  </Carousel>
+                )}
+                {!loadingImages && images.length === 0 && (
+                  <div
+                    style={{
+                      height: "600px",
+                      display: "flex",
+                      alignItems: "center",
+                      justifyContent: "center",
+                      fontSize: "18px",
+                      color: "#777",
+                    }}
+                  >
+                    لا توجد صور لهذا المشروع
+                  </div>
+                )}
+              </>
             )}
 
             {displayMode === "map" && (
@@ -158,11 +199,10 @@ export default function SingelPro() {
                 </Marker>
               </MapContainer>
             )}
-
             {displayMode === "video" && (
               <div className="ratio ratio-16x9">
                 <iframe
-                  src="https://www.youtube.com/embed/dQw4w9WgXcQ"
+                  src={`https://www.youtube.com/embed/${props.pro.location_detail.map_link && props.pro.location_detail.map_link}`}
                   title="YouTube video"
                   allowFullScreen
                 ></iframe>

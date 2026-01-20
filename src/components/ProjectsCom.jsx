@@ -3,6 +3,7 @@ import "/src/Styles/ProjectsCard2.css";
 import Col from "react-bootstrap/esm/Col";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { FaExternalLinkAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
 import { fetchProjects } from "/src/Redux/Slices/projectsSlice";
 
@@ -63,7 +64,12 @@ function Projects() {
             >
               <Row className="avaliconhome">
                 <Col>
-                  <span className="iconhome">غير</span>
+                  <span
+                    onClick={() => navigate(`/unite/${el.id}`)}
+                    className="iconhome"
+                  >
+                    <FaExternalLinkAlt size={15} />
+                  </span>
                 </Col>
                 <Col>
                   <span className="avelublhome">{renderStatus(el.status)}</span>
@@ -79,8 +85,12 @@ function Projects() {
                 </Col>
 
                 <Col>
-                  <button className="caption-btn2home" style={{}}>
-                    عدد الوحدات : 51
+                  <button
+                    onClick={() => navigate(`/unite/${el.id}`)}
+                    className="caption-btn2home"
+                    style={{}}
+                  >
+                    عدد الوحدات : {el.units_count}
                   </button>
                 </Col>
               </Row>

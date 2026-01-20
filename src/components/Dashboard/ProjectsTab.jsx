@@ -12,6 +12,9 @@ import {
   saveProjectLocation,
   deleteProjectLocation,
   addProjectWarranty,
+  // 👇 الجديد
+  addUnitType,
+  addUnit,
   deleteProjectWarranty,
 } from "/src/Redux/Slices/projectsSlice";
 
@@ -53,7 +56,25 @@ export default function ProjectsTab() {
     warranty_name: "",
     duration: "",
   };
-  const emptyFeatureForm = { project_id: null, name: "" };
+  const emptyFeatureForm = { project_id: null, name: "", image: null };
+  const emptyUnitTypeForm = {
+    project_id: null,
+    name: "",
+  };
+
+  const emptyUnitForm = {
+    unit_type_id: null,
+    bedrooms: "",
+    bathrooms: "", // 👈 جديد
+    living_rooms: "",
+    title: "",
+    area: "",
+    price: "",
+    status: "available",
+  };
+
+  const [unitTypeForm, setUnitTypeForm] = useState(emptyUnitTypeForm);
+  const [unitForm, setUnitForm] = useState(emptyUnitForm);
 
   const [form, setForm] = useState(emptyForm);
   const [imagesForm, setImagesForm] = useState(emptyImagesForm);
@@ -136,14 +157,65 @@ export default function ProjectsTab() {
     setWarrantyForm(emptyWarrantyForm);
     closeWarrantyModal.current?.click();
   };
+  const openUnitTypeModal = (project) => {
+    setUnitTypeForm({
+      project_id: project.id,
+      name: "",
+    });
+  };
+
+  const openUnitModal = (unitType) => {
+    setUnitForm({
+      unit_type_id: unitType.id,
+      title: "",
+      bedrooms: "",
+      bathrooms: "", // 👈
+      living_rooms: "",
+      area: "",
+      price: "",
+      status: "available",
+    });
+  };
+
+  const submitUnitType = (e) => {
+    e.preventDefault();
+
+    dispatch(addUnitType(unitTypeForm));
+
+    setUnitTypeForm(emptyUnitTypeForm);
+  };
+  const submitUnit = (e) => {
+    e.preventDefault();
+
+    // إنشاء FormData
+    const data = new FormData();
+    Object.entries(unitForm).forEach(([key, value]) => {
+      if (value !== null && value !== "") data.append(key, value);
+    });
+
+    dispatch(addUnit(data)); // بعت FormData بدل object
+
+    setUnitForm(emptyUnitForm);
+  };
 
   /* ================= FEATURES ================= */
   const openFeatureModal = (project) =>
-    setFeatureForm({ project_id: project.id, name: "" });
+    setFeatureForm({ project_id: project.id, name: "", image: null });
+
+  // <-- تم تعديل هذا الجزء لإرسال الحقل "feature" بدل "name"
   const submitFeature = (e) => {
     e.preventDefault();
-    dispatch(addProjectFeature(featureForm));
+
+    dispatch(
+      addProjectFeature({
+        project_id: featureForm.project_id,
+        feature: featureForm.name,
+        image: featureForm.image,
+      }),
+    );
+
     setFeatureForm(emptyFeatureForm);
+    closeFeatureModal.current?.click();
   };
 
   return (
@@ -226,6 +298,15 @@ export default function ProjectsTab() {
                     Features
                   </button>
                   <button
+                    className="btn btn-primary btn-sm me-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#unitTypeModal"
+                    onClick={() => openUnitTypeModal(p)}
+                  >
+                    Unittype
+                  </button>
+
+                  <button
                     className="btn btn-danger btn-sm"
                     onClick={() => dispatch(deleteProject(p.id))}
                   >
@@ -234,8 +315,147 @@ export default function ProjectsTab() {
                 </td>
               </tr>
             ))}
+          {projects
+            .find((p) => p.id === unitTypeForm.project_id)
+            ?.unit_types?.map((ut) => (
+              <div key={ut.id} className="border p-2 mb-2">
+                <strong>{ut.name}</strong>
+
+                <button
+                  className="btn btn-sm btn-success ms-2"
+                  data-bs-toggle="modal"
+                  data-bs-target="#unitModal"
+                  onClick={() => openUnitModal(ut)}
+                >
+                  + Unit
+                </button>
+
+                <ul className="mt-2">
+                  {ut.units?.map((u) => (
+                    <li key={u.id}>
+                      <strong>{u.title}</strong> – {u.bedrooms} Beds –{" "}
+                      {u.bathrooms} Baths – {u.area} m² – {u.price} EGP
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
         </tbody>
       </table>
+      <div className="modal fade" id="unitTypeModal" tabIndex="-1">
+        <div className="modal-dialog">
+          <form className="modal-content" onSubmit={submitUnitType}>
+            <div className="modal-header">
+              <h5 className="modal-title">Add Unit Type</h5>
+            </div>
+
+            <div className="modal-body">
+              <input
+                className="form-control"
+                placeholder="Unit type name (A, B, Ground Floor...)"
+                value={unitTypeForm.name}
+                onChange={(e) =>
+                  setUnitTypeForm({ ...unitTypeForm, name: e.target.value })
+                }
+                required
+              />
+            </div>
+
+            <div className="modal-footer">
+              <button className="btn btn-primary">Add</button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div className="modal fade" id="unitModal" tabIndex="-1">
+        <div className="modal-dialog">
+          <form className="modal-content" onSubmit={submitUnit}>
+            <div className="modal-header">
+              <h5 className="modal-title">Add Unit</h5>
+            </div>
+
+            <div className="modal-body">
+              <div className="modal-body">
+                <input
+                  type="text"
+                  className="form-control mb-2"
+                  placeholder="Unit Title"
+                  value={unitForm.title}
+                  onChange={(e) =>
+                    setUnitForm({ ...unitForm, title: e.target.value })
+                  }
+                />
+
+                <input
+                  type="number"
+                  className="form-control mb-2"
+                  placeholder="Bathrooms"
+                  value={unitForm.bathrooms}
+                  onChange={(e) =>
+                    setUnitForm({ ...unitForm, bathrooms: e.target.value })
+                  }
+                />
+
+                <select
+                  className="form-select mb-2"
+                  value={unitForm.status}
+                  onChange={(e) =>
+                    setUnitForm({ ...unitForm, status: e.target.value })
+                  }
+                >
+                  <option value="available">Available</option>
+                  <option value="sold">Sold</option>
+                  <option value="reserved">Reserved</option>
+                </select>
+
+                <input
+                  type="number"
+                  className="form-control mb-2"
+                  placeholder="Bedrooms"
+                  value={unitForm.bedrooms}
+                  onChange={(e) =>
+                    setUnitForm({ ...unitForm, bedrooms: e.target.value })
+                  }
+                />
+
+                <input
+                  type="number"
+                  className="form-control mb-2"
+                  placeholder="Living rooms"
+                  value={unitForm.living_rooms}
+                  onChange={(e) =>
+                    setUnitForm({ ...unitForm, living_rooms: e.target.value })
+                  }
+                />
+
+                <input
+                  type="number"
+                  className="form-control mb-2"
+                  placeholder="Area"
+                  value={unitForm.area}
+                  onChange={(e) =>
+                    setUnitForm({ ...unitForm, area: e.target.value })
+                  }
+                />
+
+                <input
+                  type="number"
+                  className="form-control"
+                  placeholder="Price"
+                  value={unitForm.price}
+                  onChange={(e) =>
+                    setUnitForm({ ...unitForm, price: e.target.value })
+                  }
+                />
+              </div>
+            </div>
+
+            <div className="modal-footer">
+              <button className="btn btn-primary">Add Unit</button>
+            </div>
+          </form>
+        </div>
+      </div>
 
       {/* ================= PROJECT MODAL ================= */}
       <div className="modal fade" id="projectModal" tabIndex="-1">
@@ -515,6 +735,22 @@ export default function ProjectsTab() {
                 }
                 required
               />
+
+              <input
+                type="file"
+                className="form-control mb-3"
+                accept="image/*"
+                onChange={(e) => {
+                  const file = e.target.files[0];
+                  console.log("SELECTED FILE:", file);
+
+                  setFeatureForm((prev) => ({
+                    ...prev,
+                    image: file,
+                  }));
+                }}
+              />
+
               {projects
                 .find((p) => p.id === featureForm.project_id)
                 ?.features?.map((f) => (

@@ -1,6 +1,9 @@
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import SctionSin2 from "/src/components/FixeingOrder/SctionSin2";
 import "/src/Styles/ProjectsCards.css";
+import { BsFillCreditCard2FrontFill } from "react-icons/bs";
+import BtnCom from "/src/components/BtnCom";
 
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { IoBedOutline } from "react-icons/io5";
@@ -10,9 +13,13 @@ import { GiResize } from "react-icons/gi";
 import { MdEmojiFoodBeverage } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import { useNavigate } from "react-router-dom";
 import { useRef } from "react";
 import "swiper/css";
 import "swiper/css/navigation";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect } from "react";
+import { fetchProject, fetchProjects } from "/src/Redux/Slices/projectsSlice";
 
 import {
   Container,
@@ -27,18 +34,41 @@ import {
   CardBody,
   CardTitle,
   CardSubtitle,
+  CardText,
 } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
 export default function SingelPro() {
+  const [tab, setTab] = useState("projects");
+  const navigate = useNavigate();
   const [avel, setavel] = useState("avelbel");
-  function avelob() {
-    if (avel == "avelbel") {
-      return <span className="avelubl">متاح</span>;
-    } else if (avel == "work") {
-      return <span className="avelubl3">ينفذ </span>;
-    } else if (avel == "selled") {
-      return <span className="avelubl2">مباع </span>;
+  const { id } = useParams();
+  const dis = useDispatch();
+  const { pro } = useSelector((s) => s.projects);
+  const { list: projects, loading, baseURL } = useSelector((s) => s.projects);
+  function renderStatus(status) {
+    switch (status) {
+      case "available":
+        return <span className="avelubl">متاح</span>;
+      case "sale":
+        return <span className="avelubl4">مباع</span>;
+      case "under_construction":
+        return <span className="avelubl3">ينفذ</span>;
+      default:
+        return null;
+    }
+  }
+
+  function renderStatus2(status) {
+    switch (status) {
+      case "available":
+        return <span className="avelubl">متاح</span>;
+      case "sold":
+        return <span className="avelubl4">مباع</span>;
+      case "reserved":
+        return <span className="avelubl4">محجوز</span>;
+      default:
+        return null;
     }
   }
   const prevRef = useRef(null);
@@ -87,12 +117,12 @@ export default function SingelPro() {
   };
 
   // Dummy images for the carousel
-  const images = [
-    "https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg",
-    "https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg",
-    "https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg",
-  ];
 
+  useEffect(() => {
+    dis(fetchProject(id));
+    console.log(pro);
+    dis(fetchProjects());
+  }, [id]);
   return (
     <>
       {/* Success Toast */}
@@ -122,7 +152,7 @@ export default function SingelPro() {
           >
             <Row>
               <h2 style={{ fontWeight: 620 }} className="fw-bold">
-                K-110
+                {pro.title}
               </h2>
             </Row>
 
@@ -139,11 +169,11 @@ export default function SingelPro() {
             >
               <Col
                 style={{
-                  width: "130px",
+                  width: "fit-content",
                 }}
               >
                 <span className="linkpro" style={{ fontSize: "bold" }}>
-                  الرياض - النرجس
+                  {pro.location}
                 </span>
               </Col>
               |
@@ -152,22 +182,28 @@ export default function SingelPro() {
               </Col>
               |
               <Col style={{ width: "130px" }}>
-                <span className="linkpro">2024 Dec Sun</span>
+                <span className="linkpro">
+                  {Date(pro.created_at).slice(0, 10)}
+                </span>
               </Col>
             </Row>
             <Row>
               <div className="d-flex gap-3 flex-wrap">
-                <span className="linkpro">🛏 4 غرف نوم</span>
-                <span className="linkpro">🛁 4 حمام</span>
-                <span className="linkpro">📐 150 م²</span>
+                <span className="linkpro">
+                  🛏 {pro.overview_bedrooms} غرف نوم
+                </span>
+                <span className="linkpro">
+                  🛁 {pro.overview_bathrooms} حمام
+                </span>
+                <span className="linkpro">📐 {pro.area} م²</span>
               </div>
             </Row>
           </Col>
           <Col>
-            <h2 style={{ fontWeight: 620 }}>SAR 0</h2>
+            <h2 style={{ fontWeight: 620 }}> {pro.title}</h2>
           </Col>
         </Row>
-        <SctionSin2 />
+        <SctionSin2 pro={pro} />
 
         <Row
           className="align-items-start"
@@ -203,7 +239,7 @@ export default function SingelPro() {
                       <Col>
                         {" "}
                         غرف نوم <br />
-                        <strong>4</strong>
+                        <strong> {pro.overview_bedrooms}</strong>
                       </Col>
                     </Row>
                   </Col>
@@ -229,7 +265,7 @@ export default function SingelPro() {
                         {" "}
                         حمام
                         <br />
-                        <strong>3</strong>
+                        <strong>{pro.overview_bathrooms}</strong>
                       </Col>
                     </Row>
                   </Col>
@@ -257,7 +293,7 @@ export default function SingelPro() {
                         {" "}
                         مطبخ
                         <br />
-                        <strong>1</strong>
+                        <strong>{pro.overview_kitchens}</strong>
                       </Col>
                     </Row>
                   </Col>
@@ -283,7 +319,7 @@ export default function SingelPro() {
                         {" "}
                         المساحة
                         <br />
-                        <strong>200</strong>
+                        <strong>{pro.area}</strong>
                       </Col>
                     </Row>
                   </Col>
@@ -296,12 +332,7 @@ export default function SingelPro() {
             >
               <Card.Body>
                 <h5 className="fw-bold">التفاصيل</h5>
-                <p className="text-muted">
-                  مشروع صفوة النرجس K-110 يقع في الرياض حي النرجس، بموقع
-                  استراتيجي قريب من الخدمات والطرق الرئيسية، يضم المشروع أدوار
-                  سكنية فاخرة تلبي احتياجات العائلة السعودية بتصاميم حديثة
-                  وتوزيع مدروس.
-                </p>
+                <p className="text-muted">{pro.description}</p>
               </Card.Body>
             </Card>
 
@@ -313,55 +344,154 @@ export default function SingelPro() {
               <Card.Body>
                 <h5 className="fw-bold mb-3">المميزات</h5>
                 <Row>
-                  {[
-                    {
-                      text: "سطح خاص",
-                      img: "https://kaal.sa/assets/images/advantage/1694348679-7189.png",
-                    },
-                    {
-                      text: "حوش خاص",
-                      img: "https://kaal.sa/assets/images/advantage/1694348679-7189.png",
-                    },
-                    {
-                      text: "مدخل خاص",
-                      img: "https://kaal.sa/assets/images/advantage/1694348659-1496.png",
-                    },
-                    {
-                      text: "جلسة خارجية",
-                      img: "https://kaal.sa/assets/images/advantage/1694346319-1854.png",
-                    },
-                    {
-                      text: "حديقة",
-                      img: "https://kaal.sa/assets/images/advantage/1694346301-1334.png",
-                    },
-                    {
-                      text: "مصعد",
-                      img: "https://kaal.sa/assets/images/advantage/1694346267-5176.png",
-                    },
-                    {
-                      text: "تكييف مركزي",
-                      img: "https://kaal.sa/assets/images/advantage/1694344460-2811.png",
-                    },
-                  ].map((item, i) => (
-                    <Col key={i} md={4} className="mb-2">
-                      <Card
-                        style={{
-                          border: "1px solid  rgba(202, 188, 149, 0.12)",
-                          borderRadius: "15px",
-                          width: "fit-content",
-                        }}
-                        className="mb-4 shadow-sm"
-                      >
-                        <Card.Body>
-                          <img src={item.img} width={"100px"} />
-                        </Card.Body>
-                        <Card.Title>
-                          <strong> {item.text}</strong>
-                        </Card.Title>
-                      </Card>
-                    </Col>
-                  ))}
+                  {console.log(pro.features)}
+                  {pro.features &&
+                    pro.features.map((item, i) => (
+                      <Col key={i} md={4} className="mb-2">
+                        <Card
+                          style={{
+                            border: "1px solid  rgba(202, 188, 149, 0.12)",
+                            borderRadius: "15px",
+                            width: "fit-content",
+                          }}
+                          className="mb-4 shadow-sm"
+                        >
+                          <Card.Body>
+                            <img
+                              src={`${baseURL}/${item.image}`}
+                              width={"100px"}
+                            />
+                          </Card.Body>
+                          <Card.Title>
+                            <strong> {item.feature}</strong>
+                          </Card.Title>
+                        </Card>
+                      </Col>
+                    ))}
                 </Row>
+              </Card.Body>
+            </Card>
+            {/* الوحدات */}
+            <Card>
+              <Card.Body>
+                <h5 className="fw-bold">الوحدات </h5>
+                <div>
+                  {/* Tabs */}
+                  <ul className="nav nav-tabs mb-3">
+                    {pro.unit_types &&
+                      pro.unit_types.map((el, i) => {
+                        return (
+                          <li key={i}>
+                            <button
+                              className={`nav-link ${tab === el.name ? "active" : ""}`}
+                              onClick={() => setTab(el.name)}
+                            >
+                              <strong>{el.name}</strong>
+                            </button>
+                          </li>
+                        );
+                      })}
+                  </ul>
+                  {/* Content */}
+                  {pro.unit_types &&
+                    pro.unit_types.map((el, i) => {
+                      return (
+                        tab === el.name && (
+                          <Card>
+                            <Row
+                              className="text-center mb-3"
+                              style={{
+                                display: "flex",
+                                marginBlock: "20px",
+                                flexFlow: "row",
+                                flexWrap: "wrap",
+                                justifyContent: "center",
+                                alignItems: "center",
+                              }}
+                            >
+                              {/* Unit Type A */}
+                              {el.units.map((el, i) => {
+                                return (
+                                  <Col
+                                    style={{}}
+                                    key={i}
+                                    md={5}
+                                    className="mb-2"
+                                  >
+                                    <Card
+                                      style={{
+                                        height: "350px",
+                                        width: "350px",
+                                      }}
+                                    >
+                                      <Row
+                                        style={{
+                                          display: "flex",
+                                          gap: "50px",
+                                          marginBlock: "20px",
+                                          alignItems: "center",
+                                          justifyContent: "center",
+                                        }}
+                                      >
+                                        <CardTitle>
+                                          <strong>{el.title}</strong>
+                                        </CardTitle>
+                                        <Row>
+                                          <Col>
+                                            {" "}
+                                            <CardTitle>{el.title}</CardTitle>
+                                          </Col>
+                                          <Col>
+                                            {" "}
+                                            <CardTitle>
+                                              غرف النوم : {el.bedrooms}{" "}
+                                            </CardTitle>
+                                          </Col>
+                                        </Row>
+                                        <Row>
+                                          <Col>
+                                            {" "}
+                                            <CardTitle>
+                                              {" "}
+                                              <GiResize
+                                                size={20}
+                                              ></GiResize>{" "}
+                                              {el.area}م
+                                            </CardTitle>
+                                          </Col>
+                                          <Col>
+                                            {" "}
+                                            <CardTitle
+                                              style={{
+                                                display: "flex",
+                                                gap: "5px",
+                                              }}
+                                            >
+                                              <BsFillCreditCard2FrontFill
+                                                size={20}
+                                              />
+                                              {el.price}
+                                            </CardTitle>
+                                          </Col>
+                                        </Row>
+                                        <Row>
+                                          <BtnCom
+                                            text="هل انت مهتم بشراء الوحدة ؟ "
+                                            backcolor="black"
+                                            color="white"
+                                          />
+                                        </Row>
+                                      </Row>
+                                    </Card>
+                                  </Col>
+                                );
+                              })}
+                            </Row>
+                          </Card>
+                        )
+                      );
+                    })}
+                </div>
               </Card.Body>
             </Card>
 
@@ -489,23 +619,23 @@ export default function SingelPro() {
                   nextEl: nextRef.current,
                 }}
               >
-                {[1, 2, 3, 4, 5].map((item) => (
-                  <SwiperSlide key={item}>
+                {projects.map((item) => (
+                  <SwiperSlide key={item.id}>
                     <Card className="Card">
                       <Row className="avalicon">
                         <Col>
-                          <span className="icon">
+                          <span
+                            onClick={() => navigate(`/unite/${item.id}`)}
+                            className="icon"
+                          >
                             <FaExternalLinkAlt color="#fff" size={15} />
                           </span>
                         </Col>
-                        <Col>{avelob()}</Col>
+                        <Col>{renderStatus(item.status)}</Col>
                       </Row>
 
                       <div className="zoom-img">
-                        <img
-                          src="https://images.pexels.com/photos/2119714/pexels-photo-2119714.jpeg"
-                          alt="unit"
-                        />
+                        <img src={item.main_image_url} alt="unit" />
                       </div>
 
                       <CardBody
@@ -519,17 +649,17 @@ export default function SingelPro() {
                       >
                         <CardTitle>
                           <Link
-                            to="/unite/1"
+                            to={`/unite/${item.id}`}
                             style={{
                               textDecoration: "underline",
                               color: "black",
                             }}
                           >
-                            K-110
+                            {item.title}
                           </Link>
                         </CardTitle>
 
-                        <CardSubtitle>الرياض - النرجس</CardSubtitle>
+                        <CardSubtitle> {item.location} </CardSubtitle>
 
                         <ul
                           style={{
@@ -541,16 +671,19 @@ export default function SingelPro() {
                           }}
                         >
                           <li className="linkpro">
-                            4 <IoBedOutline size={15} /> غرف
+                            {item.overview_bedrooms} <IoBedOutline size={15} />{" "}
+                            غرف
                           </li>
                           <li className="linkpro">
-                            3 <FaShower size={15} /> حمام
+                            {item.overview_bathrooms} <FaShower size={15} />{" "}
+                            حمام
                           </li>
                           <li className="linkpro">
-                            1 <MdEmojiFoodBeverage size={15} /> مطبخ
+                            {item.overview_kitchens}{" "}
+                            <MdEmojiFoodBeverage size={15} /> مطبخ
                           </li>
                           <li className="linkpro">
-                            200 <GiResize size={15} /> المساحة
+                            {item.area} <GiResize size={15} /> المساحة
                           </li>
                         </ul>
                       </CardBody>
