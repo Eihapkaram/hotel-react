@@ -14,7 +14,10 @@ import {
 import { MapContainer, TileLayer, Marker, Popup } from "react-leaflet";
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import { useDispatch, useSelector } from "react-redux";
+import { addProjectInterest } from "/src/Redux/Slices/projectsSlice";
 import { BsImage, BsMap, BsYoutube } from "react-icons/bs";
+import SingleProjectSkeleton from "/src/components/SingleProjectSkeleton";
 
 // Fix default marker icon issue
 delete L.Icon.Default.prototype._getIconUrl;
@@ -28,6 +31,7 @@ L.Icon.Default.mergeOptions({
 });
 
 export default function SingelPro(props) {
+  const dis = useDispatch();
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -57,17 +61,26 @@ export default function SingelPro(props) {
     e.preventDefault();
     if (!validate()) return;
 
-    console.log("تم إرسال الطلب:", formData);
+    const payload = {
+      project_id: props.pro.id, // ✅ اهتمام بالمشروع
+      name: formData.name,
+      phone: formData.phone,
+      email: formData.email,
+      purchase_type: formData.purchaseType,
+      purpose: formData.purpose,
+    };
 
-    setShowToast(true);
-    setFormData({
-      name: "",
-      phone: "",
-      email: "",
-      purchaseType: "",
-      purpose: "",
+    dis(addProjectInterest(payload)).then(() => {
+      setShowToast(true);
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        purchaseType: "",
+        purpose: "",
+      });
+      setErrors({});
     });
-    setErrors({});
   };
 
   const [images, setImages] = useState([]);
@@ -261,28 +274,23 @@ export default function SingelPro(props) {
                   name="purchaseType"
                   value={formData.purchaseType}
                   onChange={handleChange}
-                  isInvalid={!!errors.purchaseType}
                 >
                   <option value="">نوع الشراء</option>
-                  <option>سكن</option>
-                  <option>استثمار</option>
+                  <option value="cash">كاش</option>
+                  <option value="bank">بنك</option>
                 </Form.Select>
-                <Form.Control.Feedback type="invalid">
-                  {errors.purchaseType}
-                </Form.Control.Feedback>
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Control
-                  placeholder="الغرض"
+                <Form.Select
                   name="purpose"
                   value={formData.purpose}
                   onChange={handleChange}
-                  isInvalid={!!errors.purpose}
-                />
-                <Form.Control.Feedback type="invalid">
-                  {errors.purpose}
-                </Form.Control.Feedback>
+                >
+                  <option value="">الغرض</option>
+                  <option value="housing">سكن</option>
+                  <option value="investment">استثمار</option>
+                </Form.Select>
               </Form.Group>
 
               <Button className="w-100" type="submit">

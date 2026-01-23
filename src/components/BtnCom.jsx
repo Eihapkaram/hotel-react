@@ -20,6 +20,8 @@ function Btn(props) {
       }}
     >
       <button
+     type={props.type}
+      onClick={props.onClick}
         style={{
           backgroundColor: props.backcolor,
           color: props.color,

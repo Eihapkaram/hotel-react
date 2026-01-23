@@ -144,7 +144,7 @@ h5,
 h6 {
   display: flex;
   flex-flow: row nowrap;
-  width: 130px;
+  width: 155px;
   margin: 0;
   direction: rtl;
 }

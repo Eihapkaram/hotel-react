@@ -71,6 +71,8 @@ export default function ProjectsTab() {
     area: "",
     price: "",
     status: "available",
+    description: "",
+    floor: "",
   };
 
   const [unitTypeForm, setUnitTypeForm] = useState(emptyUnitTypeForm);
@@ -173,7 +175,9 @@ export default function ProjectsTab() {
       living_rooms: "",
       area: "",
       price: "",
+      floor: "",
       status: "available",
+      description: "",
     });
   };
 
@@ -376,6 +380,16 @@ export default function ProjectsTab() {
 
             <div className="modal-body">
               <div className="modal-body">
+                <textarea
+                  className="form-control mb-2"
+                  placeholder="Unit Description"
+                  rows="3"
+                  value={unitForm.description}
+                  onChange={(e) =>
+                    setUnitForm({ ...unitForm, description: e.target.value })
+                  }
+                />
+
                 <input
                   type="text"
                   className="form-control mb-2"
@@ -383,6 +397,15 @@ export default function ProjectsTab() {
                   value={unitForm.title}
                   onChange={(e) =>
                     setUnitForm({ ...unitForm, title: e.target.value })
+                  }
+                />
+                <input
+                  type="text"
+                  className="form-control mb-2"
+                  placeholder="floor"
+                  value={unitForm.floor}
+                  onChange={(e) =>
+                    setUnitForm({ ...unitForm, floor: e.target.value })
                   }
                 />
 

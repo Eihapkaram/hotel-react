@@ -13,8 +13,159 @@ axiosInstance.interceptors.request.use((config) => {
 });
 
 /* ================= PROJECTS ================= */
+/* ================= PROJECT INTERESTS ================= */
+/* ================= MAINTENANCE REQUEST ================= */
+
+export const addMaintenanceRequest = createAsyncThunk(
+  "projects/addMaintenanceRequest",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.post("/maintenance-requests", {
+        full_name: data.full_name,
+        phone: data.phone,
+        email: data.email,
+        project_id: data.project_id,
+        unit: data.unit,
+        request_type: data.request_type,
+        unit_received: data.unit_received ?? false,
+        message: data.message,
+      });
+
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+export const fetchMaintenanceRequests = createAsyncThunk(
+  "projects/fetchMaintenanceRequests",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.get("/maintenance-requests");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+export const fetchMaintenanceRequest = createAsyncThunk(
+  "projects/fetchMaintenanceRequest",
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.get(`/maintenance-requests/${id}`);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+export const fetchGeneralInterests = createAsyncThunk(
+  "projects/fetchGeneralInterests",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.get("/general-interests");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+/* FETCH ALL */
+export const fetchProjectInterests = createAsyncThunk(
+  "projects/fetchInterests",
+  async (_, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.get("/project-interests");
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+/* ================= GENERAL INTERESTS ================= */
+
+/* ADD GENERAL INTEREST */
+export const addGeneralInterest = createAsyncThunk(
+  "projects/addGeneralInterest",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.post("/general-interests", {
+        name: data.name,
+        phone: data.phone,
+        max_price: data.price,
+        property_type: data.type,
+        finance_type: data.finance,
+        district: data.district,
+        beds: data.beds,
+        baths: data.baths,
+      });
+      return res.data.data ?? res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+/* ADD */
+export const addProjectInterest = createAsyncThunk(
+  "projects/addInterest",
+  async (data, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.post("/project-interests", data);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+/* SHOW ONE */
+export const fetchProjectInterest = createAsyncThunk(
+  "projects/fetchInterest",
+  async (id, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.get(`/project-interests/${id}`);
+      return res.data;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
+/* DELETE */
+export const deleteProjectInterest = createAsyncThunk(
+  "projects/deleteInterest",
+  async (id, { rejectWithValue }) => {
+    try {
+      await axiosInstance.delete(`/project-interests/${id}`);
+      return id;
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
 
 /* FETCH */
+/* ================= FETCH UNITS BY TYPE ================= */
+
+export const fetchUnitsByType = createAsyncThunk(
+  "projects/fetchUnitsByType",
+  async (unitTypeId, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.get(`/unit-types/${unitTypeId}/units`);
+      return {
+        unitTypeId,
+        units: res.data,
+      };
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
 export const fetchProjects = createAsyncThunk(
   "projects/fetch",
   async (_, { rejectWithValue }) => {
@@ -271,11 +422,54 @@ const projectsSlice = createSlice({
     baseURL: "http://127.0.0.1:8000/api",
     pro: "",
     loading: false,
+    interests: [], // ✅ كل الاهتمامات
+    interest: null, // ✅ اهتمام واحد
+    generalInterests: [], // ✅ الاهتمامات العامة
+    generalInterest: null,
+
+    maintenanceRequests: [], // ✅
+    maintenanceRequest: null, // ✅
+
+    unitsLoading: {}, // 🔥 مهم
     error: null,
   },
   reducers: {},
   extraReducers: (builder) => {
     builder
+      /* ================= PROJECT INTERESTS ================= */
+
+      .addCase(fetchProjectInterests.pending, (s) => {
+        s.loading = true;
+      })
+      .addCase(fetchProjectInterests.fulfilled, (s, a) => {
+        s.loading = false;
+        s.interests = a.payload;
+      })
+      .addCase(fetchProjectInterests.rejected, (s, a) => {
+        s.loading = false;
+        s.error = a.payload;
+      })
+
+      .addCase(addProjectInterest.fulfilled, (s, a) => {
+        s.interests.unshift(a.payload);
+
+        // لو الاهتمام بالمشروع المفتوح
+        if (s.pro?.id === a.payload.project_id) {
+          s.pro.interests = [...(s.pro.interests || []), a.payload];
+        }
+      })
+
+      .addCase(fetchProjectInterest.fulfilled, (s, a) => {
+        s.interest = a.payload;
+      })
+
+      .addCase(deleteProjectInterest.fulfilled, (s, a) => {
+        s.interests = s.interests.filter((i) => i.id !== a.payload);
+
+        if (s.pro?.interests) {
+          s.pro.interests = s.pro.interests.filter((i) => i.id !== a.payload);
+        }
+      })
 
       /* FETCH */
       .addCase(fetchProject.fulfilled, (s, a) => {
@@ -406,6 +600,29 @@ const projectsSlice = createSlice({
         });
       })
 
+      /* ================= FETCH UNITS ================= */
+
+      .addCase(fetchUnitsByType.pending, (s, a) => {
+        s.unitsLoading[a.meta.arg] = true;
+      })
+
+      .addCase(fetchUnitsByType.fulfilled, (s, a) => {
+        const { unitTypeId, units } = a.payload;
+
+        s.unitsLoading[unitTypeId] = false;
+
+        if (s.pro?.unit_types) {
+          const type = s.pro.unit_types.find((t) => t.id === unitTypeId);
+          if (type) {
+            type.units = units;
+          }
+        }
+      })
+
+      .addCase(fetchUnitsByType.rejected, (s, a) => {
+        s.unitsLoading[a.meta.arg] = false;
+      })
+
       .addCase(deleteUnit.fulfilled, (s, a) => {
         s.list.forEach((project) => {
           project.unit_types?.forEach((type) => {
@@ -421,6 +638,65 @@ const projectsSlice = createSlice({
             }
           });
         });
+      })
+      /* ================= GENERAL INTERESTS ================= */
+
+      .addCase(addGeneralInterest.pending, (s) => {
+        s.loading = true;
+      })
+
+      .addCase(addGeneralInterest.fulfilled, (s, a) => {
+        s.loading = false;
+        s.generalInterests.unshift(a.payload);
+      })
+
+      .addCase(addGeneralInterest.rejected, (s, a) => {
+        s.loading = false;
+        s.error = a.payload;
+      })
+      .addCase(fetchGeneralInterests.pending, (s) => {
+        s.loading = true;
+      })
+      .addCase(fetchGeneralInterests.fulfilled, (s, a) => {
+        s.loading = false;
+        s.generalInterests = Array.isArray(a.payload)
+          ? a.payload
+          : (a.payload?.data ?? []);
+      })
+      .addCase(fetchGeneralInterests.rejected, (s, a) => {
+        s.loading = false;
+        s.error = a.payload;
+      })
+      .addCase(fetchMaintenanceRequests.pending, (s) => {
+        s.loading = true;
+      })
+      .addCase(fetchMaintenanceRequests.fulfilled, (s, a) => {
+        s.loading = false;
+        s.maintenanceRequests = Array.isArray(a.payload)
+          ? a.payload
+          : (a.payload?.data ?? []);
+      })
+      .addCase(fetchMaintenanceRequests.rejected, (s, a) => {
+        s.loading = false;
+        s.error = a.payload;
+      })
+      .addCase(fetchMaintenanceRequest.fulfilled, (s, a) => {
+        s.maintenanceRequest = a.payload;
+      })
+      /* ================= ADD MAINTENANCE REQUEST ================= */
+
+      .addCase(addMaintenanceRequest.pending, (s) => {
+        s.loading = true;
+      })
+
+      .addCase(addMaintenanceRequest.fulfilled, (s, a) => {
+        s.loading = false;
+        s.maintenanceRequests.unshift(a.payload);
+      })
+
+      .addCase(addMaintenanceRequest.rejected, (s, a) => {
+        s.loading = false;
+        s.error = a.payload;
       });
   },
 });

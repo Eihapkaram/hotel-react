@@ -4,9 +4,13 @@ import SctionSin2 from "/src/components/FixeingOrder/SctionSin2";
 import "/src/Styles/ProjectsCards.css";
 import { BsFillCreditCard2FrontFill } from "react-icons/bs";
 import BtnCom from "/src/components/BtnCom";
+import SingleProjectSkeleton from "/src/components/SingleProjectSkeleton";
+import { addProjectInterest } from "/src/Redux/Slices/projectsSlice";
+import { Modal } from "react-bootstrap";
 
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { IoBedOutline } from "react-icons/io5";
+import { fetchUnitsByType } from "/src/Redux/Slices/projectsSlice";
 
 import { FaShower } from "react-icons/fa";
 import { GiResize } from "react-icons/gi";
@@ -39,9 +43,11 @@ import {
 import { Link } from "react-router-dom";
 
 export default function SingelPro() {
-  const [tab, setTab] = useState("projects");
+  const [tab, setTab] = useState(null);
   const navigate = useNavigate();
   const [avel, setavel] = useState("avelbel");
+  const unitsLoading = useSelector((s) => s.projects.unitsLoading);
+
   const { id } = useParams();
   const dis = useDispatch();
   const { pro } = useSelector((s) => s.projects);
@@ -71,6 +77,9 @@ export default function SingelPro() {
         return null;
     }
   }
+  const [showModal, setShowModal] = useState(false);
+  const [selectedUnit, setSelectedUnit] = useState(null);
+
   const prevRef = useRef(null);
   const nextRef = useRef(null);
   const [formData, setFormData] = useState({
@@ -103,26 +112,52 @@ export default function SingelPro() {
     e.preventDefault();
     if (!validate()) return;
 
-    console.log("تم إرسال الطلب:", formData);
-
-    setShowToast(true);
-    setFormData({
-      name: "",
-      phone: "",
-      email: "",
-      purchaseType: "",
-      purpose: "",
+    dis(
+      addProjectInterest({
+        project_id: pro.id, // ✅ المشروع
+        unit_id: selectedUnit?.id || null, // ✅ الوحدة (اختياري)
+        name: formData.name,
+        phone: formData.phone,
+        email: formData.email,
+        purchase_type: formData.purchaseType,
+        purpose: formData.purpose,
+      }),
+    ).then(() => {
+      setShowToast(true);
+      setShowModal(false);
+      setFormData({
+        name: "",
+        phone: "",
+        email: "",
+        purchaseType: "",
+        purpose: "",
+      });
+      setErrors({});
     });
-    setErrors({});
   };
 
   // Dummy images for the carousel
 
   useEffect(() => {
+    if (pro?.unit_types?.length) {
+      dis(fetchUnitsByType(pro.unit_types[0].id));
+    }
+  }, [pro]);
+  useEffect(() => {
     dis(fetchProject(id));
+  }, [id, dis]);
+  useEffect(() => {
+    if (!loading) {
+      dis(fetchProjects());
+    }
+  }, [dis]);
+  useEffect(() => {
     console.log(pro);
-    dis(fetchProjects());
-  }, [id]);
+    if (pro?.unit_types?.length && tab === null) {
+      setTab(pro.unit_types[0].name);
+    }
+  }, [pro, tab]);
+
   return (
     <>
       {/* Success Toast */}
@@ -182,9 +217,7 @@ export default function SingelPro() {
               </Col>
               |
               <Col style={{ width: "130px" }}>
-                <span className="linkpro">
-                  {Date(pro.created_at).slice(0, 10)}
-                </span>
+                <span className="linkpro">{Date(pro.date).slice(0, 10)}</span>
               </Col>
             </Row>
             <Row>
@@ -199,9 +232,7 @@ export default function SingelPro() {
               </div>
             </Row>
           </Col>
-          <Col>
-            <h2 style={{ fontWeight: 620 }}> {pro.title}</h2>
-          </Col>
+          <Col></Col>
         </Row>
         <SctionSin2 pro={pro} />
 
@@ -372,126 +403,137 @@ export default function SingelPro() {
               </Card.Body>
             </Card>
             {/* الوحدات */}
-            <Card>
+            {/* الوحدات */}
+            <Card className="mb-4 shadow-sm">
               <Card.Body>
-                <h5 className="fw-bold">الوحدات </h5>
-                <div>
-                  {/* Tabs */}
-                  <ul className="nav nav-tabs mb-3">
-                    {pro.unit_types &&
-                      pro.unit_types.map((el, i) => {
-                        return (
-                          <li key={i}>
-                            <button
-                              className={`nav-link ${tab === el.name ? "active" : ""}`}
-                              onClick={() => setTab(el.name)}
-                            >
-                              <strong>{el.name}</strong>
-                            </button>
-                          </li>
-                        );
-                      })}
-                  </ul>
-                  {/* Content */}
-                  {pro.unit_types &&
-                    pro.unit_types.map((el, i) => {
-                      return (
-                        tab === el.name && (
-                          <Card>
-                            <Row
-                              className="text-center mb-3"
-                              style={{
-                                display: "flex",
-                                marginBlock: "20px",
-                                flexFlow: "row",
-                                flexWrap: "wrap",
-                                justifyContent: "center",
-                                alignItems: "center",
-                              }}
-                            >
-                              {/* Unit Type A */}
-                              {el.units.map((el, i) => {
-                                return (
-                                  <Col
-                                    style={{}}
-                                    key={i}
-                                    md={5}
-                                    className="mb-2"
-                                  >
-                                    <Card
-                                      style={{
-                                        height: "350px",
-                                        width: "350px",
-                                      }}
-                                    >
-                                      <Row
-                                        style={{
-                                          display: "flex",
-                                          gap: "50px",
-                                          marginBlock: "20px",
-                                          alignItems: "center",
-                                          justifyContent: "center",
-                                        }}
+                <h5 className="fw-bold">الوحدات</h5>
+
+                {/* Tabs */}
+                <ul className="nav nav-tabs mb-3">
+                  {pro.unit_types?.map((type) => (
+                    <li key={type.id}>
+                      <button
+                        className={`nav-link ${tab === type.name ? "active" : ""}`}
+                        onClick={() => {
+                          setTab(type.name);
+
+                          if (!type.units) {
+                            dis(fetchUnitsByType(type.id));
+                          }
+                        }}
+                      >
+                        <strong>{type.name}</strong>
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Content */}
+                {pro.unit_types?.map((type) => {
+                  if (tab !== type.name) return null;
+
+                  return (
+                    <div key={type.id}>
+                      {/* Loading */}
+                      {unitsLoading[type.id] && (
+                        <div className="text-center py-4">
+                          <span>⏳ جاري تحميل الوحدات...</span>
+                        </div>
+                      )}
+
+                      {/* Units */}
+                      {type.units && (
+                        <Row className="justify-content-center">
+                          {type.units.map((unit) => (
+                            <Col key={unit.id} md={5} className="mb-3">
+                              <Card
+                                style={{
+                                  border: "1px solid rgba(202, 188, 149, 0.12)",
+                                  borderRadius: "15px",
+                                  width: "fit-content",
+                                }}
+                                className="unitCard mb-4 shadow-sm"
+                              >
+                                {" "}
+                                <Row
+                                  style={{
+                                    display: "flex",
+                                    gap: "50px",
+                                    marginBlock: "20px",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                  }}
+                                >
+                                  {" "}
+                                  <CardTitle>
+                                    {" "}
+                                    <strong className="unitCardtitle">
+                                      {" "}
+                                      {unit.title}{" "}
+                                    </strong>{" "}
+                                  </CardTitle>{" "}
+                                  <Row>
+                                    {" "}
+                                    <Col>
+                                      {" "}
+                                      <CardTitle>
+                                        {" "}
+                                        الدور : {unit.floor}{" "}
+                                      </CardTitle>{" "}
+                                    </Col>{" "}
+                                    <Col>
+                                      {" "}
+                                      <CardTitle>
+                                        {" "}
+                                        عدد الغرف : {unit.bedrooms}{" "}
+                                      </CardTitle>{" "}
+                                    </Col>{" "}
+                                  </Row>{" "}
+                                  <Row>
+                                    {" "}
+                                    <Col>
+                                      {" "}
+                                      <CardTitle>
+                                        {" "}
+                                        <GiResize size={20}></GiResize>{" "}
+                                        {unit.area}م{" "}
+                                      </CardTitle>{" "}
+                                    </Col>{" "}
+                                    <Col>
+                                      {" "}
+                                      <CardTitle
+                                        style={{ display: "flex", gap: "5px" }}
                                       >
-                                        <CardTitle>
-                                          <strong>{el.title}</strong>
-                                        </CardTitle>
-                                        <Row>
-                                          <Col>
-                                            {" "}
-                                            <CardTitle>{el.title}</CardTitle>
-                                          </Col>
-                                          <Col>
-                                            {" "}
-                                            <CardTitle>
-                                              غرف النوم : {el.bedrooms}{" "}
-                                            </CardTitle>
-                                          </Col>
-                                        </Row>
-                                        <Row>
-                                          <Col>
-                                            {" "}
-                                            <CardTitle>
-                                              {" "}
-                                              <GiResize
-                                                size={20}
-                                              ></GiResize>{" "}
-                                              {el.area}م
-                                            </CardTitle>
-                                          </Col>
-                                          <Col>
-                                            {" "}
-                                            <CardTitle
-                                              style={{
-                                                display: "flex",
-                                                gap: "5px",
-                                              }}
-                                            >
-                                              <BsFillCreditCard2FrontFill
-                                                size={20}
-                                              />
-                                              {el.price}
-                                            </CardTitle>
-                                          </Col>
-                                        </Row>
-                                        <Row>
-                                          <BtnCom
-                                            text="هل انت مهتم بشراء الوحدة ؟ "
-                                            backcolor="black"
-                                            color="white"
-                                          />
-                                        </Row>
-                                      </Row>
-                                    </Card>
-                                  </Col>
-                                );
-                              })}
-                            </Row>
-                          </Card>
-                        )
-                      );
-                    })}
-                </div>
+                                        {" "}
+                                        <BsFillCreditCard2FrontFill
+                                          size={20}
+                                        />{" "}
+                                        {unit.price}{" "}
+                                      </CardTitle>{" "}
+                                    </Col>{" "}
+                                  </Row>{" "}
+                                  <Row>
+                                    {" "}
+                                    <BtnCom
+                                      text="هل انت مهتم بشراء الوحدة ؟ "
+                                      backcolor="black"
+                                      type="button"
+                                      color="white"
+                                      onClick={() => {
+                                        setSelectedUnit(unit); // ✅ نحدد الوحدة
+                                        setShowModal(true); // ✅ نفتح الفورم
+                                      }}
+                                    />{" "}
+                                  </Row>{" "}
+                                </Row>{" "}
+                              </Card>
+                            </Col>
+                          ))}
+                        </Row>
+                      )}
+                    </div>
+                  );
+                })}
               </Card.Body>
             </Card>
 
@@ -695,6 +737,74 @@ export default function SingelPro() {
           </Col>
         </Row>
       </Container>
+      <Modal show={showModal} onHide={() => setShowModal(false)} centered>
+        <Modal.Header closeButton>
+          <Modal.Title>تسجيل الاهتمام</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-2">
+              <Form.Label>الاسم</Form.Label>
+              <Form.Control
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+              />
+              {errors.name && (
+                <small className="text-danger">{errors.name}</small>
+              )}
+            </Form.Group>
+
+            <Form.Group className="mb-2">
+              <Form.Label>رقم الهاتف</Form.Label>
+              <Form.Control
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-2">
+              <Form.Label>البريد الإلكتروني</Form.Label>
+              <Form.Control
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Form.Group className="mb-2">
+              <Form.Label>نوع الشراء</Form.Label>
+              <Form.Select
+                name="purchaseType"
+                value={formData.purchaseType}
+                onChange={handleChange}
+              >
+                <option value="">اختر</option>
+                <option value="cash">كاش</option>
+                <option value="bank">بنك</option>
+              </Form.Select>
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label>الغرض</Form.Label>
+              <Form.Select
+                name="purpose"
+                value={formData.purpose}
+                onChange={handleChange}
+              >
+                <option value="">اختر</option>
+                <option value="housing">سكن</option>
+                <option value="investment">استثمار</option>
+              </Form.Select>
+            </Form.Group>
+
+            <Button type="submit" className="w-100">
+              إرسال
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </>
   );
 }

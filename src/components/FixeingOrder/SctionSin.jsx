@@ -7,12 +7,75 @@ import {
   Row,
   Button,
   FloatingLabel,
+  Spinner,
 } from "react-bootstrap";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  fetchProjects,
+  fetchUnitsByType,
+} from "/src/Redux/Slices/projectsSlice";
+import { addMaintenanceRequest } from "/src/Redux/Slices/projectsSlice";
 
 export default function Sin() {
+  const dispatch = useDispatch();
+  const { list: projects, loading } = useSelector((s) => s.projects);
+  const unitsLoading = useSelector((s) => s.projects.unitsLoading);
+  const [selectedProject, setSelectedProject] = useState(null);
+
+  const [form, setForm] = useState({
+    full_name: "",
+    phone: "",
+    email: "",
+    project_id: "",
+    unit: "",
+    request_type: "",
+    message: "",
+  });
+
+  /* ================= FETCH PROJECTS ================= */
+
+  useEffect(() => {
+    dispatch(fetchProjects());
+    dispatch(fetchUnitsByType(form.project_id));
+    console.log(unitsLoading);
+  }, [dispatch]);
+
+  /* ================= HANDLERS ================= */
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
+  };
+
+  const handleProjectChange = (e) => {
+    const projectId = e.target.value;
+
+    const project = projects.find((p) => p.id == projectId);
+
+    setSelectedProject(project || null);
+
+    setForm({
+      ...form,
+      project_id: projectId,
+      unit: "",
+    });
+  };
+
+  /* ================= UNITS ================= */
+  const units =
+    selectedProject?.unit_types?.flatMap((t) => t.units || []) || [];
+
+  /* ================= SUBMIT ================= */
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("تم إرسال الطلب");
+
+    dispatch(addMaintenanceRequest(form))
+      .unwrap()
+      .then(() => {
+        console.log("✅ تم إرسال الطلب بنجاح");
+      })
+      .catch((err) => {
+        console.log("❌ خطأ", err);
+      });
   };
 
   return (
@@ -21,114 +84,142 @@ export default function Sin() {
         className="align-items-center"
         style={{ flexDirection: "row-reverse" }}
       >
-        {/* Text Section */}
-        <Col md={5} data-aos="fade-up" data-aos-delay="300">
+        {/* TEXT */}
+        <Col md={5}>
           <h2 className="fw-bold mb-3">نعمل ببراعة لنبني من الخيال سكن.</h2>
           <p className="text-muted">
             يمكنك إرسال طلب الصيانة بسهولة وسيتم التواصل معك في أقرب وقت.
           </p>
         </Col>
 
-        {/* Form Section */}
+        {/* FORM */}
         <Col md={7}>
-          <Row data-aos="fade-up" data-aos-delay="500">
-            <Card className="border-0 shadow-lg rounded-4">
-              <Card.Body className="p-4">
-                <CardTitle
-                  as="h4"
-                  className="text-center fw-bold mb-4 position-relative"
-                >
-                  قدم طلب صيانة
-                  <span
-                    style={{
-                      display: "block",
-                      width: "60px",
-                      height: "3px",
-                      background: "#0d6efd",
-                      margin: "10px auto 0",
-                      borderRadius: "5px",
-                    }}
+          <Card className="border-0 shadow-lg rounded-4">
+            <Card.Body className="p-4">
+              <CardTitle as="h4" className="text-center fw-bold mb-4">
+                قدم طلب صيانة
+              </CardTitle>
+
+              <Form onSubmit={handleSubmit} dir="rtl">
+                {/* NAME + PHONE */}
+                <Row className="g-3 mb-3">
+                  <Col md={6}>
+                    <FloatingLabel label="الاسم كامل">
+                      <Form.Control
+                        name="full_name"
+                        value={form.full_name}
+                        onChange={handleChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+
+                  <Col md={6}>
+                    <FloatingLabel label="رقم الهاتف">
+                      <Form.Control
+                        name="phone"
+                        value={form.phone}
+                        onChange={handleChange}
+                        required
+                      />
+                    </FloatingLabel>
+                  </Col>
+                </Row>
+
+                {/* EMAIL + PROJECT */}
+                <Row className="g-3 mb-3">
+                  <Col md={6}>
+                    <FloatingLabel label="البريد الإلكتروني">
+                      <Form.Control
+                        type="email"
+                        name="email"
+                        value={form.email}
+                        onChange={handleChange}
+                      />
+                    </FloatingLabel>
+                  </Col>
+
+                  <Col md={6}>
+                    <FloatingLabel label="اختر المشروع">
+                      <Form.Select
+                        name="project_id"
+                        value={form.project_id}
+                        onChange={handleProjectChange}
+                        required
+                      >
+                        <option value="">اختر المشروع</option>
+
+                        {loading && <option>جاري التحميل...</option>}
+
+                        {projects.map((p) => (
+                          <option key={p.id} value={p.id}>
+                            {p.title}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </FloatingLabel>
+                  </Col>
+                </Row>
+
+                {/* UNIT + TYPE */}
+
+                <Row className="g-3 mb-3">
+                  <Col md={6}>
+                    <FloatingLabel label="اختر الوحدة">
+                      <Form.Select
+                        name="unit"
+                        value={form.unit}
+                        onChange={handleChange}
+                        disabled={!selectedProject}
+                      >
+                        <option value="">اختر الوحدة</option>
+
+                        {units.map((u) => (
+                          <option key={u.id} value={u.id}>
+                            {u.name || `وحدة ${u.number}`}
+                          </option>
+                        ))}
+                      </Form.Select>
+                    </FloatingLabel>
+
+                    {!selectedProject && (
+                      <small className="text-muted">اختر مشروع أولًا</small>
+                    )}
+                  </Col>
+
+                  <Col md={6}>
+                    <FloatingLabel label="نوع طلب الصيانة">
+                      <Form.Select
+                        name="request_type"
+                        value={form.request_type}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option value="">اختر نوع الطلب</option>
+                        <option value="صيانة وإصلاح">صيانة وإصلاح</option>
+                        <option value="أخرى">أخرى</option>
+                      </Form.Select>
+                    </FloatingLabel>
+                  </Col>
+                </Row>
+
+                {/* MESSAGE */}
+                <FloatingLabel label="التفاصيل" className="mb-4">
+                  <Form.Control
+                    as="textarea"
+                    style={{ height: "120px" }}
+                    name="message"
+                    value={form.message}
+                    onChange={handleChange}
                   />
-                </CardTitle>
+                </FloatingLabel>
 
-                <Form onSubmit={handleSubmit} dir="rtl">
-                  <Row className="g-3 mb-3">
-                    <Col md={6}>
-                      <FloatingLabel label="الاسم كامل">
-                        <Form.Control type="text" placeholder="الاسم كامل" />
-                      </FloatingLabel>
-                    </Col>
-
-                    <Col md={6}>
-                      <FloatingLabel label="رقم الهاتف">
-                        <Form.Control type="tel" placeholder="رقم الهاتف" />
-                      </FloatingLabel>
-                    </Col>
-                  </Row>
-
-                  <Row className="g-3 mb-3">
-                    <Col md={6}>
-                      <FloatingLabel label="البريد الإلكتروني">
-                        <Form.Control
-                          type="email"
-                          placeholder="البريد الإلكتروني"
-                        />
-                      </FloatingLabel>
-                    </Col>
-
-                    <Col md={6}>
-                      <FloatingLabel label="اختر المشروع">
-                        <Form.Select>
-                          <option>اختر المشروع</option>
-                          <option>مشروع 1</option>
-                          <option>مشروع 2</option>
-                        </Form.Select>
-                      </FloatingLabel>
-                    </Col>
-                  </Row>
-
-                  <Row className="g-3 mb-3">
-                    <Col md={6}>
-                      <FloatingLabel label="اختر الوحدة">
-                        <Form.Select>
-                          <option>اختر الوحدة</option>
-                          <option>وحدة 101</option>
-                          <option>وحدة 102</option>
-                        </Form.Select>
-                      </FloatingLabel>
-                    </Col>
-
-                    <Col md={6}>
-                      <FloatingLabel label="نوع طلب الصيانة">
-                        <Form.Select>
-                          <option>اختر نوع الطلب</option>
-                          <option>صيانة وإصلاح (كهرباء، سباكة)</option>
-                          <option>أخرى (دهان، جبس، غير ذلك)</option>
-                          <option>استلام وحدة</option>
-                        </Form.Select>
-                      </FloatingLabel>
-                    </Col>
-                  </Row>
-
-                  <FloatingLabel label="التفاصيل" className="mb-4">
-                    <Form.Control
-                      as="textarea"
-                      placeholder="اكتب تفاصيل الطلب"
-                      style={{ height: "120px" }}
-                    />
-                  </FloatingLabel>
-
-                  <Button
-                    type="submit"
-                    variant="primary"
-                    className="w-100 py-2 fw-bold rounded-3"
-                  >
-                    إرسال الطلب
-                  </Button>
-                </Form>
-              </Card.Body>
-            </Card>
-          </Row>
+                <Button type="submit" className="w-100 py-2 fw-bold">
+                  إرسال الطلب
+                </Button>
+              </Form>
+            </Card.Body>
+          </Card>
         </Col>
       </Row>
     </Container>

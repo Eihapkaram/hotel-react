@@ -11,8 +11,13 @@ import {
   Toast,
   ToastContainer,
 } from "react-bootstrap";
+import { useDispatch, useSelector } from "react-redux";
+import { addGeneralInterest } from "/src/Redux/Slices/projectsSlice";
 
 export default function InterestForm() {
+  const dispatch = useDispatch();
+  const { loading, error } = useSelector((state) => state.projects);
+
   const [formData, setFormData] = useState({
     name: "",
     phone: "",
@@ -46,18 +51,26 @@ export default function InterestForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
     if (!validate()) return;
-    setShowToast(true);
-    setFormData({
-      name: "",
-      phone: "",
-      price: "",
-      type: "",
-      finance: "",
-      district: "",
-      beds: "",
-      baths: "",
-    });
-    setErrors({});
+
+    dispatch(addGeneralInterest(formData))
+      .unwrap()
+      .then(() => {
+        setShowToast(true);
+        setFormData({
+          name: "",
+          phone: "",
+          price: "",
+          type: "",
+          finance: "",
+          district: "",
+          beds: "",
+          baths: "",
+        });
+        setErrors({});
+      })
+      .catch(() => {
+        // لو حابب Toast خطأ بعدين
+      });
   };
 
   return (
@@ -220,8 +233,9 @@ export default function InterestForm() {
                   <Button
                     type="submit"
                     className="w-100 py-2 fw-bold rounded-3"
+                    disabled={loading}
                   >
-                    إرسال الطلب
+                    {loading ? "جاري الإرسال..." : "إرسال الطلب"}
                   </Button>
                 </Form>
               </Card.Body>
