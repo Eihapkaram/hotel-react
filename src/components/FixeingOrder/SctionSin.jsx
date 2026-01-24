@@ -20,7 +20,7 @@ import { addMaintenanceRequest } from "/src/Redux/Slices/projectsSlice";
 export default function Sin() {
   const dispatch = useDispatch();
   const { list: projects, loading } = useSelector((s) => s.projects);
-  const unitsLoading = useSelector((s) => s.projects.unitsLoading);
+  const unitsLoading = useSelector((s) => s.projects.units);
   const [selectedProject, setSelectedProject] = useState(null);
 
   const [form, setForm] = useState({
@@ -37,9 +37,12 @@ export default function Sin() {
 
   useEffect(() => {
     dispatch(fetchProjects());
-    dispatch(fetchUnitsByType(form.project_id));
-    console.log(unitsLoading);
   }, [dispatch]);
+  useEffect(() => {
+    if (form.project_id) {
+      dispatch(fetchUnitsByType(form.project_id));
+    }
+  }, [form.project_id]);
 
   /* ================= HANDLERS ================= */
   const handleChange = (e) => {
@@ -61,8 +64,6 @@ export default function Sin() {
   };
 
   /* ================= UNITS ================= */
-  const units =
-    selectedProject?.unit_types?.flatMap((t) => t.units || []) || [];
 
   /* ================= SUBMIT ================= */
   const handleSubmit = (e) => {
@@ -174,11 +175,13 @@ export default function Sin() {
                       >
                         <option value="">اختر الوحدة</option>
 
-                        {units.map((u) => (
-                          <option key={u.id} value={u.id}>
-                            {u.name || `وحدة ${u.number}`}
-                          </option>
-                        ))}
+                        {unitsLoading
+                          ? unitsLoading.units.map((u) => (
+                              <option key={u.id} value={u.id}>
+                                {u.title || `وحدة ${u.number}`}
+                              </option>
+                            ))
+                          : null}
                       </Form.Select>
                     </FloatingLabel>
 

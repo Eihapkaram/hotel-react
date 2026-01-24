@@ -429,7 +429,7 @@ const projectsSlice = createSlice({
 
     maintenanceRequests: [], // ✅
     maintenanceRequest: null, // ✅
-
+    units: "",
     unitsLoading: {}, // 🔥 مهم
     error: null,
   },
@@ -608,6 +608,7 @@ const projectsSlice = createSlice({
 
       .addCase(fetchUnitsByType.fulfilled, (s, a) => {
         const { unitTypeId, units } = a.payload;
+        s.units = a.payload;
 
         s.unitsLoading[unitTypeId] = false;
 

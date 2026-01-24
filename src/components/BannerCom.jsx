@@ -1,14 +1,22 @@
 import Carousel from "react-bootstrap/Carousel";
-import ExampleCarouselImage from "/src/components/ExampleCarouselImage";
-import ExampleCarouselImage2 from "/src/components/ExampleCarouselImage2";
-import ExampleCarouselImage3 from "/src/components/ExampleCarouselImage3";
 import Btn from "./BtnCom";
 import "/src/Styles/BannerStyle.css";
+import { useEffect, useState } from "react";
+import { fetchProjects } from "/src/Redux/Slices/projectsSlice";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 
 function banner() {
+  const navigate = useNavigate();
+  const dis = useDispatch();
+  const { list: projects, loading, baseURL } = useSelector((s) => s.projects);
+  useEffect(() => {
+    dis(fetchProjects());
+    console.log(projects);
+  }, [projects]);
   function handleSlide() {
     const activeCaption = document.querySelector(
-      ".carousel-item.active .carousel-caption"
+      ".carousel-item.active .carousel-caption",
     );
     if (activeCaption) {
       activeCaption.classList.remove("animate");
@@ -28,41 +36,30 @@ function banner() {
         onSlide={handleSlide}
         onSlid={handleSlide} // لضمان الأنيميشن بعد الانتقال
       >
-        <Carousel.Item>
-          <Carousel.Caption className="text1">
-            <h4 className="title1">مشروع</h4>
-            <h3 className="title2">K-110</h3>
-            <p className="title3">الرياض - الزهراء</p>
-            <div className="btndiv">
-              <Btn text="عرض التفاصيل" backcolor="white" color="black" />
-            </div>
-          </Carousel.Caption>
-          <ExampleCarouselImage text="First slide" />
-        </Carousel.Item>
-
-        <Carousel.Item>
-          <Carousel.Caption className="text1">
-            <h4 className="title1">مشروع</h4>
-            <h3 className="title2">K-110</h3>
-            <p className="title3">الرياض - الزهراء</p>
-            <div className="btndiv">
-              <Btn text="عرض التفاصيل" backcolor="white" color="black" />
-            </div>
-          </Carousel.Caption>
-          <ExampleCarouselImage2 text="Second slide" />
-        </Carousel.Item>
-
-        <Carousel.Item>
-          <Carousel.Caption className="text1">
-            <h4 className="title1">مشروع</h4>
-            <h3 className="title2">K-110</h3>
-            <p className="title3">الرياض - الزهراء</p>
-            <div className="btndiv">
-              <Btn text="عرض التفاصيل" backcolor="white" color="black" />
-            </div>
-          </Carousel.Caption>
-          <ExampleCarouselImage3 text="Third slide" />
-        </Carousel.Item>
+        {projects.map((el) => {
+          return (
+            <Carousel.Item key={el.id}>
+              <Carousel.Caption className="text1">
+                <h4 className="title1">مشروع</h4>
+                <h3 className="title2">{el.title}</h3>
+                <p className="title3"> {el.location} </p>
+                <div className="btndiv">
+                  <Btn
+                    text="عرض التفاصيل"
+                    backcolor="white"
+                    color="black"
+                    onClick={() => {
+                      navigate(`/unite/${el.id}`);
+                    }}
+                  />
+                </div>
+              </Carousel.Caption>
+              <div>
+                <img width={"800px"} src={el.main_image_url} />
+              </div>
+            </Carousel.Item>
+          );
+        })}
       </Carousel>
     </div>
   );
