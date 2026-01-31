@@ -51,6 +51,7 @@ export default function MaintenanceTab() {
               <td>{r.request_type}</td>
               <td>{r.unit_received ? "Yes" : "No"}</td>
               <td>{r.message ?? "-"}</td>
+              <td>{new Date(r.created_at).toLocaleDateString("ar-EG")}</td>
             </tr>
           ))}
         </tbody>
