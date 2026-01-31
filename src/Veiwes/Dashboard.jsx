@@ -1,6 +1,8 @@
 import { useState } from "react";
 import ProjectsTab from "../components/Dashboard/ProjectsTab";
 import MaintenanceTab from "../components/Dashboard/MaintenanceTab";
+import GeneralInterestsTab from "../components/Dashboard/GeneralInterestsTab";
+import ProjectInterestsTab from "../components/Dashboard/ProjectInterestsTab";
 
 export default function Dashboard() {
   const [tab, setTab] = useState("projects");
@@ -28,11 +30,30 @@ export default function Dashboard() {
             Maintenance
           </button>
         </li>
+        <li className="nav-item">
+          <button
+            className={`nav-link ${tab === "generalInterests" && "active"}`}
+            onClick={() => setTab("generalInterests")}
+          >
+            General Interests
+          </button>
+        </li>
+
+        <li className="nav-item">
+          <button
+            className={`nav-link ${tab === "projectInterests" && "active"}`}
+            onClick={() => setTab("projectInterests")}
+          >
+            Project Interests
+          </button>
+        </li>
       </ul>
 
       {/* Content */}
       {tab === "projects" && <ProjectsTab />}
       {tab === "maintenance" && <MaintenanceTab />}
+      {tab === "generalInterests" && <GeneralInterestsTab />}
+      {tab === "projectInterests" && <ProjectInterestsTab />}
     </div>
   );
 }

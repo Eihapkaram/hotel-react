@@ -389,7 +389,7 @@ export default function SingelPro() {
                         >
                           <Card.Body>
                             <img
-                              src={`${baseURL}/${item.image}`}
+                              src={`${item.image_url}`}
                               width={"100px"}
                             />
                           </Card.Body>

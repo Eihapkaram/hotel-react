@@ -25,6 +25,11 @@ export default function MaintenanceTab() {
             <th>Name</th>
             <th>Phone</th>
             <th>Project</th>
+            <th>Unit</th>
+            <th>Request Type</th>
+            <th>Unit Received</th>
+            <th>Message</th>
+            <th>Date</th>
           </tr>
         </thead>
         <tbody>
@@ -42,6 +47,10 @@ export default function MaintenanceTab() {
               <td>{r.full_name}</td>
               <td>{r.phone}</td>
               <td>{r.project?.title ?? "-"}</td>
+              <td>{r.unit ?? "-"}</td>
+              <td>{r.request_type}</td>
+              <td>{r.unit_received ? "Yes" : "No"}</td>
+              <td>{r.message ?? "-"}</td>
             </tr>
           ))}
         </tbody>

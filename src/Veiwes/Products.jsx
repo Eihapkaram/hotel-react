@@ -56,7 +56,7 @@ function Products() {
           <Card key={item.id} className="Card">
             <Row className="avaliconP">
               <Col>
-                <span onClick={navigate(`/unite/${item.id}`)} className="icon">
+                <span onClick={() => navigate(`/unite/${item.id}`)} className="icon">
                   <FaExternalLinkAlt
                     color="#fffcfcff"
                     size={15}

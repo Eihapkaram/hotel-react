@@ -175,7 +175,7 @@ export default function SingelPro(props) {
                       <Carousel.Item key={i}>
                         <img
                           className="d-block w-100"
-                          src={img.url}
+                          src={img.image_url}
                           alt={`Property ${i + 1}`}
                           style={{ height: "600px", objectFit: "cover" }}
                         />

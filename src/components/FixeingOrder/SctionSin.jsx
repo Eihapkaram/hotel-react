@@ -69,10 +69,28 @@ export default function Sin() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    dispatch(addMaintenanceRequest(form))
+    const payload = {
+      ...form,
+      unit: form.unit || null, // 👈 هنا الحل
+    };
+
+    dispatch(addMaintenanceRequest(payload))
       .unwrap()
       .then(() => {
         console.log("✅ تم إرسال الطلب بنجاح");
+
+        // 👇 تفريغ الفورم
+        setForm({
+          full_name: "",
+          phone: "",
+          email: "",
+          project_id: "",
+          unit: "",
+          request_type: "",
+          message: "",
+        });
+
+        setSelectedProject(null);
       })
       .catch((err) => {
         console.log("❌ خطأ", err);

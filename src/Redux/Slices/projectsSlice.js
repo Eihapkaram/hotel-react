@@ -3,7 +3,7 @@ import axios from "axios";
 
 /* ================= AXIOS INSTANCE ================= */
 export const axiosInstance = axios.create({
-  baseURL: "http://127.0.0.1:8000/api",
+  baseURL: "https://realstateback-production.up.railway.app/api",
 });
 
 axiosInstance.interceptors.request.use((config) => {
