@@ -1,5 +1,5 @@
 import React, { useEffect, lazy, Suspense } from "react";
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, Navigate } from "react-router-dom";
 import AOS from "aos";
 import "aos/dist/aos.css";
 import "./App.css";
@@ -17,7 +17,10 @@ const NavBar = lazy(() => import("/src/components/NavBar"));
 const Footer = lazy(() => import("/src/components/FooterCom"));
 const Cart = lazy(() => import("./Veiwes/Cart"));
 const Home = lazy(() => import("./Veiwes/HomePage"));
-
+function protect({ cheldern }) {
+  const token = localStorage.getItem("token");
+  return token ? cheldern : <Navigate to="/" />;
+}
 function App() {
   useEffect(() => {
     AOS.init({
@@ -51,9 +54,14 @@ function App() {
           <Route path="/projects" element={<Products />} />
           <Route path="/orders" element={<Orders />} />
           <Route path="/intersted" element={<Intersted />} />
-          <Route path="/login" element={<Login />} />
+
           <Route path="/unite/:id" element={<SinglePro />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <protect>
+            <Route path="/dashboard" element={<Dashboard />} />
+          </protect>
+          <protect>
+            <Route path="/login" element={<Login />} />
+          </protect>
         </Routes>
       </Suspense>
       <Suspense>
