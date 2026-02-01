@@ -56,12 +56,24 @@ function App() {
           <Route path="/intersted" element={<Intersted />} />
 
           <Route path="/unite/:id" element={<SinglePro />} />
-          <protect>
-            <Route path="/dashboard" element={<Dashboard />} />
-          </protect>
-          <protect>
-            <Route path="/login" element={<Login />} />
-          </protect>
+
+          <Route
+            path="/dashboard"
+            element={
+              <protect>
+                <Dashboard />
+              </protect>
+            }
+          />
+
+          <Route
+            path="/login"
+            element={
+              <protect>
+                <Login />
+              </protect>
+            }
+          />
         </Routes>
       </Suspense>
       <Suspense>
