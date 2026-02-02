@@ -1,51 +1,54 @@
 /* ========== Footer Scope ========== */
-.lilink:hover {
-  cursor: pointer;
-  color: white;
+.FootHLink {
+  position: relative;
+  left: -30px;
+}
+.FootHLink2 {
+  position: relative;
+  left: 10px;
 }
 .FootCon {
   background-color: #181a20;
   color: white;
   margin-top: 40px;
+  padding: 40px 20px;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
-  gap: 200px;
+  gap: 60px;
+}
+
+.lilink:hover {
+  cursor: pointer;
+  color: white;
 }
 
 /* ---------- First Row ---------- */
 .FootCon .FootRow {
   display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 200px;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-wrap: wrap;
   width: 100%;
+  max-width: 1200px;
+  gap: 40px;
 }
 
 /* ---------- Column 1 ---------- */
 .FootCon .FootCol1 {
   display: flex;
   flex-direction: column;
-  margin-top: 50px;
-  align-items: center;
-}
-
-.FootCon .FootHLink {
-  display: flex;
-  justify-content: center;
   align-items: center;
 }
 
 .FootCon .Footul {
   list-style: none;
-  position: relative;
   padding: 0;
 }
 
 .FootCon .Footul li {
-  margin-top: 20px;
-  opacity: 0.3;
+  margin-top: 15px;
+  opacity: 0.5;
 }
 
 .FootCon .Footul a {
@@ -54,72 +57,49 @@
 }
 
 /* ---------- Column 2 ---------- */
+.FootCon .FootCol2 {
+  max-width: 350px;
+  text-align: center;
+}
+
 .FootCon .FootCol2subtitle {
-  opacity: 0.3;
-  margin: 20px 0;
+  opacity: 0.5;
+  margin: 15px 0;
 }
 
-.FootCon .FootCol2 span {
-  display: flex;
-  flex-wrap: wrap;
-  width: 300px;
-  position: relative;
-  left: -150px;
-}
-
+.FootCon .FootCol2 span,
 .FootCon .FootCol2p {
-  display: flex;
-  flex-wrap: wrap;
-  width: 300px;
-  position: relative;
-  left: 50px;
+  display: block;
+  width: 100%;
 }
 
 /* ---------- Column 3 ---------- */
-.FootCon .FootCol3 {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 .FootCon .FootCol3 img {
-  width: 100px;
+  width: 90px;
 }
 
 /* ---------- Bottom Row ---------- */
 .FootCon .Row2end {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
   border-top: 0.5px solid white;
-  padding-top: 30px;
-  gap: 500px;
+  padding-top: 20px;
   width: 100%;
-  position: relative;
-  top: -30px;
-}
-
-.FootCon .Row2endCol1 {
-  display: flex;
-  justify-content: center;
-  width: 300px;
+  max-width: 1200px;
+  gap: 20px;
 }
 
 .FootCon .Row2endCol1Row {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 8px;
 }
 
 .FootCon .Row2endCol1Rowcolicon {
   cursor: pointer;
   font-size: 18px;
-}
-
-.FootCon .Row2endCol1Rowcol2text {
-  display: flex;
-  justify-content: center;
-  width: 300px;
 }
 
 /* ================================================= */
@@ -129,42 +109,93 @@
 /* 📱 Mobile */
 @media (max-width: 576px) {
   .FootCon {
-    gap: 80px;
+    padding: 30px 15px;
+    gap: 35px;
     text-align: center;
   }
 
-  .FootCon .FootRow,
-  .FootCon .Row2end {
-    flex-direction: column;
+  /* الصف الأول */
+  .FootCon .FootRow {
+    display: flex;
+    flex-direction: column !important;
+    align-items: center;
+    justify-content: center;
     gap: 30px;
   }
 
+  /* الأعمدة */
+  .FootCon .FootCol1,
+  .FootCon .FootCol2,
+  .FootCon .FootCol3 {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  /* القائمة */
+  .FootCon .Footul {
+    align-items: center;
+  }
+
+  .FootCon .Footul li {
+    margin-top: 12px;
+    font-size: 14px;
+  }
+
+  /* النص */
   .FootCon .FootCol2 span,
   .FootCon .FootCol2p {
+    font-size: 13px;
+    line-height: 1.6;
+  }
+
+  /* اللوجو */
+  .FootCon .FootCol3 img {
+    width: 70px;
+  }
+
+  /* الصف السفلي */
+  .FootCon .Row2end {
+    display: flex;
+    flex-direction: column !important;
+    align-items: center;
+    justify-content: center;
+    gap: 15px;
     width: 100%;
-    left: 0;
-    text-align: center;
+  }
+  .FootHLink {
+    position: relative;
+    left: -30px;
+  }
+  .FootHLink2 {
+    position: relative;
+    left: -50px;
+  }
+  /* السوشيال */
+  .FootCon .Row2endCol1Row {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .FootCon .Row2endCol1Rowcolicon {
+    font-size: 20px;
   }
 }
 
 /* 📱 Tablet */
 @media (max-width: 768px) {
   .FootCon .FootRow {
-    gap: 80px;
+    justify-content: center;
   }
-
-  .FootCon .Row2end {
-    gap: 60px;
+  .FootHLink {
+    position: relative;
+    left: -10px;
   }
-}
-
-/* 💻 Laptop */
-@media (max-width: 1200px) {
-  .FootCon .FootRow {
-    gap: 120px;
-  }
-
-  .FootCon .Row2end {
-    gap: 200px;
+  .FootHLink2 {
+    position: relative;
+    left: 10px;
   }
 }

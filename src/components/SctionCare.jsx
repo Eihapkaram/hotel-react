@@ -18,6 +18,7 @@ function SectionCare() {
           نعمل ببراعة لنبني من الخيال سكن
         </h4>
         <BtnCom
+          s="el1"
           text="من هنا "
           backcolor="black"
           type="button"

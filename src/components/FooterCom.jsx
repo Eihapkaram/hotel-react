@@ -29,7 +29,7 @@ function Footer() {
         </Col>
 
         <Col className="FootCol2">
-          <h5>التواصل</h5>
+          <h5 className="FootHLink2">التواصل</h5>
 
           <h6 className="FootCol2subtitle">العنوان</h6>
           <span className="FootAddress">
