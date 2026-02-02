@@ -77,7 +77,7 @@ export default function SingelPro() {
     }
   }
   function unitsrender() {
-    if (pro.unit_types > 0) {
+    if (pro.unit_types.length > 0) {
       return (
         <Card className="mb-4 shadow-sm">
           <Card.Body>

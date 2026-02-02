@@ -155,3 +155,44 @@ h6 {
   background-color: white;
   margin: 0px;
 }
+/* Small Phones ≤ 480px */
+@media (max-width: 480px) {
+  .icon {
+    background-color: black;
+    color: white;
+    position: relative;
+    z-index: 5;
+    cursor: pointer;
+    left: -100px;
+    padding: 5px;
+    border-radius: 5px;
+  }
+  .avaliconP {
+    gap: 210px;
+    position: absolute;
+    z-index: 20;
+    display: flex;
+    flex-flow: row;
+    top: 0px;
+    right: 0px;
+  }
+  .Card:hover .icon {
+    animation: icon 0.3s ease-in-out 1 forwards;
+  }
+  .icon:hover {
+    animation: iconbackground 0.5s ease-in-out 1 forwards;
+  }
+  @keyframes iconbackground {
+    to {
+      background-color: red;
+    }
+  }
+  @keyframes icon {
+    from {
+      left: -100px;
+    }
+    to {
+      left: -23px;
+    }
+  }
+}

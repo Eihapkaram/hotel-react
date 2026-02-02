@@ -1,4 +1,8 @@
 /* ========== Footer Scope ========== */
+.lilink:hover {
+  cursor: pointer;
+  color: white;
+}
 .FootCon {
   background-color: #181a20;
   color: white;
@@ -9,10 +13,7 @@
   align-items: center;
   gap: 200px;
 }
-.lilink:hover {
-  cursor: pointer;
-  color: white;
-}
+
 /* ---------- First Row ---------- */
 .FootCon .FootRow {
   display: flex;
