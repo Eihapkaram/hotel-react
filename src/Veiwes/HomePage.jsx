@@ -21,8 +21,9 @@ function Home() {
   const product = useSelector((state) => state.pro.items);
   const [last, setLast] = useState("karam");
   useEffect(() => {
+    window.scrollTo(0, 0);
     usedis(getProduct());
-  }, []);
+  }, [usedis]);
 
   return (
     <div>

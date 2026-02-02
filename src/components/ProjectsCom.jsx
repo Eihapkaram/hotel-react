@@ -58,8 +58,10 @@ function Projects() {
             <div
               key={el.id}
               className="Cardhome"
+              onClick={() => navigate(`/unite/${el.id}`)}
               style={{
                 backgroundImage: `url(${el.main_image_url})`,
+                cursor: "pointer",
               }}
             >
               <Row className="avaliconhome">

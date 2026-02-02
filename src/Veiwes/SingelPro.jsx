@@ -2,16 +2,15 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import SctionSin2 from "/src/components/FixeingOrder/SctionSin2";
 import "/src/Styles/ProjectsCards.css";
+import "/src/Styles/SinglePro.css";
 import { BsFillCreditCard2FrontFill } from "react-icons/bs";
 import BtnCom from "/src/components/BtnCom";
 import SingleProjectSkeleton from "/src/components/SingleProjectSkeleton";
 import { addProjectInterest } from "/src/Redux/Slices/projectsSlice";
 import { Modal } from "react-bootstrap";
-
 import { FaExternalLinkAlt } from "react-icons/fa";
 import { IoBedOutline } from "react-icons/io5";
 import { fetchUnitsByType } from "/src/Redux/Slices/projectsSlice";
-
 import { FaShower } from "react-icons/fa";
 import { GiResize } from "react-icons/gi";
 import { MdEmojiFoodBeverage } from "react-icons/md";
@@ -75,6 +74,144 @@ export default function SingelPro() {
         return <span className="avelubl4">محجوز</span>;
       default:
         return null;
+    }
+  }
+  function unitsrender() {
+    if (pro.unit_types > 0) {
+      return (
+        <Card className="mb-4 shadow-sm">
+          <Card.Body>
+            <h5 className="fw-bold">الوحدات</h5>
+
+            {/* Tabs */}
+            <ul className="nav nav-tabs mb-3">
+              {pro.unit_types?.map((type) => (
+                <li key={type.id}>
+                  <button
+                    className={`nav-link ${tab === type.name ? "active" : ""}`}
+                    onClick={() => {
+                      setTab(type.name);
+
+                      if (!type.units) {
+                        dis(fetchUnitsByType(type.id));
+                      }
+                    }}
+                  >
+                    <strong>{type.name}</strong>
+                  </button>
+                </li>
+              ))}
+            </ul>
+
+            {/* Content */}
+            {pro.unit_types?.map((type) => {
+              if (tab !== type.name) return null;
+
+              return (
+                <div key={type.id}>
+                  {/* Loading */}
+                  {unitsLoading[type.id] && (
+                    <div className="text-center py-4">
+                      <span>⏳ جاري تحميل الوحدات...</span>
+                    </div>
+                  )}
+
+                  {/* Units */}
+                  {type.units && (
+                    <Row className="justify-content-center">
+                      {type.units.map((unit) => (
+                        <Col key={unit.id} md={5} className="mb-3">
+                          <Card
+                            style={{
+                              border: "1px solid rgba(202, 188, 149, 0.12)",
+                              borderRadius: "15px",
+                              width: "fit-content",
+                            }}
+                            className="unitCard mb-4 shadow-sm"
+                          >
+                            {" "}
+                            <Row
+                              style={{
+                                display: "flex",
+                                gap: "50px",
+                                marginBlock: "20px",
+                                alignItems: "center",
+                                justifyContent: "center",
+                              }}
+                            >
+                              {" "}
+                              <CardTitle>
+                                {" "}
+                                <strong className="unitCardtitle">
+                                  {" "}
+                                  {unit.title}{" "}
+                                </strong>{" "}
+                              </CardTitle>{" "}
+                              <Row>
+                                {" "}
+                                <Col>
+                                  {" "}
+                                  <CardTitle>
+                                    {" "}
+                                    الدور : {unit.floor}{" "}
+                                  </CardTitle>{" "}
+                                </Col>{" "}
+                                <Col>
+                                  {" "}
+                                  <CardTitle>
+                                    {" "}
+                                    عدد الغرف : {unit.bedrooms}{" "}
+                                  </CardTitle>{" "}
+                                </Col>{" "}
+                              </Row>{" "}
+                              <Row>
+                                {" "}
+                                <Col>
+                                  {" "}
+                                  <CardTitle>
+                                    {" "}
+                                    <GiResize size={20}></GiResize> {unit.area}
+                                    م{" "}
+                                  </CardTitle>{" "}
+                                </Col>{" "}
+                                <Col>
+                                  {" "}
+                                  <CardTitle
+                                    style={{ display: "flex", gap: "5px" }}
+                                  >
+                                    {" "}
+                                    <BsFillCreditCard2FrontFill
+                                      size={20}
+                                    />{" "}
+                                    {unit.price}{" "}
+                                  </CardTitle>{" "}
+                                </Col>{" "}
+                              </Row>{" "}
+                              <Row>
+                                {" "}
+                                <BtnCom
+                                  text="هل انت مهتم بشراء الوحدة ؟ "
+                                  backcolor="black"
+                                  type="button"
+                                  color="white"
+                                  onClick={() => {
+                                    setSelectedUnit(unit); // ✅ نحدد الوحدة
+                                    setShowModal(true); // ✅ نفتح الفورم
+                                  }}
+                                />{" "}
+                              </Row>{" "}
+                            </Row>{" "}
+                          </Card>
+                        </Col>
+                      ))}
+                    </Row>
+                  )}
+                </div>
+              );
+            })}
+          </Card.Body>
+        </Card>
+      );
     }
   }
   const [showModal, setShowModal] = useState(false);
@@ -147,16 +284,16 @@ export default function SingelPro() {
     dis(fetchProject(id));
   }, [id, dis]);
   useEffect(() => {
+    window.scrollTo(0, 0);
     if (!loading) {
       dis(fetchProjects());
     }
   }, [dis]);
   useEffect(() => {
-    console.log(pro);
     if (pro?.unit_types?.length && tab === null) {
       setTab(pro.unit_types[0].name);
     }
-  }, [pro, tab]);
+  }, [tab]);
 
   return (
     <>
@@ -250,18 +387,10 @@ export default function SingelPro() {
                 <h4 className="fw-bold mb-3">نظرة عامة</h4>
                 <Row className="text-center mb-3">
                   <Col>
-                    <Row>
+                    <Row className="publicseenRow">
                       <Col md={1}>
                         {" "}
-                        <Card
-                          style={{
-                            border: "1px solid  rgba(202, 188, 149, 0.12)",
-                            borderRadius: "15px",
-                            height: "60px",
-                            width: "60px",
-                          }}
-                          className="mb-4 shadow-sm"
-                        >
+                        <Card id="cardIcone" className="mb-4 shadow-sm">
                           <Card.Body>
                             <IoBedOutline size={30}></IoBedOutline>
                           </Card.Body>
@@ -275,16 +404,12 @@ export default function SingelPro() {
                     </Row>
                   </Col>
                   <Col>
-                    <Row>
+                    <Row className="publicseenRow">
                       <Col md={1}>
                         {" "}
                         <Card
-                          style={{
-                            border: "1px solid  rgba(202, 188, 149, 0.12)",
-                            borderRadius: "15px",
-                            height: "60px",
-                            width: "60px",
-                          }}
+                          id="cardIcone"
+                          style={{}}
                           className="mb-4 shadow-sm"
                         >
                           <Card.Body>
@@ -301,16 +426,12 @@ export default function SingelPro() {
                     </Row>
                   </Col>
                   <Col>
-                    <Row>
+                    <Row className="publicseenRow">
                       <Col md={1}>
                         {" "}
                         <Card
-                          style={{
-                            border: "1px solid  rgba(202, 188, 149, 0.12)",
-                            borderRadius: "15px",
-                            height: "60px",
-                            width: "60px",
-                          }}
+                          id="cardIcone"
+                          style={{}}
                           className="mb-4 shadow-sm"
                         >
                           <Card.Body>
@@ -329,16 +450,12 @@ export default function SingelPro() {
                     </Row>
                   </Col>
                   <Col>
-                    <Row>
+                    <Row className="publicseenRow">
                       <Col md={1}>
                         {" "}
                         <Card
-                          style={{
-                            border: "1px solid  rgba(202, 188, 149, 0.12)",
-                            borderRadius: "15px",
-                            height: "60px",
-                            width: "60px",
-                          }}
+                          id="cardIcone"
+                          style={{}}
                           className="mb-4 shadow-sm"
                         >
                           <Card.Body>
@@ -388,10 +505,7 @@ export default function SingelPro() {
                           className="mb-4 shadow-sm"
                         >
                           <Card.Body>
-                            <img
-                              src={`${item.image_url}`}
-                              width={"100px"}
-                            />
+                            <img src={`${item.image_url}`} width={"100px"} />
                           </Card.Body>
                           <Card.Title>
                             <strong> {item.feature}</strong>
@@ -404,138 +518,7 @@ export default function SingelPro() {
             </Card>
             {/* الوحدات */}
             {/* الوحدات */}
-            <Card className="mb-4 shadow-sm">
-              <Card.Body>
-                <h5 className="fw-bold">الوحدات</h5>
-
-                {/* Tabs */}
-                <ul className="nav nav-tabs mb-3">
-                  {pro.unit_types?.map((type) => (
-                    <li key={type.id}>
-                      <button
-                        className={`nav-link ${tab === type.name ? "active" : ""}`}
-                        onClick={() => {
-                          setTab(type.name);
-
-                          if (!type.units) {
-                            dis(fetchUnitsByType(type.id));
-                          }
-                        }}
-                      >
-                        <strong>{type.name}</strong>
-                      </button>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Content */}
-                {pro.unit_types?.map((type) => {
-                  if (tab !== type.name) return null;
-
-                  return (
-                    <div key={type.id}>
-                      {/* Loading */}
-                      {unitsLoading[type.id] && (
-                        <div className="text-center py-4">
-                          <span>⏳ جاري تحميل الوحدات...</span>
-                        </div>
-                      )}
-
-                      {/* Units */}
-                      {type.units && (
-                        <Row className="justify-content-center">
-                          {type.units.map((unit) => (
-                            <Col key={unit.id} md={5} className="mb-3">
-                              <Card
-                                style={{
-                                  border: "1px solid rgba(202, 188, 149, 0.12)",
-                                  borderRadius: "15px",
-                                  width: "fit-content",
-                                }}
-                                className="unitCard mb-4 shadow-sm"
-                              >
-                                {" "}
-                                <Row
-                                  style={{
-                                    display: "flex",
-                                    gap: "50px",
-                                    marginBlock: "20px",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                  }}
-                                >
-                                  {" "}
-                                  <CardTitle>
-                                    {" "}
-                                    <strong className="unitCardtitle">
-                                      {" "}
-                                      {unit.title}{" "}
-                                    </strong>{" "}
-                                  </CardTitle>{" "}
-                                  <Row>
-                                    {" "}
-                                    <Col>
-                                      {" "}
-                                      <CardTitle>
-                                        {" "}
-                                        الدور : {unit.floor}{" "}
-                                      </CardTitle>{" "}
-                                    </Col>{" "}
-                                    <Col>
-                                      {" "}
-                                      <CardTitle>
-                                        {" "}
-                                        عدد الغرف : {unit.bedrooms}{" "}
-                                      </CardTitle>{" "}
-                                    </Col>{" "}
-                                  </Row>{" "}
-                                  <Row>
-                                    {" "}
-                                    <Col>
-                                      {" "}
-                                      <CardTitle>
-                                        {" "}
-                                        <GiResize size={20}></GiResize>{" "}
-                                        {unit.area}م{" "}
-                                      </CardTitle>{" "}
-                                    </Col>{" "}
-                                    <Col>
-                                      {" "}
-                                      <CardTitle
-                                        style={{ display: "flex", gap: "5px" }}
-                                      >
-                                        {" "}
-                                        <BsFillCreditCard2FrontFill
-                                          size={20}
-                                        />{" "}
-                                        {unit.price}{" "}
-                                      </CardTitle>{" "}
-                                    </Col>{" "}
-                                  </Row>{" "}
-                                  <Row>
-                                    {" "}
-                                    <BtnCom
-                                      text="هل انت مهتم بشراء الوحدة ؟ "
-                                      backcolor="black"
-                                      type="button"
-                                      color="white"
-                                      onClick={() => {
-                                        setSelectedUnit(unit); // ✅ نحدد الوحدة
-                                        setShowModal(true); // ✅ نفتح الفورم
-                                      }}
-                                    />{" "}
-                                  </Row>{" "}
-                                </Row>{" "}
-                              </Card>
-                            </Col>
-                          ))}
-                        </Row>
-                      )}
-                    </div>
-                  );
-                })}
-              </Card.Body>
-            </Card>
+            {unitsrender()}
 
             {/* Guarantees */}
             <Card

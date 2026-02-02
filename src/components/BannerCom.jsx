@@ -12,8 +12,7 @@ function banner() {
   const { list: projects, loading, baseURL } = useSelector((s) => s.projects);
   useEffect(() => {
     dis(fetchProjects());
-    console.log(projects);
-  }, [projects]);
+  }, [dis]);
   function handleSlide() {
     const activeCaption = document.querySelector(
       ".carousel-item.active .carousel-caption",
@@ -55,7 +54,11 @@ function banner() {
                 </div>
               </Carousel.Caption>
               <div>
-                <img width={"800px"} src={el.main_image_url} />
+                <img
+                  className="carimg"
+                  width={"800px"}
+                  src={el.main_image_url}
+                />
               </div>
             </Carousel.Item>
           );

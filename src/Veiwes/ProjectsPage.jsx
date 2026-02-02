@@ -26,8 +26,8 @@ export default function ProjectsPage() {
   const { list: projects, loading, baseURL } = useSelector((s) => s.projects);
 
   useEffect(() => {
+    window.scrollTo(0, 0);
     dis(fetchProjects());
-    console.log(projects);
   }, [dis]);
   return (
     <div>

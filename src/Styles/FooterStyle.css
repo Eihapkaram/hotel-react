@@ -9,7 +9,10 @@
   align-items: center;
   gap: 200px;
 }
-
+.lilink:hover {
+  cursor: pointer;
+  color: white;
+}
 /* ---------- First Row ---------- */
 .FootCon .FootRow {
   display: flex;

@@ -8,12 +8,10 @@ import myimg from "/src/assets/logo-white.svg";
 function Footer() {
   const links = [
     { title: "الرئيسية", url: "/" },
-    { title: "من نحن", url: "/" },
-    { title: "المشاريع", url: "/" },
-    { title: "ماذا نقدم ؟", url: "/" },
-    { title: "طلبات الصيانة", url: "/" },
-    { title: "سجل اهتمامك", url: "/" },
-    { title: "تواصل معنا", url: "/" },
+    { title: "من نحن", url: "/aboutus" },
+    { title: "المشاريع", url: "/projects" },
+    { title: "طلبات الصيانة", url: "/orders" },
+    { title: "سجل اهتمامك", url: "/intersted" },
   ];
 
   return (
@@ -23,7 +21,7 @@ function Footer() {
           <h5 className="FootHLink">روابط سريعة</h5>
           <ul className="Footul">
             {links.map((el) => (
-              <li key={el.title}>
+              <li className="lilink" key={el.title}>
                 <Link to={el.url}>{el.title}</Link>
               </li>
             ))}

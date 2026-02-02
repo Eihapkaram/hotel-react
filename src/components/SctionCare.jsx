@@ -1,9 +1,11 @@
 import { Col } from "react-bootstrap";
 import BtnCom from "/src/components/BtnCom";
 import "/src/Styles/SectionCare.css";
+import { Link, useNavigate } from "react-router-dom";
 import myimg from "/src/assets/hous.png";
 
 function SectionCare() {
+  const navigate = useNavigate();
   return (
     <div className="section-care">
       <Col
@@ -15,7 +17,15 @@ function SectionCare() {
         <h4 className="section-care-subtitle">
           نعمل ببراعة لنبني من الخيال سكن
         </h4>
-        <BtnCom text="عرض التفاصيل" backcolor="black" color="white" />
+        <BtnCom
+          text="عرض التفاصيل"
+          backcolor="black"
+          type="button"
+          color="white"
+          onClick={() => {
+            navigate(`/intersted`);
+          }}
+        />
       </Col>
 
       <Col
