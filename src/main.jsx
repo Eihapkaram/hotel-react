@@ -6,17 +6,20 @@ import "bootstrap/dist/js/bootstrap.bundle.min.js";
 
 import { BrowserRouter } from "react-router-dom";
 import { Provider } from "react-redux";
-import { Store } from "./Redux/Store.js";
+import { HelmetProvider } from "react-helmet-async";
 
+import { Store } from "./Redux/Store.js";
 import "./index.css";
 import App from "./App.jsx";
 
 createRoot(document.getElementById("root")).render(
   <StrictMode>
-    <Provider store={Store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
-    </Provider>
-  </StrictMode>
+    <HelmetProvider>
+      <Provider store={Store}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </Provider>
+    </HelmetProvider>
+  </StrictMode>,
 );

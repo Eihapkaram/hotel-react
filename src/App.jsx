@@ -10,6 +10,7 @@ import Orders from "./Veiwes/FixeingOrders";
 import Intersted from "./Veiwes/IntrestedPage";
 import SinglePro from "./Veiwes/SingelPro";
 import Login from "./Veiwes/Login";
+import WhatsappButton from "./components/WhatsappButton";
 
 import Dashboard from "./Veiwes/Dashboard";
 // Lazy Loading
@@ -31,6 +32,7 @@ function App() {
 
   return (
     <>
+      <WhatsappButton />
       {/* Navbar Lazy Loaded */}
       <Suspense>
         <NavBar />
