@@ -437,7 +437,7 @@ const projectsSlice = createSlice({
   initialState: {
     list: [],
     baseURL: "http://127.0.0.1:8000/api",
-    pro: null,
+    pro: "",
     loading: false,
     interests: [], // ✅ كل الاهتمامات
     interest: null, // ✅ اهتمام واحد
