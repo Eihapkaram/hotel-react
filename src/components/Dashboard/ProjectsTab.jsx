@@ -7,6 +7,7 @@ import {
   deleteProject,
   addProjectImages,
   deleteProjectImage,
+  fetchProjectUnits,
   addProjectFeature,
   deleteProjectFeature,
   saveProjectLocation,
@@ -92,7 +93,7 @@ export default function ProjectsTab() {
     if (selectedProject) {
       dispatch(fetchProjects());
     }
-  }, [unitTypeForm, unitForm]);
+  }, [dispatch]);
   /* ================= PROJECT ================= */
   const submitProject = (e) => {
     e.preventDefault();
@@ -225,8 +226,8 @@ export default function ProjectsTab() {
     setFeatureForm(emptyFeatureForm);
     closeFeatureModal.current?.click();
   };
-  const [selectedProject, setSelectedProject] = useState(null);
-
+  const selectedProject = useSelector((s) => s.projects.pro);
+  const unitTypes = useSelector((s) => s.projects.unitTypesForPopup);
   return (
     <div className="card">
       <div className="card-header d-flex justify-content-between">
@@ -318,7 +319,7 @@ export default function ProjectsTab() {
                     className="btn btn-outline-dark btn-sm me-1"
                     data-bs-toggle="modal"
                     data-bs-target="#unitsManagerModal"
-                    onClick={() => setSelectedProject(p)}
+                    onClick={() => dispatch(fetchProjectUnits(p.id))}
                   >
                     Units
                   </button>
@@ -732,23 +733,8 @@ export default function ProjectsTab() {
             </div>
 
             <div className="modal-body">
-              {/* Add Unit Type */}
-              <button
-                className="btn btn-primary mb-3"
-                data-bs-toggle="modal"
-                data-bs-target="#unitTypeModal"
-                onClick={() =>
-                  setUnitTypeForm({
-                    project_id: selectedProject?.id,
-                    name: "",
-                  })
-                }
-              >
-                + Add Unit Type
-              </button>
-
               {/* عرض Unit Types */}
-              {selectedProject?.unit_types?.map((ut) => (
+              {unitTypes.map((ut) => (
                 <div key={ut.id} className="border rounded p-3 mb-3">
                   <div className="d-flex justify-content-between align-items-center">
                     <strong>{ut.name}</strong>

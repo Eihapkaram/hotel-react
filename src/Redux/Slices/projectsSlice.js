@@ -149,6 +149,23 @@ export const deleteProjectInterest = createAsyncThunk(
 );
 
 /* FETCH */
+/* ================= FETCH PROJECT UNITS ================= */
+
+export const fetchProjectUnits = createAsyncThunk(
+  "projects/fetchProjectUnits",
+  async (projectId, { rejectWithValue }) => {
+    try {
+      const res = await axiosInstance.get(`/projects/${projectId}/units`);
+      return {
+        projectId,
+        data: res.data,
+      };
+    } catch (err) {
+      return rejectWithValue(err.response?.data);
+    }
+  },
+);
+
 /* ================= FETCH UNITS BY TYPE ================= */
 
 export const fetchUnitsByType = createAsyncThunk(
@@ -420,13 +437,14 @@ const projectsSlice = createSlice({
   initialState: {
     list: [],
     baseURL: "http://127.0.0.1:8000/api",
-    pro: "",
+    pro: null,
     loading: false,
     interests: [], // ✅ كل الاهتمامات
     interest: null, // ✅ اهتمام واحد
     generalInterests: [], // ✅ الاهتمامات العامة
     generalInterest: null,
-
+    projectUnitsLoading: false,
+    unitTypesForPopup: [], // جديد
     maintenanceRequests: [], // ✅
     maintenanceRequest: null, // ✅
     units: "",
@@ -684,6 +702,31 @@ const projectsSlice = createSlice({
       .addCase(fetchMaintenanceRequest.fulfilled, (s, a) => {
         s.maintenanceRequest = a.payload;
       })
+      /* ================= PROJECT UNITS ================= */
+
+      .addCase(fetchProjectUnits.pending, (s) => {
+        s.projectUnitsLoading = true;
+      })
+
+      .addCase(fetchProjectUnits.fulfilled, (s, a) => {
+        s.projectUnitsLoading = false;
+
+        // احفظ كل unit types مع الوحدات جواها
+        s.unitTypesForPopup = a.payload.data.unit_types.map((ut) => ({
+          id: ut.id,
+          name: ut.name,
+          units: ut.units || [], // لو مافي units خليها array فاضية
+        }));
+
+        // لو عايز تحافظ على المشروع بالكامل كـ pro
+        s.pro = a.payload.data;
+      })
+
+      .addCase(fetchProjectUnits.rejected, (s, a) => {
+        s.projectUnitsLoading = false;
+        s.error = a.payload;
+      })
+
       /* ================= ADD MAINTENANCE REQUEST ================= */
 
       .addCase(addMaintenanceRequest.pending, (s) => {
