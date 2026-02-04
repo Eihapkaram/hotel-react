@@ -12,7 +12,6 @@ import { FaExternalLinkAlt } from "react-icons/fa";
 import { IoBedOutline } from "react-icons/io5";
 import { fetchUnitsByType } from "/src/Redux/Slices/projectsSlice";
 import { FaShower } from "react-icons/fa";
-import { Helmet } from "react-helmet-async";
 import { GiResize } from "react-icons/gi";
 import { MdEmojiFoodBeverage } from "react-icons/md";
 import { Swiper, SwiperSlide } from "swiper/react";
@@ -298,45 +297,6 @@ export default function SingelPro() {
 
   return (
     <>
-      {/* ✅ SEO Dynamic */}
-      <Helmet>
-        <title>
-          {pro?.title ? `${pro.title} | مشاريع عقارية` : "مشروع عقاري"}
-        </title>
-
-        <meta
-          name="description"
-          content={
-            pro?.description
-              ? pro.description.slice(0, 160)
-              : "اكتشف أفضل المشاريع العقارية"
-          }
-        />
-
-        <meta name="keywords" content={`${pro?.title}, عقارات, شقق للبيع`} />
-
-        {/* Open Graph */}
-        <meta property="og:title" content={pro?.title || "مشروع عقاري"} />
-
-        <meta
-          property="og:description"
-          content={
-            pro?.description
-              ? pro.description.slice(0, 160)
-              : "أفضل المشاريع العقارية"
-          }
-        />
-
-        <meta property="og:image" content={pro?.main_image_url || ""} />
-
-        <meta property="og:type" content="website" />
-
-        <meta
-          property="og:url"
-          content={`https://yourdomain.com/unite/${id}`}
-        />
-      </Helmet>
-
       {/* Success Toast */}
       <ToastContainer position="top-start" className="p-3">
         <Toast

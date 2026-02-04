@@ -1,6 +1,5 @@
 import React from "react";
 import { useParams } from "react-router-dom";
-import { Helmet } from "react-helmet-async";
 
 import Products from "/src/Veiwes/Products";
 import { getProduct } from "/src/Redux/Slices/ProductSlice";
@@ -27,29 +26,6 @@ function Home() {
 
   return (
     <>
-      {/* ✅ SEO */}
-      <Helmet>
-        <title>الرئيسية | موقع Kaal</title>
-
-        <meta
-          name="description"
-          content="اكتشف أفضل المشاريع العقارية والوحدات السكنية والاستثمارية بأفضل الأسعار."
-        />
-
-        <meta
-          name="keywords"
-          content="عقارات, شقق للبيع, استثمار عقاري, مشاريع سكنية"
-        />
-
-        {/* Open Graph (مهم للسوشيال) */}
-        <meta property="og:title" content="موقع العقارات" />
-        <meta
-          property="og:description"
-          content="أفضل المشاريع العقارية والوحدات السكنية"
-        />
-        <meta property="og:type" content="website" />
-      </Helmet>
-
       <div>
         <Suspense fallback={<div className="loader">loading...</div>}>
           <BannerCom />
