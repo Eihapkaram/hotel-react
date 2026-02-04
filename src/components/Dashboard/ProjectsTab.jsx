@@ -88,7 +88,11 @@ export default function ProjectsTab() {
     dispatch(fetchProjects());
     console.log(projects);
   }, [dispatch]);
-
+  useEffect(() => {
+    if (selectedProject) {
+      dispatch(fetchProjects());
+    }
+  }, [unitTypeForm, unitForm]);
   /* ================= PROJECT ================= */
   const submitProject = (e) => {
     e.preventDefault();
@@ -221,6 +225,7 @@ export default function ProjectsTab() {
     setFeatureForm(emptyFeatureForm);
     closeFeatureModal.current?.click();
   };
+  const [selectedProject, setSelectedProject] = useState(null);
 
   return (
     <div className="card">
@@ -309,6 +314,14 @@ export default function ProjectsTab() {
                   >
                     Unittype
                   </button>
+                  <button
+                    className="btn btn-outline-dark btn-sm me-1"
+                    data-bs-toggle="modal"
+                    data-bs-target="#unitsManagerModal"
+                    onClick={() => setSelectedProject(p)}
+                  >
+                    Units
+                  </button>
 
                   <button
                     className="btn btn-danger btn-sm"
@@ -318,31 +331,6 @@ export default function ProjectsTab() {
                   </button>
                 </td>
               </tr>
-            ))}
-          {projects
-            .find((p) => p.id === unitTypeForm.project_id)
-            ?.unit_types?.map((ut) => (
-              <div key={ut.id} className="border p-2 mb-2">
-                <strong>{ut.name}</strong>
-
-                <button
-                  className="btn btn-sm btn-success ms-2"
-                  data-bs-toggle="modal"
-                  data-bs-target="#unitModal"
-                  onClick={() => openUnitModal(ut)}
-                >
-                  + Unit
-                </button>
-
-                <ul className="mt-2">
-                  {ut.units?.map((u) => (
-                    <li key={u.id}>
-                      <strong>{u.title}</strong> – {u.bedrooms} Beds –{" "}
-                      {u.bathrooms} Baths – {u.area} m² – {u.price} EGP
-                    </li>
-                  ))}
-                </ul>
-              </div>
             ))}
         </tbody>
       </table>
@@ -732,6 +720,77 @@ export default function ProjectsTab() {
               <button className="btn btn-primary">Add Warranty</button>
             </div>
           </form>
+        </div>
+      </div>
+      <div className="modal fade" id="unitsManagerModal" tabIndex="-1">
+        <div className="modal-dialog modal-xl">
+          <div className="modal-content">
+            <div className="modal-header">
+              <h5 className="modal-title">
+                Units Management — {selectedProject?.title}
+              </h5>
+            </div>
+
+            <div className="modal-body">
+              {/* Add Unit Type */}
+              <button
+                className="btn btn-primary mb-3"
+                data-bs-toggle="modal"
+                data-bs-target="#unitTypeModal"
+                onClick={() =>
+                  setUnitTypeForm({
+                    project_id: selectedProject?.id,
+                    name: "",
+                  })
+                }
+              >
+                + Add Unit Type
+              </button>
+
+              {/* عرض Unit Types */}
+              {selectedProject?.unit_types?.map((ut) => (
+                <div key={ut.id} className="border rounded p-3 mb-3">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <strong>{ut.name}</strong>
+
+                    <button
+                      className="btn btn-sm btn-success"
+                      data-bs-toggle="modal"
+                      data-bs-target="#unitModal"
+                      onClick={() => openUnitModal(ut)}
+                    >
+                      + Unit
+                    </button>
+                  </div>
+
+                  {/* Units */}
+                  <table className="table mt-2">
+                    <thead>
+                      <tr>
+                        <th>Title</th>
+                        <th>Beds</th>
+                        <th>Baths</th>
+                        <th>Area</th>
+                        <th>Price</th>
+                      </tr>
+                    </thead>
+
+                    <tbody>
+                      {ut.units?.map((u) => (
+                        <tr key={u.id}>
+                          <td>{u.title}</td>
+                          <td>{u.bedrooms}</td>
+                          <td>{u.bathrooms}</td>
+                          <td>{u.area}</td>
+                          <td>{u.price}</td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
 

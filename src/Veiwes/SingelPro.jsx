@@ -110,17 +110,12 @@ export default function SingelPro() {
               return (
                 <div key={type.id}>
                   {/* Loading */}
-                  {unitsLoading[type.id] && (
-                    <div className="text-center py-4">
-                      <span>⏳ جاري تحميل الوحدات...</span>
-                    </div>
-                  )}
 
                   {/* Units */}
                   {type.units && (
                     <Row className="justify-content-center">
                       {type.units.map((unit) => (
-                        <Col key={unit.id} md={5} className="mb-3">
+                        <Col key={unit.id} md={7} className="mb-3">
                           <Card
                             style={{
                               border: "1px solid rgba(202, 188, 149, 0.12)",
@@ -284,16 +279,16 @@ export default function SingelPro() {
     dis(fetchProject(id));
   }, [id, dis]);
   useEffect(() => {
-    window.scrollTo(0, 0);
     if (!loading) {
       dis(fetchProjects());
     }
   }, [dis]);
   useEffect(() => {
+    console.log(pro);
     if (pro?.unit_types?.length && tab === null) {
       setTab(pro.unit_types[0].name);
     }
-  }, [tab]);
+  }, [pro, tab]);
 
   return (
     <>

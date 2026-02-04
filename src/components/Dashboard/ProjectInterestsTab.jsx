@@ -24,6 +24,9 @@ export default function ProjectInterestsTab() {
             <th>Phone</th>
             <th>Project</th>
             <th>Unit</th>
+            <th>purpose</th>
+            <th>purchase_type</th>
+            <th>email</th>
           </tr>
         </thead>
 
@@ -41,8 +44,11 @@ export default function ProjectInterestsTab() {
               <td>{index + 1}</td>
               <td>{i.name}</td>
               <td>{i.phone}</td>
-              <td>{i.project?.title ?? "-"}</td>
-              <td>{i.unit ?? "-"}</td>
+              <td>{i.project_id ?? "-"}</td>
+              <td>{i.unit_id ?? "-"}</td>
+              <td>{i.purpose ?? "-"}</td>
+              <td>{i.purchase_type ?? "-"}</td>
+              <td>{i.email ?? "-"}</td>
             </tr>
           ))}
         </tbody>
