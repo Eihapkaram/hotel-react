@@ -276,6 +276,7 @@ export default function SingelPro() {
     }
   }, [pro]);
   useEffect(() => {
+     window.scrollTo(0, 0);
     dis(fetchProject(id));
   }, [id, dis]);
   useEffect(() => {
